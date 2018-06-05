@@ -6,7 +6,7 @@
 #include "iclientrenderable.h"
 #include "iclientnetworkable.h"
 #include "netvars.h"
-#include "../utils/crc32.h"
+#include "../framework/utils/crc32.h"
 
 class IClientEntity : public IClientUnknown, public IClientRenderable, public IClientNetworkable, public IClientThinkable
 {

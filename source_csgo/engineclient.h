@@ -1,7 +1,7 @@
 #ifndef IVENGINE_CLIENT_H
 #define IVENGINE_CLIENT_H
 
-#include "../math/mmath.h"
+#include "../framework/math/mmath.h"
 #include "sdk.h"
 #include <stdint.h>
 

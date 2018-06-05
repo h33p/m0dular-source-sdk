@@ -2,7 +2,7 @@
 #define NETVARS_H
 
 #include <stdint.h>
-#include "../utils/crc32.h"
+#include "../framework/utils/crc32.h"
 
 class CBaseClient;
 

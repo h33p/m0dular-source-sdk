@@ -1,7 +1,7 @@
 #ifndef CUSERCMD_H
 #define CUSERCMD_H
 
-#include "../math/mmath.h"
+#include "../framework/math/mmath.h"
 
 enum Buttons {
 	IN_ATTACK = 1 << 0,

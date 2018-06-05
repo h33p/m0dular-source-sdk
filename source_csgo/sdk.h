@@ -1,7 +1,7 @@
 #ifndef SOURCE_CSGO_SDK
 #define SOURCE_CSGO_SDK
 
-#include "../g_defines.h"
+#include "../framework/g_defines.h"
 
 //We override the source_shared enums header
 #include "enums.h"

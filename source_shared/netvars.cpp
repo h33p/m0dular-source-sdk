@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include "recv.h"
-#include "../utils/crc32.h"
+#include "../framework/utils/crc32.h"
 #include "baseclient.h"
 
 static std::unordered_map<unsigned int, std::unordered_map<unsigned int, int> >* crcDatabase = nullptr;

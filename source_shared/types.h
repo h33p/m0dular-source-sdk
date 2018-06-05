@@ -1,7 +1,7 @@
 #ifndef SOURCE_SHARED_TYPES_H
 #define SOURCE_SHARED_TYPES_H
 
-#include "../math/mmath.h"
+#include "../framework/math/mmath.h"
 
 typedef matrix4x4 VMatrix;
 typedef matrix<3,4> matrix3x4_t;

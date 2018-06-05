@@ -9,7 +9,7 @@
  * instead of this one.
 */
 
-#include "../utils/memutils.h"
+#include "../framework/utils/memutils.h"
 
 #include "types.h"
 #include "enums.h"

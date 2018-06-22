@@ -20,7 +20,7 @@ enum RenderableTranslucencyType_t
 class IVModelInfo
 {
   public:
-#ifndef __APPLE__
+#if defined(_WIN32) || defined(_WIN64)
 	virtual ~IVModelInfo(void) {}
 #endif
 	virtual const model_t* GetModel(int modelindex) const = 0;

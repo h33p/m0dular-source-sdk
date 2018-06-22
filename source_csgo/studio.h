@@ -152,7 +152,7 @@ struct mstudiohitboxset_t
 
 	mstudiobbox_t* GetHitbox(int i)
 	{
-		if(i > numhitboxes) return nullptr;
+		if(i >= numhitboxes) return nullptr;
 		return (mstudiobbox_t*)((uint8_t*)this + hitboxindex) + i;
 	}
 };
@@ -203,7 +203,7 @@ class studiohdr_t
 
 	mstudiohitboxset_t* GetHitboxSet(int i)
 	{
-		if(i > numhitboxsets) return nullptr;
+		if(i >= numhitboxsets) return nullptr;
 		return (mstudiohitboxset_t*)((uint8_t*)this + hitboxsetindex) + i;
 	}
 	mstudiobone_t* GetBone(int i)

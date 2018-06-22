@@ -10,9 +10,13 @@
 */
 
 #include "../framework/utils/memutils.h"
+#include "../framework/g_defines.h"
 
+#include "misc.h"
 #include "types.h"
 #include "enums.h"
+#include "utlvector.h"
+#include "utlmemory.h"
 #include "recv.h"
 #include "usercmd.h"
 #include "inetchannelinfo.h"
@@ -30,8 +34,13 @@
 #include "iclientrenderable.h"
 #include "iclientnetworkable.h"
 #include "icollideable.h"
+#include "varmapping.h"
 #include "baseentity.h"
 #include "interfaces.h"
 #include "netvars.h"
+#include "iconvar.h"
+#include "convar.h"
+#include "cvar.h"
+#include "color.h"
 
 #endif

@@ -38,7 +38,7 @@ struct CUserCmd
 	int command_number;
 	int tick_count;
 	vec3 viewangles;
-#if defined(SOURCE_CSGO)
+#if defined(SOURCE_CSGO_SDK)
 	vec3 aimdirection;
 #endif
 	float forwardmove;

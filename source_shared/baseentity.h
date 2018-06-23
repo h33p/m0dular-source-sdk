@@ -13,7 +13,7 @@ class C_BaseEntity : public IClientEntity
 
 	OFFSET(VarMapping_t, m_varMapping, x64x32(0x48, 0x24));
 	NETVAR(float, m_flSimulationTime, "DT_BaseEntity", "m_flSimulationTime");
-	NETVAR(int, m_fFlags, "DT_BaseEntity", "m_fFlags");
+	NETVAR(int, m_fFlags, "DT_BasePlayer", "m_fFlags");
 	NETVAR(bool, m_bHasDefuser, "DT_CSPlayer", "m_bHasDefuser");
 	NETVAR(bool, m_bGunGameImmunity, "DT_CSPlayer", "m_bGunGameImmunity");
 	NETVAR(int, m_iShotsFired, "DT_CSPlayer", "m_iShotsFired");

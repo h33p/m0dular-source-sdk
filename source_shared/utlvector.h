@@ -17,6 +17,8 @@ class CUtlVector
 	typedef A CAllocator;
   public:
 	typedef T ElemType_t;
+	typedef int(__cdecl *pfnCompareFn)(const T *, const T *);
+
 
 	// constructor, destructor
 	CUtlVector(int growSize = 0, int initSize = 0);
@@ -95,7 +97,7 @@ class CUtlVector
 	// Set the size by which it grows when it needs to allocate more memory.
 	void SetGrowSize(int size) { m_Memory.SetGrowSize(size); }
 	int NumAllocated() const; // Only use this if you really know what you're doing!
-	void Sort(int(__cdecl *pfnCompare)(const T *, const T *));
+	void Sort(pfnCompareFn pfnCompare);
 
   protected:
 	// Can't copy this unless we explicitly do it!
@@ -267,7 +269,7 @@ void CUtlVector<T, A>::GrowVector(int num)
 // Sorts the vector
 //-----------------------------------------------------------------------------
 template< typename T, class A >
-void CUtlVector<T, A>::Sort(int(__cdecl *pfnCompare)(const T *, const T *))
+void CUtlVector<T, A>::Sort(pfnCompareFn pfnCompare)
 {
 	typedef int(__cdecl *QSortCompareFunc_t)(const void *, const void *);
 	if(Count() <= 1)
@@ -285,7 +287,7 @@ void CUtlVector<T, A>::Sort(int(__cdecl *pfnCompare)(const T *, const T *))
 		for(int i = m_Size - 1; i >= 0; --i) {
 			for(int j = 1; j <= i; ++j) {
 				if(pfnCompare(&Element(j - 1), &Element(j)) < 0) {
-					V_swap(Element(j - 1), Element(j));
+					std::swap(Element(j - 1), Element(j));
 				}
 			}
 		}
@@ -488,7 +490,7 @@ template< typename T, class A >
 void CUtlVector<T, A>::Swap(CUtlVector< T, A > &vec)
 {
 	m_Memory.Swap(vec.m_Memory);
-	V_swap(m_Size, vec.m_Size);
+	std::swap(m_Size, vec.m_Size);
 #ifndef _X360
 	V_swap(m_pElements, vec.m_pElements);
 #endif

@@ -360,8 +360,13 @@ class ConVar : public ConCommandBase, public IConVar
 //-----------------------------------------------------------------------------
 FORCEINLINE_CVAR float ConVar::GetFloat(void) const
 {
-	unsigned long xored = *(unsigned long*)&m_pParent->m_Value.m_fValue ^ (unsigned long)this;
-	return *(float*)&xored;
+	union
+	{
+		unsigned int iVal;
+		float fVal;
+	} xored;
+	xored.iVal = *(unsigned int*)&m_pParent->m_Value.m_fValue ^ (unsigned long)this;
+	return xored.fVal;
 }
 
 //-----------------------------------------------------------------------------

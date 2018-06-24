@@ -8,6 +8,7 @@
 
 #include "../source_shared/sdk.h"
 
+#include "clientstate.h"
 #include "studio.h"
 #include "modelrender.h"
 #include "ivmodelinfo.h"

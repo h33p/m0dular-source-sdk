@@ -34,7 +34,7 @@ enum Buttons {
 
 struct CUserCmd
 {
-	virtual ~CUserCmd() = 0;
+	virtual ~CUserCmd() {};
 	int command_number;
 	int tick_count;
 	vec3 viewangles;

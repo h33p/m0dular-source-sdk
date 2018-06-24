@@ -19,6 +19,7 @@
 #include "utlmemory.h"
 #include "recv.h"
 #include "usercmd.h"
+#include "prediction.h"
 #include "inetchannelinfo.h"
 #include "globalvars.h"
 #include "clientclass.h"

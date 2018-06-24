@@ -30,6 +30,7 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(vec3, m_aimPunchAngleVel, "DT_BasePlayer", "m_aimPunchAngleVel");
 	NETVAR(vec3, m_vecVelocity, "DT_BasePlayer", "m_vecVelocity[0]");
 	NETVAR(vec3, m_vecOrigin, "DT_BaseEntity", "m_vecOrigin");
+	NETVAR(int, m_iTeamNum, "DT_BaseEntity", "m_iTeamNum");
 	NETVAR(float, m_flMaxspeed, "DT_BasePlayer", "m_flMaxspeed");
 	NETVAR(float, m_flFlashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	NETVAR(int, m_collisionGroup, "DT_BaseEntity", "m_CollisionGroup");

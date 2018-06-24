@@ -10,13 +10,19 @@ namespace SourceBhop
 	static bool jumpedLastTick = false;
 	inline void Run(CUserCmd* cmd, LocalPlayer* lpData)
 	{
+#ifdef SOURCE_ENGINEPREDICTION_H
+		bool onground = SourceEnginePred::prevFlags & FL_ONGROUND;
+#else
+		bool onground = lpData->flags & Flags::ONGROUND;
+#endif
 		if (lpData->keys & Keys::JUMP) {
-			if (~lpData->flags & Flags::ONGROUND || jumpedLastTick) {
+			if (!onground || jumpedLastTick) {
 				lpData->keys &= ~Keys::JUMP;
 				jumpedLastTick = false;
 			} else
 				jumpedLastTick = true;
-		}
+		} else
+			jumpedLastTick = false;
 	}
 }
 

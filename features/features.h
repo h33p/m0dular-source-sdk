@@ -12,6 +12,7 @@
 */
 
 #include "essentials.h"
+#include "engineprediction.h"
 #include "bhop.h"
 
 #endif

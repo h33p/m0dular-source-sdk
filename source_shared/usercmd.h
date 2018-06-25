@@ -52,7 +52,7 @@ struct CUserCmd
 	short mousedx;
 	short mousedy;
 	bool hasbeenpredicted;
-#if defined(SOURCE_CSGO)
+#if defined(SOURCE_CSGO_SDK)
 	vec3 headangles;
 	vec3 headoffset;
 #elif defined(SOURCE_TF2)

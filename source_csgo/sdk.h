@@ -5,9 +5,12 @@
 
 //We override the source_shared enums header
 #include "enums.h"
+#include "offsets.h"
 
 #include "../source_shared/sdk.h"
 
+#include "baseplayer.h"
+#include "combatweapon.h"
 #include "clientstate.h"
 #include "studio.h"
 #include "modelrender.h"

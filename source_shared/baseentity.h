@@ -1,7 +1,8 @@
-#ifndef BASEPLAYER_H
-#define BASEPLAYER_H
+#ifndef BASEENTITY_H
+#define BASEENTITY_H
 
 struct CCollisionProp;
+class C_BaseCombatWeapon;
 
 class C_BaseEntity : public IClientEntity
 {
@@ -13,11 +14,13 @@ class C_BaseEntity : public IClientEntity
 
 	OFFSET(VarMapping_t, m_varMapping, x64x32(0x48, 0x24));
 	NETVAR(float, m_flSimulationTime, "DT_BaseEntity", "m_flSimulationTime");
+	ONETVAR(float, m_flPrevSimulationTime, "DT_BaseEntity", "m_flSimulationTime", 4);
 	NETVAR(int, m_fFlags, "DT_BasePlayer", "m_fFlags");
 	NETVAR(bool, m_bHasDefuser, "DT_CSPlayer", "m_bHasDefuser");
 	NETVAR(bool, m_bGunGameImmunity, "DT_CSPlayer", "m_bGunGameImmunity");
 	NETVAR(int, m_iShotsFired, "DT_CSPlayer", "m_iShotsFired");
 	NETVAR(vec3, m_angEyeAngles, "DT_CSPlayer", "m_angEyeAngles[0]");
+	NETVAR(vec3, m_vecAngles, "DT_BaseEntity", "m_angRotation");
 	NETVAR(int, m_ArmorValue, "DT_CSPlayer", "m_ArmorValue");
 	NETVAR(bool, m_bHasHelmet, "DT_CSPlayer", "m_bHasHelmet");
 	NETVAR(bool, m_bHasHeavyArmor, "DT_CSPlayer", "m_bHasHeavyArmor");
@@ -35,6 +38,12 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(float, m_flFlashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	NETVAR(int, m_collisionGroup, "DT_BaseEntity", "m_CollisionGroup");
 	NETVAR(CCollisionProp*, m_Collision, "DT_BaseEntity", "m_Collision");
+
+	NETVAR(bool, m_bClientSideAnimation, "DT_BaseAnimating", "m_bClientSideAnimation");
+	NETVAR(float*, m_flPoseParameter, "DT_BaseAnimating", "m_flPoseParameter");
+
+	NETVAR(CHandle<C_BaseEntity>, m_hObserverTarget, "DT_BasePlayer", "m_hObserverTarget");
+	NETVAR(CHandle<C_BaseCombatWeapon>, m_hActiveWeapon, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 };
 
 struct CCollisionProp

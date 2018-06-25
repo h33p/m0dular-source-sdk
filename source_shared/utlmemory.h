@@ -80,7 +80,6 @@ class CUtlMemory
 	bool IsReadOnly() const;
 	void SetGrowSize(int size);
 
-  protected:
 	void ValidateGrowSize()
 	{
 

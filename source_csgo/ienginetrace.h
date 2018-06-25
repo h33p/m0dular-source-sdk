@@ -321,9 +321,13 @@ struct csurface_t
 //-----------------------------------------------------------------------------
 struct Ray_t
 {
+	__ALIGNED(16)
 	vec3 m_Start; // starting point, centered within the extents
+	__ALIGNED(16)
 	vec3 m_Delta; // direction + length of the ray
+	__ALIGNED(16)
 	vec3 m_StartOffset; // Add this to m_Start to Get the actual ray start
+	__ALIGNED(16)
 	vec3 m_Extents; // Describes an axis aligned box extruded along a ray
 	const matrix3x4_t *m_pWorldAxisTransform;
 	bool m_IsRay; // are the extents zero?

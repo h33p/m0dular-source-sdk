@@ -384,7 +384,11 @@ struct Ray_t
   private:
 };
 
-class CBaseTrace
+class
+#ifdef _WIN32
+__ALIGNED(64)
+#endif
+CBaseTrace
 {
   public:
 	bool IsDispSurface(void) { return ((dispFlags & DISPSURF_FLAG_SURFACE) != 0); }

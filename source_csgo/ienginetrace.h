@@ -386,7 +386,7 @@ struct Ray_t
 
 class
 #ifdef _WIN32
-__ALIGNED(64)
+__ALIGNED(1024)
 #endif
 CBaseTrace
 {

@@ -44,6 +44,8 @@
 #include "iconvar.h"
 #include "convar.h"
 #include "cvar.h"
+#include "effects.h"
+#include "effects_hook.h"
 #include "color.h"
 
 #endif

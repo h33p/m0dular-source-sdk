@@ -25,8 +25,9 @@ struct AnimationLayer
 	float_t m_flWeightDeltaRate;
 	float_t m_flPlaybackRate;
 	float_t m_flCycle;
-	void *m_pOwner;
-	char pad_0038[x64x32(8, 4)];
+	void* m_pOwner;
+	void* unk1;
+	void* unk2;
 };
 
 struct CCSGOPlayerAnimState
@@ -37,6 +38,11 @@ struct CCSGOPlayerAnimState
 	OFFSET6432(void*, lastActiveWeapon, 0x78, 0x68);
 	OFFSET6432(float, updateTime, 0x80, 0x6C);
 	OFFSET6432(int, frameCount, 0x84, 0x70);
+	OFFSET6432(float, eyePitch, 0x88, 0x74);
+	OFFSET6432(float, eyeYaw, 0x8C, 0x78);
+	OFFSET6432(float, pitch, 0x90, 0x7C);
+	OFFSET6432(float, goalFeetYaw, 0x94, 0x80);
+	OFFSET6432(float, currentFeetYaw, 0x98, 0x84);
 	OFFSET6432(vec3, origin, 0xC4, 0xB0);
 	OFFSET6432(vec3, prevOrigin, 0xD0, 0xBC);
 	OFFSET6432(vec3, vecVelocity, 0xDC, 0xC8);
@@ -45,5 +51,7 @@ struct CCSGOPlayerAnimState
 	OFFSET6432(vec3, scaledVelocity, 0x100, 0xEC);
 	OFFSET6432(int, animsetVersion, 0x3B0, 0x1);
 };
+
+constexpr uintptr_t ANIMSTATE_SIZE = x64x32(0x3B8, 0x33C);
 
 #endif

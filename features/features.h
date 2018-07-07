@@ -7,8 +7,8 @@
   such as bunny hopping, automatic strafing. As well as engine corrections,
   such as engine prediction.
 
-  These are header only, so include only in one source file.
-  This header includes all available features.
+  Most of these are header only, so include only in one source file.
+  This header includes all standalone features.
 */
 
 #include "essentials.h"

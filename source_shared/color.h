@@ -8,7 +8,13 @@ class Color
   public:
 	Color();
 	Color(int _r, int _g, int _b);
-	Color(int _r, int _g, int _b, int _a);
+	Color(int _r, int _g, int _b, int _a)
+	{
+		_CColor[0] = (unsigned char)_r;
+		_CColor[1] = (unsigned char)_g;
+		_CColor[2] = (unsigned char)_b;
+		_CColor[3] = (unsigned char)_a;
+	}
 	Color(float _r, float _g, float _b) : Color(_r, _g, _b, 1.0f) {}
 	Color(float _r, float _g, float _b, float _a)
 		: Color(

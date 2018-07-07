@@ -47,5 +47,8 @@
 #include "effects.h"
 #include "effects_hook.h"
 #include "color.h"
+#include "surface.h"
+#include "panel.h"
+#include "viewrender.h"
 
 #endif

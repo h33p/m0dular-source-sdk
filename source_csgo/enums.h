@@ -81,7 +81,7 @@ enum ECstrike15UserMessages
 	MAX_ECSTRIKE15USERMESSAGES
 };
 
-enum class ItemDefinitionIndex : int
+enum class ItemDefinitionIndex : short
 {
 	INVALID = -1,
 	WEAPON_DEAGLE = 1,

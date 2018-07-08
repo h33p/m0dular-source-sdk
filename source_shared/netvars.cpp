@@ -10,6 +10,8 @@ struct NetvarEntry
 {
 	int offset;
 	RecvProp* prop;
+
+	NetvarEntry(int o, RecvProp* p) : offset(o), prop(p) {}
 };
 
 static std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry> >* crcDatabase = nullptr;
@@ -39,7 +41,7 @@ static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, Recv
 		if(prop->m_RecvType == DPT_DataTable && prop->m_pDataTable)
 			LoadCRCTable(db, prop->m_pDataTable, offset + prop->m_Offset);
 		else if (db->find(tbKey) == db->end())
-			db->insert(std::make_pair(tbKey, (NetvarEntry){offset + prop->m_Offset, prop}));
+			db->insert(std::make_pair(tbKey, NetvarEntry(offset + prop->m_Offset, prop)));
 	}
 }
 

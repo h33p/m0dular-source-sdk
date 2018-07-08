@@ -118,7 +118,8 @@ void RandomResolver::Requeue(int id, int insertID)
 		if (!hCount)
 			break;
 
-		int indices[hCount];
+		int* indices = (int*)_alloca(sizeof(int) * hCount);
+
 		int iCount = 0;
 		int cnt = 0;
 

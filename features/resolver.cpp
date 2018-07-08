@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef _MSC_VER
+#define _alloca(...) alloca(__VA_ARGS__)
+#endif
+
 enum ResolveBase
 {
 	BASE_MAX = RESOLVEBASECOUNT
@@ -37,7 +41,7 @@ float RandomResolver::ResolvePlayer(int id)
 		else
 			lastID[id] = *ang;
 	}
-	
+
 	prevID[id] = lastID[id];
 	return baseOffsets[id][lastID[id] / ANGLE_COUNT] + ANGLE_STEP * (lastID[id] % ANGLE_COUNT);	
 }
@@ -128,7 +132,7 @@ void RandomResolver::Requeue(int id, int insertID)
 				if (score[id][i][o] == cScore)
 					if (rand() % (hCount - (cnt++) + iCount) <= ((SCHED_COUNT - count) - iCount))
 						indices[iCount++] = i * ANGLE_COUNT + o;
-		
+
 		for (int i = 0; i < iCount; i++) {
 			queue[id].burstTime[count] = 1;
 			queue[id].priority[count] = count;

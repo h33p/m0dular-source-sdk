@@ -321,21 +321,17 @@ struct csurface_t
 //-----------------------------------------------------------------------------
 struct Ray_t
 {
-	__ALIGNED(16)
-	vec3 m_Start; // starting point, centered within the extents
-	__ALIGNED(16)
-	vec3 m_Delta; // direction + length of the ray
-	__ALIGNED(16)
-	vec3 m_StartOffset; // Add this to m_Start to Get the actual ray start
-	__ALIGNED(16)
-	vec3 m_Extents; // Describes an axis aligned box extruded along a ray
+	vec3_t __ALIGNED(16) m_Start; // starting point, centered within the extents
+	vec3_t __ALIGNED(16) m_Delta; // direction + length of the ray
+	vec3_t __ALIGNED(16) m_StartOffset; // Add this to m_Start to Get the actual ray start
+	vec3_t __ALIGNED(16) m_Extents; // Describes an axis aligned box extruded along a ray
 	const matrix3x4_t *m_pWorldAxisTransform;
 	bool m_IsRay; // are the extents zero?
 	bool m_IsSwept; // is delta != 0?
 
 	Ray_t() : m_pWorldAxisTransform(NULL) {}
 
-	void Init(vec3 const& start, vec3 const& end)
+	void Init(vec3_t const& start, vec3_t const& end)
 	{
 		m_Delta = end - start;
 
@@ -351,7 +347,7 @@ struct Ray_t
 		m_Start = start;
 	}
 
-	void Init(vec3 const& start, vec3 const& end, vec3 const& mins, vec3 const& maxs)
+	void Init(vec3_t const& start, vec3_t const& end, vec3_t const& mins, vec3_t const& maxs)
 	{
 		m_Delta = end - start;
 
@@ -368,9 +364,9 @@ struct Ray_t
 		m_Start = start + m_StartOffset;
 		m_StartOffset *= -1.0f;
 	}
-	vec3 InvDelta() const
+	vec3_t InvDelta() const
 	{
-		vec3 vecInvDelta;
+		vec3_t vecInvDelta;
 		for(int iAxis = 0; iAxis < 3; ++iAxis) {
 			if(m_Delta[iAxis] != 0.0f) {
 				vecInvDelta[iAxis] = 1.0f / m_Delta[iAxis];

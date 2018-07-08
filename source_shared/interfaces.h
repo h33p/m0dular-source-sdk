@@ -1,9 +1,9 @@
 #ifndef SOURCEINTERFACES_H
 #define SOURCEINTERFACES_H
 
-#include "../sdk/framework/utils/rstring.h"
-#include "../sdk/framework/utils/handles.h"
-#include "../sdk/framework/utils/memutils.h"
+#include "../framework/utils/rstring.h"
+#include "../framework/utils/handles.h"
+#include "../framework/utils/memutils.h"
 #include "string.h"
 
 #if defined(__linux__) || defined(__APPLE__)

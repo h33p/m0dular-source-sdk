@@ -43,7 +43,7 @@ float RandomResolver::ResolvePlayer(int id)
 	}
 
 	prevID[id] = lastID[id];
-	return baseOffsets[id][lastID[id] / ANGLE_COUNT] + ANGLE_STEP * (lastID[id] % ANGLE_COUNT);	
+	return baseOffsets[id][lastID[id] / ANGLE_COUNT] + ANGLE_STEP * (lastID[id] % ANGLE_COUNT);
 }
 
 void RandomResolver::ProcessHit(int id, float angle)

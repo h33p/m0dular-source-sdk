@@ -54,7 +54,12 @@ namespace SourceEnginePred
 
 			CUserCmd* tCmd = new CUserCmd(*cmd);
 
-			RunSimulation(prediction, globalVars->curtime, cmd->command_number-1, tCmd, localPlayer);
+			//This is a hack
+			C_BaseCombatWeapon* activeWeapon = localPlayer->m_hActiveWeapon();
+			localPlayer->m_hActiveWeapon() = nullptr;
+
+			RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, tCmd, localPlayer);
+			localPlayer->m_hActiveWeapon() = activeWeapon;
 
 			globalVars->curtime = localPlayer->m_nTickBase() * globalVars->interval_per_tick;
 			globalVars->frametime = globalVars->interval_per_tick;
@@ -70,6 +75,7 @@ namespace SourceEnginePred
 
 	inline void Finish(CUserCmd* cmd, C_BaseEntity* localPlayer)
 	{
+		RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, cmd, localPlayer);
 		if (localPlayer->m_lifeState() == LIFE_ALIVE) {
 			globalVars->curtime = curtimeBackup;
 			globalVars->frametime = frametimeBackup;

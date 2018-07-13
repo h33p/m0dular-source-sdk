@@ -11,12 +11,12 @@ namespace SourceBhop
 	inline void Run(CUserCmd* cmd, LocalPlayer* lpData)
 	{
 #ifdef SOURCE_ENGINEPREDICTION_H
-		bool onground = SourceEnginePred::prevFlags & FL_ONGROUND;
+		bool onGround = SourceEnginePred::prevFlags & FL_ONGROUND;
 #else
-		bool onground = lpData->flags & Flags::ONGROUND;
+		bool onGround = lpData->flags & Flags::ONGROUND;
 #endif
 		if (lpData->keys & Keys::JUMP) {
-			if (!onground || jumpedLastTick) {
+			if (!onGround || jumpedLastTick) {
 				lpData->keys &= ~Keys::JUMP;
 				jumpedLastTick = false;
 			} else

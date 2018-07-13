@@ -14,5 +14,6 @@
 #include "essentials.h"
 #include "engineprediction.h"
 #include "bhop.h"
+#include "autostrafer.h"
 
 #endif

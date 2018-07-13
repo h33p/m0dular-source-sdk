@@ -4,6 +4,7 @@
 #include "../framework/utils/rstring.h"
 #include "../framework/utils/handles.h"
 #include "../framework/utils/memutils.h"
+#include "../framework/utils/stackstring.h"
 #include "string.h"
 
 #if defined(__linux__) || defined(__APPLE__)
@@ -48,9 +49,9 @@ T GetInterface(const char* module, const char* name, bool exact = false)
 	InterfaceReg** interfaceRegs = nullptr;
 
 #if defined(__linux__) || defined(__APPLE__)
-	interfaceRegs = (InterfaceReg**)dlsym(library, "s_pInterfaceRegs");
+	interfaceRegs = (InterfaceReg**)dlsym(library, StackString("s_pInterfaceRegs"));
 #elif defined(_WIN32)
-	uintptr_t jmp = (uintptr_t)GetProcAddress(library, "CreateInterface") + 4;
+	uintptr_t jmp = (uintptr_t)GetProcAddress(library, StackString("CreateInterface")) + 4;
 	interfaceRegs = *(InterfaceReg***)(GetAbsoluteAddress(jmp, 1, 5) + 6);
 #endif
 

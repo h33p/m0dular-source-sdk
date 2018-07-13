@@ -321,10 +321,10 @@ struct csurface_t
 //-----------------------------------------------------------------------------
 struct Ray_t
 {
-	vec3_t __ALIGNED(16) m_Start; // starting point, centered within the extents
-	vec3_t __ALIGNED(16) m_Delta; // direction + length of the ray
-	vec3_t __ALIGNED(16) m_StartOffset; // Add this to m_Start to Get the actual ray start
-	vec3_t __ALIGNED(16) m_Extents; // Describes an axis aligned box extruded along a ray
+	alignas(16) vec3_t m_Start; // starting point, centered within the extents
+	alignas(16) vec3_t m_Delta; // direction + length of the ray
+	alignas(16) vec3_t m_StartOffset; // Add this to m_Start to Get the actual ray start
+	alignas(16) vec3_t m_Extents; // Describes an axis aligned box extruded along a ray
 	const matrix3x4_t *m_pWorldAxisTransform;
 	bool m_IsRay; // are the extents zero?
 	bool m_IsSwept; // is delta != 0?
@@ -382,7 +382,7 @@ struct Ray_t
 
 class
 #ifdef _WIN32
-__ALIGNED(1024)
+alignas(1024)
 #endif
 CBaseTrace
 {

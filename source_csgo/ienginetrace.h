@@ -110,7 +110,7 @@ struct virtualmeshlist_t;
 
 extern IClientEntityList* g_EntityList;
 
-// Settings for m_TakeDamage
+// Settings for takeDamage
 #define DAMAGE_NO 0					// Don't call damage functions
 #define DAMAGE_EVENTS_ONLY 1		// Call damage functions, but don't modify health
 #define DAMAGE_YES 2
@@ -221,7 +221,7 @@ class CTraceFilterPlayersOnlySkipOne : public ITraceFilter
 	}
 	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
 	{
-		return pEntityHandle != pEnt && ((IClientEntity*)pEntityHandle)->GetClientClass()->m_ClassID == ClassId::ClassId_CCSPlayer;
+		return pEntityHandle != pEnt && ((IClientEntity*)pEntityHandle)->GetClientClass()->classID == ClassId::ClassId_CCSPlayer;
 	}
 	virtual TraceType GetTraceType() const
 	{
@@ -321,55 +321,55 @@ struct csurface_t
 //-----------------------------------------------------------------------------
 struct Ray_t
 {
-	alignas(16) vec3_t m_Start; // starting point, centered within the extents
-	alignas(16) vec3_t m_Delta; // direction + length of the ray
-	alignas(16) vec3_t m_StartOffset; // Add this to m_Start to Get the actual ray start
-	alignas(16) vec3_t m_Extents; // Describes an axis aligned box extruded along a ray
-	const matrix3x4_t *m_pWorldAxisTransform;
-	bool m_IsRay; // are the extents zero?
-	bool m_IsSwept; // is delta != 0?
+	alignas(16) vec3_t start; // starting point, centered within the extents
+	alignas(16) vec3_t delta; // direction + length of the ray
+	alignas(16) vec3_t startOffset; // Add this to start to Get the actual ray start
+	alignas(16) vec3_t extents; // Describes an axis aligned box extruded along a ray
+	const matrix3x4_t *worldAxisTransform;
+	bool isRay; // are the extents zero?
+	bool isSwept; // is delta != 0?
 
-	Ray_t() : m_pWorldAxisTransform(NULL) {}
+	Ray_t() : worldAxisTransform(NULL) {}
 
-	void Init(vec3_t const& start, vec3_t const& end)
+	void Init(vec3_t const& vstart, vec3_t const& vend)
 	{
-		m_Delta = end - start;
+		delta = vend - vstart;
 
-		m_IsSwept = (m_Delta.LengthSqr() != 0);
+		isSwept = (delta.LengthSqr() != 0);
 
-		m_Extents = 0.f;
+		extents = 0.f;
 
-		m_pWorldAxisTransform = NULL;
-		m_IsRay = true;
+		worldAxisTransform = NULL;
+		isRay = true;
 
-		// Offset m_Start to be in the center of the box...
-		m_StartOffset = 0.f;
-		m_Start = start;
+		// Offset start to be in the center of the box...
+		startOffset = 0.f;
+		start = vstart;
 	}
 
-	void Init(vec3_t const& start, vec3_t const& end, vec3_t const& mins, vec3_t const& maxs)
+	void Init(vec3_t const& vstart, vec3_t const& vend, vec3_t const& mins, vec3_t const& maxs)
 	{
-		m_Delta = end - start;
+		delta = vend - vstart;
 
-		m_pWorldAxisTransform = NULL;
-		m_IsSwept = (m_Delta.LengthSqr() != 0);
+		worldAxisTransform = NULL;
+		isSwept = (delta.LengthSqr() != 0);
 
-		m_Extents = maxs - mins;
-		m_Extents *= 0.5f;
-		m_IsRay = (m_Extents.LengthSqr() < 1e-6);
+		extents = maxs - mins;
+		extents *= 0.5f;
+		isRay = (extents.LengthSqr() < 1e-6);
 
-		// Offset m_Start to be in the center of the box...
-		m_StartOffset = maxs + mins;
-		m_StartOffset *= 0.5f;
-		m_Start = start + m_StartOffset;
-		m_StartOffset *= -1.0f;
+		// Offset start to be in the center of the box...
+		startOffset = maxs + mins;
+		startOffset *= 0.5f;
+		start = vstart + startOffset;
+		startOffset *= -1.0f;
 	}
 	vec3_t InvDelta() const
 	{
 		vec3_t vecInvDelta;
 		for(int iAxis = 0; iAxis < 3; ++iAxis) {
-			if(m_Delta[iAxis] != 0.0f) {
-				vecInvDelta[iAxis] = 1.0f / m_Delta[iAxis];
+			if(delta[iAxis] != 0.0f) {
+				vecInvDelta[iAxis] = 1.0f / delta[iAxis];
 			} else {
 				vecInvDelta[iAxis] = FLT_MAX;
 			}
@@ -427,7 +427,7 @@ class CGameTrace : public CBaseTrace
 	HitGroups hitgroup; // 0 == generic, non-zero is specific body part
 	short physicsbone; // physics bone hit by trace in studio
 	unsigned short worldSurfaceIndex; // Index of the msurface2_t, if applicable
-	IClientEntity* m_pEnt; // Entity to hit
+	IClientEntity* ent; // Entity to hit
 	int hitbox; // box hit by trace in studio
 
 	CGameTrace() {}
@@ -440,7 +440,7 @@ class CGameTrace : public CBaseTrace
 		hitgroup(other.hitgroup),
 		physicsbone(other.physicsbone),
 		worldSurfaceIndex(other.worldSurfaceIndex),
-		m_pEnt(other.m_pEnt),
+		ent(other.ent),
 		hitbox(other.hitbox)
 	{
 		startpos = other.startpos;
@@ -468,7 +468,7 @@ class CGameTrace : public CBaseTrace
 		hitgroup = other.hitgroup;
 		physicsbone = other.physicsbone;
 		worldSurfaceIndex = other.worldSurfaceIndex;
-		m_pEnt = other.m_pEnt;
+		ent = other.ent;
 		hitbox = other.hitbox;
 		return *this;
 	}
@@ -476,18 +476,18 @@ class CGameTrace : public CBaseTrace
 
 inline bool CGameTrace::DidHitWorld() const
 {
-	return m_pEnt == g_EntityList->GetClientEntity(0);
+	return ent == g_EntityList->GetClientEntity(0);
 }
 
 inline bool CGameTrace::DidHitNonWorldEntity() const
 {
-	return m_pEnt != nullptr && !DidHitWorld();
+	return ent != nullptr && !DidHitWorld();
 }
 
 inline int CGameTrace::GetEntityIndex() const
 {
-	if (m_pEnt)
-		return m_pEnt->EntIndex();
+	if (ent)
+		return ent->EntIndex();
 	else
 		return -1;
 }

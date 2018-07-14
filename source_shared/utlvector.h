@@ -39,8 +39,8 @@ class CUtlVector
 	const T& Tail() const;
 
 	// Gets the base address (can change when adding elements!)
-	T* Base() { return m_Memory.Base(); }
-	const T* Base() const { return m_Memory.Base(); }
+	T* Base() { return memory.Base(); }
+	const T* Base() const { return memory.Base(); }
 	// Returns the number of elements in the vector
 	int Count() const;
 	// Is element index valid?
@@ -95,7 +95,7 @@ class CUtlVector
 	// Compacts the vector to the number of elements actually in use 
 	void Compact();
 	// Set the size by which it grows when it needs to allocate more memory.
-	void SetGrowSize(int size) { m_Memory.SetGrowSize(size); }
+	void SetGrowSize(int size) { memory.SetGrowSize(size); }
 	int NumAllocated() const; // Only use this if you really know what you're doing!
 	void Sort(pfnCompareFn pfnCompare);
 
@@ -111,16 +111,16 @@ class CUtlVector
 	void ShiftElementsLeft(int elem, int num = 1);
 
   public:
-	CAllocator m_Memory;
-	int m_Size;
+	CAllocator memory;
+	int size;
 
 	// For easier access to the elements through the debugger
 	// it's in release builds so this can be used in libraries correctly
-	T *m_pElements;
+	T *elements;
 
 	inline void ResetDbgInfo()
 	{
-		m_pElements = Base();
+		elements = Base();
 	}
 };
 
@@ -130,14 +130,14 @@ class CUtlVector
 //-----------------------------------------------------------------------------
 template< typename T, class A >
 inline CUtlVector<T, A>::CUtlVector(int growSize, int initSize) :
-	m_Memory(growSize, initSize), m_Size(0)
+	memory(growSize, initSize), size(0)
 {
 	ResetDbgInfo();
 }
 
 template< typename T, class A >
 inline CUtlVector<T, A>::CUtlVector(T* pMemory, int allocationCount, int numElements) :
-	m_Memory(pMemory, allocationCount), m_Size(numElements)
+	memory(pMemory, allocationCount), size(numElements)
 {
 	ResetDbgInfo();
 }
@@ -166,57 +166,57 @@ inline CUtlVector<T, A>& CUtlVector<T, A>::operator=(const CUtlVector<T, A> &oth
 template< typename T, class A >
 inline T& CUtlVector<T, A>::operator[](int i)
 {
-	assert(i < m_Size);
-	return m_Memory[i];
+	assert(i < size);
+	return memory[i];
 }
 
 template< typename T, class A >
 inline const T& CUtlVector<T, A>::operator[](int i) const
 {
-	assert(i < m_Size);
-	return m_Memory[i];
+	assert(i < size);
+	return memory[i];
 }
 
 template< typename T, class A >
 inline T& CUtlVector<T, A>::Element(int i)
 {
-	assert(i < m_Size);
-	return m_Memory[i];
+	assert(i < size);
+	return memory[i];
 }
 
 template< typename T, class A >
 inline const T& CUtlVector<T, A>::Element(int i) const
 {
-	assert(i < m_Size);
-	return m_Memory[i];
+	assert(i < size);
+	return memory[i];
 }
 
 template< typename T, class A >
 inline T& CUtlVector<T, A>::Head()
 {
-	assert(m_Size > 0);
-	return m_Memory[0];
+	assert(size > 0);
+	return memory[0];
 }
 
 template< typename T, class A >
 inline const T& CUtlVector<T, A>::Head() const
 {
-	assert(m_Size > 0);
-	return m_Memory[0];
+	assert(size > 0);
+	return memory[0];
 }
 
 template< typename T, class A >
 inline T& CUtlVector<T, A>::Tail()
 {
-	assert(m_Size > 0);
-	return m_Memory[m_Size - 1];
+	assert(size > 0);
+	return memory[size - 1];
 }
 
 template< typename T, class A >
 inline const T& CUtlVector<T, A>::Tail() const
 {
-	assert(m_Size > 0);
-	return m_Memory[m_Size - 1];
+	assert(size > 0);
+	return memory[size - 1];
 }
 
 
@@ -226,7 +226,7 @@ inline const T& CUtlVector<T, A>::Tail() const
 template< typename T, class A >
 inline int CUtlVector<T, A>::Count() const
 {
-	return m_Size;
+	return size;
 }
 
 
@@ -236,7 +236,7 @@ inline int CUtlVector<T, A>::Count() const
 template< typename T, class A >
 inline bool CUtlVector<T, A>::IsValidIndex(int i) const
 {
-	return (i >= 0) && (i < m_Size);
+	return (i >= 0) && (i < size);
 }
 
 
@@ -256,11 +256,11 @@ inline int CUtlVector<T, A>::InvalidIndex()
 template< typename T, class A >
 void CUtlVector<T, A>::GrowVector(int num)
 {
-	if(m_Size + num > m_Memory.NumAllocated()) {
-		m_Memory.Grow(m_Size + num - m_Memory.NumAllocated());
+	if(size + num > memory.NumAllocated()) {
+		memory.Grow(size + num - memory.NumAllocated());
 	}
 
-	m_Size += num;
+	size += num;
 	ResetDbgInfo();
 }
 
@@ -284,7 +284,7 @@ void CUtlVector<T, A>::Sort(pfnCompareFn pfnCompare)
 		// you'll probably want to patch in a quicksort algorithm here
 		// I just threw in this bubble sort to have something just in case...
 
-		for(int i = m_Size - 1; i >= 0; --i) {
+		for(int i = size - 1; i >= 0; --i) {
 			for(int j = 1; j <= i; ++j) {
 				if(pfnCompare(&Element(j - 1), &Element(j)) < 0) {
 					std::swap(Element(j - 1), Element(j));
@@ -301,7 +301,7 @@ template< typename T, class A >
 void CUtlVector<T, A>::EnsureCapacity(int num)
 {
 	MEM_ALLOC_CREDIT_CLASS();
-	m_Memory.EnsureCapacity(num);
+	memory.EnsureCapacity(num);
 	ResetDbgInfo();
 }
 
@@ -324,8 +324,8 @@ void CUtlVector<T, A>::EnsureCount(int num)
 template< typename T, class A >
 void CUtlVector<T, A>::ShiftElementsRight(int elem, int num)
 {
-	assert(IsValidIndex(elem) || (m_Size == 0) || (num == 0));
-	int numToMove = m_Size - elem - num;
+	assert(IsValidIndex(elem) || (size == 0) || (num == 0));
+	int numToMove = size - elem - num;
 	if((numToMove > 0) && (num > 0))
 		memmove(&Element(elem + num), &Element(elem), numToMove * sizeof(T));
 }
@@ -333,13 +333,13 @@ void CUtlVector<T, A>::ShiftElementsRight(int elem, int num)
 template< typename T, class A >
 void CUtlVector<T, A>::ShiftElementsLeft(int elem, int num)
 {
-	assert(IsValidIndex(elem) || (m_Size == 0) || (num == 0));
-	int numToMove = m_Size - elem - num;
+	assert(IsValidIndex(elem) || (size == 0) || (num == 0));
+	int numToMove = size - elem - num;
 	if((numToMove > 0) && (num > 0)) {
 		memmove(&Element(elem), &Element(elem + num), numToMove * sizeof(T));
 
 #ifdef _DEBUG
-		memset(&Element(m_Size - num), 0xDD, num * sizeof(T));
+		memset(&Element(size - num), 0xDD, num * sizeof(T));
 #endif
 	}
 }
@@ -357,7 +357,7 @@ inline int CUtlVector<T, A>::AddToHead()
 template< typename T, class A >
 inline int CUtlVector<T, A>::AddToTail()
 {
-	return InsertBefore(m_Size);
+	return InsertBefore(size);
 }
 
 template< typename T, class A >
@@ -395,7 +395,7 @@ inline int CUtlVector<T, A>::AddToTail(const T& src)
 {
 	// Can't insert something that's in the list... reallocation may hose us
 	assert((Base() == NULL) || (&src < Base()) || (&src >= (Base() + Count())));
-	return InsertBefore(m_Size, src);
+	return InsertBefore(size, src);
 }
 
 template< typename T, class A >
@@ -434,7 +434,7 @@ inline int CUtlVector<T, A>::AddMultipleToHead(int num)
 template< typename T, class A >
 inline int CUtlVector<T, A>::AddMultipleToTail(int num)
 {
-	return InsertMultipleBefore(m_Size, num);
+	return InsertMultipleBefore(size, num);
 }
 
 template< typename T, class A >
@@ -443,7 +443,7 @@ inline int CUtlVector<T, A>::AddMultipleToTail(int num, const T *pToCopy)
 	// Can't insert something that's in the list... reallocation may hose us
 	assert((Base() == NULL) || !pToCopy || (pToCopy + num <= Base()) || (pToCopy >= (Base() + Count())));
 
-	return InsertMultipleBefore(m_Size, num, pToCopy);
+	return InsertMultipleBefore(size, num, pToCopy);
 }
 
 template< typename T, class A >
@@ -469,7 +469,7 @@ inline void CUtlVector<T, A>::SetSize(int size)
 template< typename T, class A >
 void CUtlVector<T, A>::SetCountNonDestructively(int count)
 {
-	int delta = count - m_Size;
+	int delta = count - size;
 	if(delta > 0) AddMultipleToTail(delta);
 	else if(delta < 0) RemoveMultipleFromTail(-delta);
 }
@@ -489,10 +489,10 @@ void CUtlVector<T, A>::CopyArray(const T *pArray, int size)
 template< typename T, class A >
 void CUtlVector<T, A>::Swap(CUtlVector< T, A > &vec)
 {
-	m_Memory.Swap(vec.m_Memory);
-	std::swap(m_Size, vec.m_Size);
+	memory.Swap(vec.memory);
+	std::swap(size, vec.size);
 #ifndef _X360
-	V_swap(m_pElements, vec.m_pElements);
+	V_swap(elements, vec.elements);
 #endif
 }
 
@@ -508,7 +508,7 @@ int CUtlVector<T, A>::AddVectorToTail(CUtlVector const &src)
 	EnsureCapacity(base + nSrcCount);
 
 	// Copy the elements.
-	m_Size += nSrcCount;
+	size += nSrcCount;
 	for(int i = 0; i < nSrcCount; i++) {
 		CopyConstruct(&Element(base + i), src[i]);
 	}
@@ -599,10 +599,10 @@ void CUtlVector<T, A>::FastRemove(int elem)
 	assert(IsValidIndex(elem));
 
 	Destruct(&Element(elem));
-	if(m_Size > 0) {
-		if(elem != m_Size - 1)
-			memcpy(&Element(elem), &Element(m_Size - 1), sizeof(T));
-		--m_Size;
+	if(size > 0) {
+		if(elem != size - 1)
+			memcpy(&Element(elem), &Element(size - 1), sizeof(T));
+		--size;
 	}
 }
 
@@ -611,7 +611,7 @@ void CUtlVector<T, A>::Remove(int elem)
 {
 	Destruct(&Element(elem));
 	ShiftElementsLeft(elem);
-	--m_Size;
+	--size;
 }
 
 template< typename T, class A >
@@ -646,7 +646,7 @@ void CUtlVector<T, A>::RemoveMultiple(int elem, int num)
 		Destruct(&Element(i));
 
 	ShiftElementsLeft(elem, num);
-	m_Size -= num;
+	size -= num;
 }
 
 template< typename T, class A >
@@ -658,7 +658,7 @@ void CUtlVector<T, A>::RemoveMultipleFromHead(int num)
 		Destruct(&Element(i));
 
 	ShiftElementsLeft(0, num);
-	m_Size -= num;
+	size -= num;
 }
 
 template< typename T, class A >
@@ -666,20 +666,20 @@ void CUtlVector<T, A>::RemoveMultipleFromTail(int num)
 {
 	assert(num <= Count());
 
-	for(int i = m_Size - num; i < m_Size; i++)
+	for(int i = size - num; i < size; i++)
 		Destruct(&Element(i));
 
-	m_Size -= num;
+	size -= num;
 }
 
 template< typename T, class A >
 void CUtlVector<T, A>::RemoveAll()
 {
-	for(int i = m_Size; --i >= 0; ) {
+	for(int i = size; --i >= 0; ) {
 		Destruct(&Element(i));
 	}
 
-	m_Size = 0;
+	size = 0;
 }
 
 
@@ -691,7 +691,7 @@ template< typename T, class A >
 inline void CUtlVector<T, A>::Purge()
 {
 	RemoveAll();
-	m_Memory.Purge();
+	memory.Purge();
 	ResetDbgInfo();
 }
 
@@ -699,7 +699,7 @@ inline void CUtlVector<T, A>::Purge()
 template< typename T, class A >
 inline void CUtlVector<T, A>::PurgeAndDeleteElements()
 {
-	for(int i = 0; i < m_Size; i++) {
+	for(int i = 0; i < size; i++) {
 		delete Element(i);
 	}
 	Purge();
@@ -708,13 +708,13 @@ inline void CUtlVector<T, A>::PurgeAndDeleteElements()
 template< typename T, class A >
 inline void CUtlVector<T, A>::Compact()
 {
-	m_Memory.Purge(m_Size);
+	memory.Purge(size);
 }
 
 template< typename T, class A >
 inline int CUtlVector<T, A>::NumAllocated() const
 {
-	return m_Memory.NumAllocated();
+	return memory.NumAllocated();
 }
 
 
@@ -727,7 +727,7 @@ void CUtlVector<T, A>::Validate(CValidator &validator, char *pchName)
 {
 	validator.Push(typeid(*this).name(), this, pchName);
 
-	m_Memory.Validate(validator, "m_Memory");
+	memory.Validate(validator, "memory");
 
 	validator.Pop();
 }
@@ -768,7 +768,7 @@ class CUtlVectorSimple
   public:
 	unsigned long memory;
 	char pad[8];
-	unsigned int m_Size;
+	unsigned int size;
 	inline void* Retrieve(int index, size_t sizeofdata)
 	{
 		return (void*)((*(uintptr_t*)this) + (sizeofdata * index));

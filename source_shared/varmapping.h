@@ -30,20 +30,20 @@ class IInterpolatedVar
 class VarMapEntry_t {
   public:
 	unsigned short type;
-	unsigned short m_bNeedsToInterpolate; // Set to false when this var doesn't
-										  // need Interpolate() called on it anymore.
+	unsigned short needsToInterpolate; // Set to false when this var doesn't
+									   // need Interpolate() called on it anymore.
 	void* data;
 	IInterpolatedVar* watcher;
 };
 
 struct VarMapping_t {
 	VarMapping_t() {
-		m_nInterpolatedEntries = 0;
+		interpolatedEntries = 0;
 	}
 
-	CUtlVector<VarMapEntry_t> m_Entries;
-	int m_nInterpolatedEntries;
-	float m_lastInterpolationTime;
+	CUtlVector<VarMapEntry_t> entries;
+	int interpolatedEntries;
+	float lastInterpolationTime;
 };
 
 #endif

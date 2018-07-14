@@ -71,13 +71,13 @@ struct ColorMeshInfo_t;
 
 struct DrawModelState_t
 {
-	studiohdr_t* m_pStudioHdr;
-	studiohwdata_t* m_pStudioHWData;
-	IClientRenderable* m_pRenderable;
-	const matrix3x4_t* m_pModelToWorld;
-	StudioDecalHandle_t m_decals;
-	int m_drawFlags;
-	int m_lod;
+	studiohdr_t* studioHdr;
+	studiohwdata_t* studioHWData;
+	IClientRenderable* renderable;
+	const matrix3x4_t* modelToWorld;
+	StudioDecalHandle_t decals;
+	int drawFlags;
+	int lod;
 };
 
 struct StaticPropRenderInfo_t
@@ -117,14 +117,14 @@ struct ModelRenderInfo_t
 
 struct LightingQuery_t
 {
-	vec3 m_LightingOrigin;
-	ModelInstanceHandle_t m_InstanceHandle;
-	bool m_bAmbientBoost;
+	vec3 lightingOrigin;
+	ModelInstanceHandle_t instanceHandle;
+	bool ambientBoost;
 };
 
 struct StaticLightingQuery_t : public LightingQuery_t
 {
-	IClientRenderable* m_pRenderable;
+	IClientRenderable* renderable;
 };
 
 class IMaterial

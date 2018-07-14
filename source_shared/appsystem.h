@@ -6,8 +6,8 @@ typedef void* (*InstantiateInterfaceFn)();
 
 struct AppSystemInfo_t
 {
-	const char* m_pModuleName;
-	const char* m_pInterfaceName;
+	const char* moduleName;
+	const char* interfaceName;
 };
 
 enum InitReturnVal_t

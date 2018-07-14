@@ -20,14 +20,14 @@ class CViewSetup
 	float zFar;
 	float zNearViewmodel;
 	float zFarViewmodel;
-	float m_flAspectRatio;
-	float m_flNearBlurDepth;
-	float m_flNearFocusDepth;
-	float m_flFarFocusDepth;
-	float m_flFarBlurDepth;
-	float m_flNearBlurRadius;
-	float m_flFarBlurRadius;
-	float m_nDoFQuality;
-	int m_nMotionBlurMode;
+	float aspectRatio;
+	float nearBlurDepth;
+	float nearFocusDepth;
+	float farFocusDepth;
+	float farBlurDepth;
+	float nearBlurRadius;
+	float farBlurRadius;
+	float doFQuality;
+	int motionBlurMode;
 };
 #endif

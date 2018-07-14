@@ -28,20 +28,20 @@ struct NetvarTable
 static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, RecvTable* recvTable, int offset)
 {
 
-	for(int i = 0; i < recvTable->m_nProps; ++i) {
-		RecvProp* prop = &recvTable->m_pProps[i];
+	for(int i = 0; i < recvTable->nProps; i++) {
+		RecvProp* prop = &recvTable->props[i];
 
-		if(!prop || isdigit(prop->m_pVarName[0]))
+		if(!prop || isdigit(prop->varName[0]))
 			continue;
-		if(strcmp("baseclass", prop->m_pVarName) == 0)
+		if(strcmp("baseclass", prop->varName) == 0)
 			continue;
 
-		unsigned int tbKey = Crc32(prop->m_pVarName, strlen(prop->m_pVarName));
+		unsigned int tbKey = Crc32(prop->varName, strlen(prop->varName));
 
-		if(prop->m_RecvType == DPT_DataTable && prop->m_pDataTable)
-			LoadCRCTable(db, prop->m_pDataTable, offset + prop->m_Offset);
+		if(prop->recvType == DPT_DataTable && prop->dataTable)
+			LoadCRCTable(db, prop->dataTable, offset + prop->offset);
 		else if (db->find(tbKey) == db->end())
-			db->insert(std::make_pair(tbKey, NetvarEntry(offset + prop->m_Offset, prop)));
+			db->insert(std::make_pair(tbKey, NetvarEntry(offset + prop->offset, prop)));
 	}
 }
 
@@ -51,12 +51,12 @@ void SourceNetvars::Initialize(CBaseClient* cl)
 
 	for(auto clientclass = cl->GetAllClasses();
 		clientclass != nullptr;
-		clientclass = clientclass->m_pNext) {
-		if(clientclass->m_pRecvTable) {
-			unsigned int tbKey = Crc32(clientclass->m_pRecvTable->m_pNetTableName, strlen(clientclass->m_pRecvTable->m_pNetTableName));
+		clientclass = clientclass->next) {
+		if(clientclass->recvTable) {
+			unsigned int tbKey = Crc32(clientclass->recvTable->netTableName, strlen(clientclass->recvTable->netTableName));
 			if (crcDatabase->find(tbKey) == crcDatabase->end())
 				crcDatabase->insert(std::make_pair(tbKey, std::unordered_map<unsigned int, NetvarEntry>()));
-			LoadCRCTable(&crcDatabase->at(tbKey), clientclass->m_pRecvTable, 0);
+			LoadCRCTable(&crcDatabase->at(tbKey), clientclass->recvTable, 0);
 		}
 	}
 }
@@ -81,8 +81,8 @@ void SourceNetvars::HookAll(NetvarHook* hooks, size_t size)
 		if (crcDatabase->find(hooks[i].table) != crcDatabase->end())
 			if (crcDatabase->at(hooks[i].table).find(hooks[i].prop) != crcDatabase->at(hooks[i].table).end()) {
 				RecvProp* prop = crcDatabase->at(hooks[i].table).at(hooks[i].prop).prop;
-				hooks[i].original = prop->m_ProxyFn;
-				prop->m_ProxyFn = hooks[i].hook;
+				hooks[i].original = prop->proxyFn;
+				prop->proxyFn = hooks[i].hook;
 			}
 	}
 }
@@ -96,6 +96,6 @@ void SourceNetvars::UnhookAll(NetvarHook* hooks, size_t size)
 	for (size_t i = 0; i < size; i++) {
 		if (crcDatabase->find(hooks[i].table) != crcDatabase->end())
 			if (crcDatabase->at(hooks[i].table).find(hooks[i].prop) != crcDatabase->at(hooks[i].table).end())
-				crcDatabase->at(hooks[i].table).at(hooks[i].prop).prop->m_ProxyFn = hooks[i].original;
+				crcDatabase->at(hooks[i].table).at(hooks[i].prop).prop->proxyFn = hooks[i].original;
 	}
 }

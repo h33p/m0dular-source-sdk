@@ -47,22 +47,22 @@ class CBaseHandle
   protected:
 	// The low NUM_SERIAL_BITS hold the index. If this value is less than MAX_EDICTS, then the entity is networkable.
 	// The high NUM_SERIAL_NUM_BITS bits are the serial number.
-	unsigned long m_Index;
+	unsigned long index;
 };
 
 inline CBaseHandle::CBaseHandle()
 {
-	m_Index = INVALID_EHANDLE_INDEX;
+	index = INVALID_EHANDLE_INDEX;
 }
 
 inline CBaseHandle::CBaseHandle(const CBaseHandle &other)
 {
-	m_Index = other.m_Index;
+	index = other.index;
 }
 
 inline CBaseHandle::CBaseHandle(unsigned long value)
 {
-	m_Index = value;
+	index = value;
 }
 
 inline CBaseHandle::CBaseHandle(int iEntry, int iSerialNumber)
@@ -72,42 +72,42 @@ inline CBaseHandle::CBaseHandle(int iEntry, int iSerialNumber)
 
 inline void CBaseHandle::Init(int iEntry, int iSerialNumber)
 {
-	m_Index = iEntry | (iSerialNumber << NUM_ENT_ENTRY_BITS);
+	index = iEntry | (iSerialNumber << NUM_ENT_ENTRY_BITS);
 }
 
 inline void CBaseHandle::Term()
 {
-	m_Index = INVALID_EHANDLE_INDEX;
+	index = INVALID_EHANDLE_INDEX;
 }
 
 inline bool CBaseHandle::IsValid() const
 {
-	return m_Index != INVALID_EHANDLE_INDEX;
+	return index != INVALID_EHANDLE_INDEX;
 }
 
 inline int CBaseHandle::GetEntryIndex() const
 {
-	return m_Index & ENT_ENTRY_MASK;
+	return index & ENT_ENTRY_MASK;
 }
 
 inline int CBaseHandle::GetSerialNumber() const
 {
-	return m_Index >> NUM_ENT_ENTRY_BITS;
+	return index >> NUM_ENT_ENTRY_BITS;
 }
 
 inline int CBaseHandle::ToInt() const
 {
-	return (int)m_Index;
+	return (int)index;
 }
 
 inline bool CBaseHandle::operator !=(const CBaseHandle &other) const
 {
-	return m_Index != other.m_Index;
+	return index != other.index;
 }
 
 inline bool CBaseHandle::operator ==(const CBaseHandle &other) const
 {
-	return m_Index == other.m_Index;
+	return index == other.index;
 }
 
 inline bool CBaseHandle::operator ==(const IHandleEntity* pEnt) const
@@ -122,13 +122,13 @@ inline bool CBaseHandle::operator !=(const IHandleEntity* pEnt) const
 
 inline bool CBaseHandle::operator <(const CBaseHandle &other) const
 {
-	return m_Index < other.m_Index;
+	return index < other.index;
 }
 
 inline bool CBaseHandle::operator <(const IHandleEntity *pEntity) const
 {
-	unsigned long otherIndex = (pEntity) ? pEntity->GetRefEHandle().m_Index : INVALID_EHANDLE_INDEX;
-	return m_Index < otherIndex;
+	unsigned long otherIndex = (pEntity) ? pEntity->GetRefEHandle().index : INVALID_EHANDLE_INDEX;
+	return index < otherIndex;
 }
 
 inline const CBaseHandle& CBaseHandle::operator=(const IHandleEntity *pEntity)
@@ -141,7 +141,7 @@ inline const CBaseHandle& CBaseHandle::Set(const IHandleEntity *pEntity)
 	if(pEntity) {
 		*this = pEntity->GetRefEHandle();
 	} else {
-		m_Index = INVALID_EHANDLE_INDEX;
+		index = INVALID_EHANDLE_INDEX;
 	}
 
 	return *this;

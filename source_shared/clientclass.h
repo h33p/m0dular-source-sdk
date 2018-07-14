@@ -12,12 +12,12 @@ typedef IClientNetworkable* (*CreateEventFn)();
 class ClientClass
 {
   public:
-	CreateClientClassFn m_pCreateFn;
-	CreateEventFn m_pCreateEventFn;
-	char* m_pNetworkName;
-	RecvTable* m_pRecvTable;
-	ClientClass* m_pNext;
-	ClassId m_ClassID;
+	CreateClientClassFn createFn;
+	CreateEventFn createEventFn;
+	char* networkName;
+	RecvTable* recvTable;
+	ClientClass* next;
+	ClassId classID;
 };
 
 #endif

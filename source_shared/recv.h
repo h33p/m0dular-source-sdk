@@ -21,14 +21,14 @@ class DVariant
   public:
 	union
 	{
-		float m_Float;
-		long m_Int;
-		char* m_pString;
-		void* m_pData;
-		float m_Vector[3];
-		long long m_Int64;
+		float Float;
+		long Int;
+		char* String;
+		void* Data;
+		float Vector[3];
+		long long Int64;
 	};
-	SendPropType m_Type;
+	SendPropType type;
 };
 
 class RecvTable;
@@ -37,17 +37,17 @@ class RecvProp;
 class CRecvProxyData
 {
   public:
-	const RecvProp* m_pRecvProp; // The property it's receiving.
-	DVariant m_Value; // The value given to you to store.
-	int m_iElement; // Which array element you're getting.
-	int m_ObjectID; // The object being referred to.
+	const RecvProp* recvProp; // The property it's receiving.
+	DVariant value; // The value given to you to store.
+	int element; // Which array element you're getting.
+	int objectID; // The object being referred to.
 };
 
 //-----------------------------------------------------------------------------
 // pStruct = the base structure of the datatable this variable is in (like C_BaseEntity)
-// pOut = the variable that this this proxy represents (like C_BaseEntity::m_SomeValue).
+// pOut = the variable that this this proxy represents (like C_BaseEntity::someValue).
 //
-// Convert the network-standard-type value in m_Value into your own format in pStruct/pOut.
+// Convert the network-standard-type value in value into your own format in pStruct/pOut.
 //-----------------------------------------------------------------------------
 typedef void(*RecvVarProxyFn)(const CRecvProxyData *pData, void *pStruct, void *pOut);
 
@@ -68,21 +68,21 @@ typedef void(*DataTableRecvVarProxyFn)(const RecvProp *pProp, void **pOut, void 
 class RecvProp
 {
   public:
-	char* m_pVarName;
-	SendPropType m_RecvType;
-	int m_Flags;
-	int m_StringBufferSize;
-	int m_bInsideArray;
-	const void* m_pExtraData;
-	RecvProp* m_pArrayProp;
-	ArrayLengthRecvProxyFn m_ArrayLengthProxy;
-	RecvVarProxyFn m_ProxyFn;
-	DataTableRecvVarProxyFn m_DataTableProxyFn;
-	RecvTable* m_pDataTable;
-	int m_Offset;
-	int m_ElementStride;
-	int m_nElements;
-	const char* m_pParentArrayPropName;
+	char* varName;
+	SendPropType recvType;
+	int flags;
+	int stringBufferSize;
+	int insideArray;
+	const void* extraData;
+	RecvProp* arrayProp;
+	ArrayLengthRecvProxyFn arrayLengthProxy;
+	RecvVarProxyFn proxyFn;
+	DataTableRecvVarProxyFn dataTableProxyFn;
+	RecvTable* dataTable;
+	int offset;
+	int elementStride;
+	int elements;
+	const char* parentArrayPropName;
 
 	RecvVarProxyFn GetProxyFn() const;
 	void SetProxyFn(RecvVarProxyFn fn);
@@ -94,32 +94,32 @@ class RecvProp
 class RecvTable
 {
   public:
-	RecvProp* m_pProps;
-	int m_nProps;
-	void* m_pDecoder;
-	char* m_pNetTableName;
-	bool m_bInitialized;
-	bool m_bInMainList;
+	RecvProp* props;
+	int nProps;
+	void* decoder;
+	char* netTableName;
+	bool initialized;
+	bool inMainList;
 };
 
 inline RecvVarProxyFn RecvProp::GetProxyFn() const
 {
-	return m_ProxyFn;
+	return proxyFn;
 }
 
 inline void RecvProp::SetProxyFn(RecvVarProxyFn fn)
 {
-	m_ProxyFn = fn;
+	proxyFn = fn;
 }
 
 inline DataTableRecvVarProxyFn RecvProp::GetDataTableProxyFn() const
 {
-	return m_DataTableProxyFn;
+	return dataTableProxyFn;
 }
 
 inline void RecvProp::SetDataTableProxyFn(DataTableRecvVarProxyFn fn)
 {
-	m_DataTableProxyFn = fn;
+	dataTableProxyFn = fn;
 }
 
 #endif

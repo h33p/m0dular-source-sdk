@@ -1050,11 +1050,11 @@ inline void Destruct(T* pMemory)
 // {
 // void PrintAddressOfOuter()
 // {
-// printf( "Outer is at 0x%x\n", GET_OUTER( COuter, m_Inner ) );
+// printf( "Outer is at 0x%x\n", GET_OUTER( COuter, inner ) );
 // }
 // };
 //
-// CInner m_Inner;
+// CInner inner;
 // friend class CInner;
 // };
 

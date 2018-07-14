@@ -82,7 +82,7 @@ template<class T>
 inline CHandle<T> CHandle<T>::FromIndex(int index)
 {
 	CHandle<T> ret;
-	ret.m_Index = index;
+	ret.index = index;
 	return ret;
 }
 

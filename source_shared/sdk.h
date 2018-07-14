@@ -50,5 +50,6 @@
 #include "surface.h"
 #include "panel.h"
 #include "viewrender.h"
+#include "eventmanager.h"
 
 #endif

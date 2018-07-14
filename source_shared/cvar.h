@@ -41,7 +41,7 @@ class ICvar : public IAppSystem
 	virtual void CallGlobalChangeCallbacks(ConVar *var, const char *pOldString, float flOldValue) = 0;
 	virtual void InstallConsoleDisplayFunc(IConsoleDisplayFunc* pDisplayFunc) = 0;
 	virtual void RemoveConsoleDisplayFunc(IConsoleDisplayFunc* pDisplayFunc) = 0;
-	virtual void ConsoleColorPrintf(const uint8_t* clr, const char *pFormat, ...) const = 0;
+	virtual void ConsoleColorPrintf(Color& clr, const char *pFormat, ...) const = 0;
 	virtual void ConsolePrintf(const char *pFormat, ...) const = 0;
 	virtual void ConsoleDPrintf(const char *pFormat, ...) const = 0;
 	virtual void RevertFlaggedConVars(int nFlag) = 0;

@@ -17,8 +17,8 @@ class CGlobalVarsBase
 	int simTicksThisFrame; // 0x0028
 	int network_protocol; // 0x002C
 	void* pSaveData; // 0x0030
-	bool m_bClient; // 0x0031
-	bool m_bRemoteClient; // 0x0032
+	bool client; // 0x0031
+	bool remoteClient; // 0x0032
 	int nTimestampNetworkingBase;
 	int nTimestampRandomizeWindow;
 };

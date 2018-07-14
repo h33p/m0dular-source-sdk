@@ -3,76 +3,76 @@
 
 struct CEffectData
 {
-	vec3 m_vOrigin;
-	vec3 m_vStart;
-	vec3 m_vNormal;
-	vec3 m_vAngles;
+	vec3 origin;
+	vec3 start;
+	vec3 normal;
+	vec3 angles;
 	int flags;
-	int m_hEntity;
-	float m_flScale;
-	float m_flMagnitude;
-	float m_flRadius;
-	int m_nAttachmentIndex;
-	short m_nSurfaceProp;
+	int entity;
+	float scale;
+	float magnitude;
+	float radius;
+	int attachmentIndex;
+	short surfaceProp;
 
-	int m_nMaterial;
-	int m_nDamageType;
-	int m_nHitBox;
+	int material;
+	int damageType;
+	int hitBox;
 
-	int m_nOtherEntIndex;
+	int otherEntIndex;
 
-	unsigned char m_nColor;
+	unsigned char color;
 
-	//bool m_bPositionsAreRelativeToEntity;
+	//bool positionsAreRelativeToEntity;
 
-	int m_iEffectName;
+	int effectName;
 
 	CEffectData()
 	{
-		m_vOrigin = vec3();
-		m_vStart = vec3();
-		m_vNormal = vec3();
-		m_vAngles = vec3();
+		origin = vec3();
+		start = vec3();
+		normal = vec3();
+		angles = vec3();
 
 		flags = 0;
-		m_hEntity = -1;
-		m_flScale = 1.f;
-		m_nAttachmentIndex = 0;
-		m_nSurfaceProp = 0;
+		entity = -1;
+		scale = 1.f;
+		attachmentIndex = 0;
+		surfaceProp = 0;
 
-		m_flMagnitude = 0.0f;
-		m_flRadius = 0.0f;
+		magnitude = 0.0f;
+		radius = 0.0f;
 
-		m_nMaterial = 0;
-		m_nDamageType = 0;
-		m_nHitBox = 0;
+		material = 0;
+		damageType = 0;
+		hitBox = 0;
 
-		m_nColor = 0;
+		color = 0;
 
-		m_nOtherEntIndex = 0;
+		otherEntIndex = 0;
 
-		//m_bPositionsAreRelativeToEntity = false;
+		//positionsAreRelativeToEntity = false;
 	}
 
-	int GetEffectNameIndex() { return m_iEffectName; }
+	int GetEffectNameIndex() { return effectName; }
 
 	C_BaseEntity* GetEntity() const;
 	int entindex() const;
 };
 
-typedef void (*ClientEffectCallback)(const CEffectData &data);
+typedef void (*ClientEffectCallback)(const CEffectData& data);
 
 struct CClientEffectRegistration
 {
   public:
-	CClientEffectRegistration(const char *pEffectName, ClientEffectCallback fn);
+	CClientEffectRegistration(const char* pEffectName, ClientEffectCallback fn);
 
   public:
-	const char* m_pEffectName;
-	ClientEffectCallback m_pFunction;
-	CClientEffectRegistration* m_pNext;
+	const char* effectName;
+	ClientEffectCallback function;
+	CClientEffectRegistration* next;
 
-	static CClientEffectRegistration* s_pHead;
+	static CClientEffectRegistration* head;
 };
 
 

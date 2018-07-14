@@ -9,7 +9,7 @@ namespace SourceAutostrafer
 {
 	constexpr float AIR_SPEED_CAP = 30.f;
 	constexpr float MAX_MOVE = 450.f;
-	constexpr float SPEED_TOWARDS = 1.5f;
+	constexpr float SPEED_TOWARDS = 1.3f;
 
 	float lastAng = 0.f;
 	char sign = 0;
@@ -24,12 +24,12 @@ namespace SourceAutostrafer
 
 		lastAng = SourceEssentials::oldAngles.y;
 
-		if (onGround)
+		if (onGround || cmd->buttons & (IN_FORWARD | IN_BACK | IN_MOVERIGHT | IN_MOVELEFT))
 			return;
 
 		float speed = lpData->velocity.Length<2>();
 
-		if (speed < AIR_SPEED_CAP - 0.1f)
+		if (speed < AIR_SPEED_CAP * 0.5f)
 			cmd->forwardmove = MAX_MOVE;
 		else {
 			vec3_t velAngles = lpData->velocity.GetAngles(true);

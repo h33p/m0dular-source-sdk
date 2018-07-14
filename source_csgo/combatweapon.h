@@ -23,15 +23,15 @@ class CCSWeaponInfo
 class C_BaseCombatWeapon : public C_BaseEntity
 {
   public:
-	NETVAR(float_t, m_flNextPrimaryAttack, "DT_BaseCombatWeapon", "m_flNextPrimaryAttack");
-	NETVAR(float_t, m_flNextSecondaryAttack, "DT_BaseCombatWeapon", "m_flNextSecondaryAttack");
-	NETVAR(float_t, m_fLastShotTime, "DT_BaseCombatWeapon", "m_fLastShotTime");
-	NETVAR(int, m_iClip1, "DT_BaseCombatWeapon", "m_iClip1");
-	NETVAR(int, m_iClip2, "DT_BaseCombatWeapon", "m_iClip2");
-	NETVAR(int, m_iPrimaryReserveAmmoCount, "DT_BaseCombatWeapon", "m_iPrimaryReserveAmmoCount");
-	NETVAR(float_t, m_flRecoilIndex, "DT_WeaponCSBase", "m_flRecoilIndex");
-	NETVAR(float_t, m_flPostponeFireReadyTime, "DT_WeaponCSBase", "m_flPostponeFireReadyTime");
-	NETVAR(ItemDefinitionIndex, m_iItemDefinitionIndex, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
+	NETVAR(float_t, nextPrimaryAttack, "DT_BaseCombatWeapon", "m_flNextPrimaryAttack");
+	NETVAR(float_t, nextSecondaryAttack, "DT_BaseCombatWeapon", "m_flNextSecondaryAttack");
+	NETVAR(float_t, lastShotTime, "DT_BaseCombatWeapon", "m_fLastShotTime");
+	NETVAR(int, clip1, "DT_BaseCombatWeapon", "m_iClip1");
+	NETVAR(int, clip2, "DT_BaseCombatWeapon", "m_iClip2");
+	NETVAR(int, primaryReserveAmmoCount, "DT_BaseCombatWeapon", "m_iPrimaryReserveAmmoCount");
+	NETVAR(float_t, recoilIndex, "DT_WeaponCSBase", "m_flRecoilIndex");
+	NETVAR(float_t, postponeFireReadyTime, "DT_WeaponCSBase", "m_flPostponeFireReadyTime");
+	NETVAR(ItemDefinitionIndex, itemDefinitionIndex, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
 
 	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 515, 445);
 	VFuncPosixWin(float, GetInaccuracy, 536, 468);

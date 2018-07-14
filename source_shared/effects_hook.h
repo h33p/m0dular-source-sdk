@@ -13,14 +13,14 @@ namespace EffectsHook
 	inline void HookAll(EffectHook* hooks, size_t size, CClientEffectRegistration* reg)
 	{
 		while(reg) {
-			unsigned int hash = Crc32((char*)reg->m_pEffectName, strlen(reg->m_pEffectName));
+			unsigned int hash = Crc32((char*)reg->effectName, strlen(reg->effectName));
 			for (size_t i = 0; i < size; i++) {
 				if (hooks[i].hash == hash) {
-					hooks[i].original = reg->m_pFunction;
-					reg->m_pFunction = hooks[i].hook;
+					hooks[i].original = reg->function;
+					reg->function = hooks[i].hook;
 				}
 			}
-			reg = reg->m_pNext;
+			reg = reg->next;
 		}
 	}
 
@@ -28,10 +28,10 @@ namespace EffectsHook
 	{
 		while(reg) {
 			for (size_t i = 0; i < size; i++) {
-				if (hooks[i].hook == reg->m_pFunction)
-					reg->m_pFunction = hooks[i].original;
+				if (hooks[i].hook == reg->function)
+					reg->function = hooks[i].original;
 			}
-			reg = reg->m_pNext;
+			reg = reg->next;
 		}
 	}
 

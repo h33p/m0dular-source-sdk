@@ -127,9 +127,9 @@ struct mstudiobbox_t
 	vec3 bbmin;
 	vec3 bbmax;
 	int szhitboxnameindex;
-	int32_t m_iPad01[3];
-	float m_flRadius;
-	int32_t m_iPad02[4];
+	int32_t pad01[3];
+	float radius;
+	int32_t pad02[4];
 
 	const char* GetName()
 	{

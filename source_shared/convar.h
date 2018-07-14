@@ -43,11 +43,11 @@ class CCommand
 		COMMAND_MAX_LENGTH = 512,
 	};
 
-	int m_nArgc;
-	int m_nArgv0Size;
-	char m_pArgSBuffer[COMMAND_MAX_LENGTH];
-	char m_pArgvBuffer[COMMAND_MAX_LENGTH];
-	const char* m_ppArgv[COMMAND_MAX_ARGC];
+	int argc;
+	int argv0Size;
+	char argSBuffer[COMMAND_MAX_LENGTH];
+	char argvBuffer[COMMAND_MAX_LENGTH];
+	const char* argv[COMMAND_MAX_ARGC];
 };
 
 inline int CCommand::MaxCommandLength()
@@ -57,22 +57,22 @@ inline int CCommand::MaxCommandLength()
 
 inline int CCommand::ArgC() const
 {
-	return m_nArgc;
+	return argc;
 }
 
 inline const char **CCommand::ArgV() const
 {
-	return m_nArgc ? (const char**)m_ppArgv : NULL;
+	return argc ? (const char**)argv : NULL;
 }
 
 inline const char *CCommand::ArgS() const
 {
-	return m_nArgv0Size ? &m_pArgSBuffer[m_nArgv0Size] : "";
+	return argv0Size ? &argSBuffer[argv0Size] : "";
 }
 
 inline const char *CCommand::GetCommandString() const
 {
-	return m_nArgc ? m_pArgSBuffer : "";
+	return argc ? argSBuffer : "";
 }
 
 inline const char *CCommand::Arg(int nIndex) const
@@ -80,9 +80,9 @@ inline const char *CCommand::Arg(int nIndex) const
 	// FIXME: Many command handlers appear to not be particularly careful
 	// about checking for valid argc range. For now, we're going to
 	// do the extra check and return an empty string if it's out of range
-	if(nIndex < 0 || nIndex >= m_nArgc)
+	if(nIndex < 0 || nIndex >= argc)
 		return "";
-	return m_ppArgv[nIndex];
+	return argv[nIndex];
 }
 
 inline const char *CCommand::operator[](int nIndex) const
@@ -165,13 +165,13 @@ class ConCommandBase
 	//private:
 	// Next ConVar in chain
 	// Prior to register, it points to the next convar in the DLL.
-	// Once registered, though, m_pNext is reset to point to the next
+	// Once registered, though, next is reset to point to the next
 	// convar in the global list
-	ConCommandBase* m_pNext;
-	bool m_bRegistered;
-	const char* m_pszName;
-	const char* m_pszHelpString;
-	int m_nFlags;
+	ConCommandBase* next;
+	bool registered;
+	const char* szName;
+	const char* szHelpString;
+	int flags;
 
   protected:
 	// ConVars add themselves to this list for the executable. 
@@ -225,20 +225,20 @@ class ConCommand : public ConCommandBase
 	// Call this function when executing the command
 	union
 	{
-		FnCommandCallbackV1_t m_fnCommandCallbackV1;
-		FnCommandCallback_t m_fnCommandCallback;
-		ICommandCallback* m_pCommandCallback;
+		FnCommandCallbackV1_t fnCommandCallbackV1;
+		FnCommandCallback_t fnCommandCallback;
+		ICommandCallback* commandCallback;
 	};
 
 	union
 	{
-		FnCommandCompletionCallback m_fnCompletionCallback;
-		void* m_pCommandCompletionCallback;
+		FnCommandCompletionCallback fnCompletionCallback;
+		void* commandCompletionCallback;
 	};
 
-	bool m_bHasCompletionCallback : 1;
-	bool m_bUsingNewCommandCallback : 1;
-	bool m_bUsingCommandCallbackInterface : 1;
+	bool hasCompletionCallback : 1;
+	bool usingNewCommandCallback : 1;
+	bool usingCommandCallbackInterface : 1;
 };
 
 
@@ -277,8 +277,8 @@ class ConVar : public ConCommandBase, public IConVar
 	void InstallChangeCallback(FnChangeCallback_t callback, bool bInvoke = true);
 	void RemoveChangeCallback(FnChangeCallback_t callbackToRemove);
 
-	//int GetChangeCallbackCount() const { return m_pParent->m_fnChangeCallbacks.Count(); }
-	//FnChangeCallback_t GetChangeCallback(int slot) const { return m_pParent->m_fnChangeCallbacks[slot]; }
+	//int GetChangeCallbackCount() const { return parent->fnChangeCallbacks.Count(); }
+	//FnChangeCallback_t GetChangeCallback(int slot) const { return parent->fnChangeCallbacks[slot]; }
 
 	// Retrieve value
 	virtual float GetFloat(void) const;
@@ -312,19 +312,19 @@ class ConVar : public ConCommandBase, public IConVar
 
 	struct CVValue_t
 	{
-		char* m_pszString;
-		int m_StringLength;
-		float m_fValue;
-		int m_nValue;
+		char* szString;
+		int stringLength;
+		float fValue;
+		int value;
 	};
 
 	FORCEINLINE_CVAR CVValue_t &GetRawValue()
 	{
-		return m_Value;
+		return value;
 	}
 	FORCEINLINE_CVAR const CVValue_t &GetRawValue() const
 	{
-		return m_Value;
+		return value;
 	}
 
 	//private:
@@ -341,16 +341,16 @@ class ConVar : public ConCommandBase, public IConVar
 	virtual void Init();
 
 	//protected:
-	ConVar* m_pParent;
-	const char* m_pszDefaultValue;
-	CVValue_t m_Value;
-	bool m_bHasMin;
-	float m_fMinVal;
-	bool m_bHasMax;
-	float m_fMaxVal;
+	ConVar* parent;
+	const char* szDefaultValue;
+	CVValue_t value;
+	bool hasMin;
+	float minVal;
+	bool hasMax;
+	float maxVal;
 
 	// Call this function when ConVar changes
-	//CUtlVector<FnChangeCallback_t> m_fnChangeCallbacks;
+	//CUtlVector<FnChangeCallback_t> fnChangeCallbacks;
 };
 
 
@@ -365,7 +365,7 @@ FORCEINLINE_CVAR float ConVar::GetFloat(void) const
 		unsigned int iVal;
 		float fVal;
 	} xored;
-	xored.iVal = *(unsigned int*)&m_pParent->m_Value.m_fValue ^ (unsigned long)this;
+	xored.iVal = *(unsigned int*)&parent->value.fValue ^ (unsigned long)this;
 	return xored.fVal;
 }
 
@@ -375,7 +375,7 @@ FORCEINLINE_CVAR float ConVar::GetFloat(void) const
 //-----------------------------------------------------------------------------
 FORCEINLINE_CVAR int ConVar::GetInt(void) const
 {
-	return (int)(m_pParent->m_Value.m_nValue ^ (unsigned long)this);
+	return (int)(parent->value.value ^ (unsigned long)this);
 }
 
 //-----------------------------------------------------------------------------
@@ -407,9 +407,9 @@ template <> FORCEINLINE_CVAR const char* ConVar::Get<const char *>(char const **
 //-----------------------------------------------------------------------------
 FORCEINLINE_CVAR const char *ConVar::GetString(void) const
 {
-	if(m_nFlags & FCVAR_NEVER_AS_STRING)
+	if(flags & FCVAR_NEVER_AS_STRING)
 		return "FCVAR_NEVER_AS_STRING";
-	char const *str = m_pParent->m_Value.m_pszString;
+	char const *str = parent->value.szString;
 	return str ? str : "";
 }
 

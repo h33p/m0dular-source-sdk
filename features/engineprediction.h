@@ -26,16 +26,16 @@ namespace SourceEnginePred
 
 	inline void Prepare(CUserCmd* cmd, C_BaseEntity* localPlayer, void* hostRunFrameFp)
 	{
-		if (localPlayer->m_lifeState() == LIFE_ALIVE) {
+		if (localPlayer->lifeState() == LIFE_ALIVE) {
 			if (*(long*)((uintptr_t*)hostRunFrameFp - RUNFRAME_TICK) > 0) {
-				clientState->m_nDeltaTick--;
+				clientState->deltaTick--;
 				CL_RunPrediction();
-				clientState->m_nDeltaTick++;
+				clientState->deltaTick++;
 			}
 
 			cmd->random_seed = MD5::PseudoRandom(cmd->command_number) & 0x7FFFFFFF;
 
-			prevFlags = localPlayer->m_fFlags();
+			prevFlags = localPlayer->flags();
 
 			curtimeBackup = globalVars->curtime;
 			frametimeBackup = globalVars->frametime;
@@ -49,25 +49,25 @@ namespace SourceEnginePred
 	*/
 	inline void Run(CUserCmd* cmd, C_BaseEntity* localPlayer)
 	{
-		if (localPlayer->m_lifeState() == LIFE_ALIVE) {
-			int tickbaseBackup = localPlayer->m_nTickBase();
+		if (localPlayer->lifeState() == LIFE_ALIVE) {
+			int tickbaseBackup = localPlayer->tickBase();
 
 			CUserCmd* tCmd = new CUserCmd(*cmd);
 
 			//This is a hack
-			C_BaseCombatWeapon* activeWeapon = localPlayer->m_hActiveWeapon();
-			localPlayer->m_hActiveWeapon() = nullptr;
+			C_BaseCombatWeapon* activeWeapon = localPlayer->activeWeapon();
+			localPlayer->activeWeapon() = nullptr;
 
 			RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, tCmd, localPlayer);
-			localPlayer->m_hActiveWeapon() = activeWeapon;
+			localPlayer->activeWeapon() = activeWeapon;
 
-			globalVars->curtime = localPlayer->m_nTickBase() * globalVars->interval_per_tick;
+			globalVars->curtime = localPlayer->tickBase() * globalVars->interval_per_tick;
 			globalVars->frametime = globalVars->interval_per_tick;
 
-			nextFlags = localPlayer->m_fFlags();
+			nextFlags = localPlayer->flags();
 
-			localPlayer->m_fFlags() = prevFlags;
-			localPlayer->m_nTickBase() = tickbaseBackup;
+			localPlayer->flags() = prevFlags;
+			localPlayer->tickBase() = tickbaseBackup;
 
 			delete tCmd;
 		}
@@ -75,8 +75,8 @@ namespace SourceEnginePred
 
 	inline void Finish(CUserCmd* cmd, C_BaseEntity* localPlayer)
 	{
-		RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, cmd, localPlayer);
-		if (localPlayer->m_lifeState() == LIFE_ALIVE) {
+		CL_RunPrediction();
+		if (localPlayer->lifeState() == LIFE_ALIVE) {
 			globalVars->curtime = curtimeBackup;
 			globalVars->frametime = frametimeBackup;
 		}

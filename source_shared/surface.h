@@ -54,17 +54,17 @@ struct Vertex_t
 	Vertex_t() {}
 	Vertex_t(const vec2 &pos, const vec2 &coord)
 	{
-		m_Position = pos;
-		m_TexCoord = coord;
+		position = pos;
+		texCoord = coord;
 	}
 	void Init(const vec2 &pos, const vec2 &coord)
 	{
-		m_Position = pos;
-		m_TexCoord = coord;
+		position = pos;
+		texCoord = coord;
 	}
 
-	vec2 m_Position;
-	vec2 m_TexCoord;
+	vec2 position;
+	vec2 texCoord;
 };
 
 //-----------------------------------------------------------------------------

@@ -32,7 +32,6 @@ struct AnimationLayer
 	float_t cycle;
 	void* owner;
 	void* unk1;
-	void* unk2;
 };
 
 struct CCSGOPlayerAnimState

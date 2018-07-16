@@ -39,6 +39,7 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(int, collisionGroup, "DT_BaseEntity", "m_CollisionGroup");
 	NETVAR(vec3, mins, "DT_BaseEntity", "m_vecMins");
 	NETVAR(vec3, maxs, "DT_BaseEntity", "m_vecMaxs");
+	NETVAR(float, duckAmount, "DT_BasePlayer", "m_flDuckAmount");
 
 	NETVAR(bool, clientSideAnimation, "DT_BaseAnimating", "m_bClientSideAnimation");
 	ONETVAR(float*, poseParameter, "DT_BaseAnimating", "m_ScaleType", x64x32(0x34, 0x28));

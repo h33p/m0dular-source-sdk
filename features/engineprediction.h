@@ -24,6 +24,8 @@ namespace SourceEnginePred
 	float curtimeBackup = 0;
 	float frametimeBackup = 0;
 
+	float duckAmount = 0;
+
 	inline void Prepare(CUserCmd* cmd, C_BaseEntity* localPlayer, void* hostRunFrameFp)
 	{
 		if (localPlayer->lifeState() == LIFE_ALIVE) {
@@ -68,6 +70,8 @@ namespace SourceEnginePred
 
 			localPlayer->flags() = prevFlags;
 			localPlayer->tickBase() = tickbaseBackup;
+
+			duckAmount = localPlayer->duckAmount();
 
 			delete tCmd;
 		}

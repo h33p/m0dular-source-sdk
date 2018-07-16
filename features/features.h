@@ -15,5 +15,6 @@
 #include "engineprediction.h"
 #include "bhop.h"
 #include "autostrafer.h"
+#include "fakelag.h"
 
 #endif

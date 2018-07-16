@@ -2,6 +2,7 @@
 #define SOURCE_FAKELAG_H
 
 #include "engineprediction.h"
+#include "types.h"
 
 struct CUserCmd;
 struct LocalPlayer;
@@ -14,13 +15,6 @@ constexpr float LC_DISTANCE = 4096;
 constexpr bool BREAK_LC = true;
 constexpr int MAX_TICKS = 14;
 
-enum FakelagState
-{
-	REAL = 0,
-	FAKE,
-	INTERMEDIATE
-};
-
 namespace SourceFakelag
 {
 	static bool changeAllowed = false;
@@ -31,7 +25,7 @@ namespace SourceFakelag
 
 	FakelagState state = FakelagState::REAL;
 
-	void Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
+	FakelagState Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
 	{
 		if (allowChange)
 			changeAllowed = true;
@@ -40,7 +34,7 @@ namespace SourceFakelag
 
 		//Break lag compensation
 		if (~lpData->flags & Flags::ONGROUND && BREAK_LC && (lpData->origin - prevOrigin).LengthSqr<LC_DIMENSIONS>() < LC_DISTANCE)
-			chokedTicks = 0;
+			chokedTicks = -1;
 
 		//Prevent hitting ground with the real angle
 		if (falseChange || (SourceEnginePred::nextFlags & FL_ONGROUND && ~SourceEnginePred::prevFlags & FL_ONGROUND)) {
@@ -53,7 +47,7 @@ namespace SourceFakelag
 		if (!realChokedTicks)
 			state = FakelagState::REAL;
 
-		if (canChange && (chokedTicks > 6 || realChokedTicks >= MAX_TICKS)) {
+		if (canChange && (chokedTicks >= 0 || realChokedTicks >= MAX_TICKS)) {
 			*bSendPacket = true;
 			prevOrigin = lpData->origin;
 			if (realChokedTicks)
@@ -71,6 +65,8 @@ namespace SourceFakelag
 
 		if (falseChange)
 			falseChange--;
+
+		return state;
 	}
 }
 

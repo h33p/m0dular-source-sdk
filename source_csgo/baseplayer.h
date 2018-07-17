@@ -11,6 +11,7 @@ class C_BasePlayer : public C_BaseEntity
 	OFFSET(CUtlVector<matrix3x4_t>, boneMatrix, BONE_MATRIX);
 	ONETVAR(AnimationLayer*, animationLayers, "DT_CSRagdoll", "m_vecRagdollVelocity", -x64x32(0x8c, 0x80));
 	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsWalking", -x64x32(0xf, 0xb));
+	ONETVAR(vec3, localAngles, "DT_BasePlayer", "deadflag", 0x4);
 
 	VFuncPosixWin(void, UpdateClientSideAnimation, 280, 218);
 

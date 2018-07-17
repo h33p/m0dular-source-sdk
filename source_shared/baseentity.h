@@ -42,7 +42,7 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(float, duckAmount, "DT_BasePlayer", "m_flDuckAmount");
 
 	NETVAR(bool, clientSideAnimation, "DT_BaseAnimating", "m_bClientSideAnimation");
-	ONETVAR(float*, poseParameter, "DT_BaseAnimating", "m_ScaleType", x64x32(0x34, 0x28));
+	ONETVAR(float, poseParameter, "DT_BaseAnimating", "m_ScaleType", x64x32(0x34, 0x28));
 
 	NETVAR(CHandle<C_BaseEntity>, observerTarget, "DT_BasePlayer", "m_hObserverTarget");
 	NETVAR(CHandle<C_BaseCombatWeapon>, activeWeapon, "DT_BaseCombatCharacter", "m_hActiveWeapon");

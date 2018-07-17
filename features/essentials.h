@@ -11,8 +11,11 @@ struct CUserCmd;
 
 namespace SourceEssentials
 {
-
+#ifdef SOURCE_DEFINITIONS
 	vec3_t oldAngles;
+#else
+	extern vec3_t oldAngles;
+#endif
 
 	inline void CorrectMovement(vec3_t& oldAngles, CUserCmd* cmd, int movetype)
 	{

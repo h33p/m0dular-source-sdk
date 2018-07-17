@@ -13,7 +13,7 @@ constexpr int LC_DIMENSIONS = 2;
 
 constexpr float LC_DISTANCE = 4096;
 constexpr bool BREAK_LC = true;
-constexpr int MAX_TICKS = 14;
+constexpr int MAX_TICKS = 13;
 
 namespace SourceFakelag
 {
@@ -21,11 +21,16 @@ namespace SourceFakelag
 	static vec3_t prevOrigin;
 	static int chokedTicks = 0;
 	static int realChokedTicks = 0;
+
+#ifdef SOURCE_DEFINITIONS
 	int falseChange = false;
-
 	FakelagState state = FakelagState::REAL;
+#else
+	extern int falseChange;
+	extern FakelagState state;
+#endif
 
-	FakelagState Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
+	inline FakelagState Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
 	{
 		if (allowChange)
 			changeAllowed = true;
@@ -47,7 +52,7 @@ namespace SourceFakelag
 		if (!realChokedTicks)
 			state = FakelagState::REAL;
 
-		if (canChange && (chokedTicks >= 0 || realChokedTicks >= MAX_TICKS)) {
+		if (canChange && (chokedTicks >= 1 || realChokedTicks >= MAX_TICKS)) {
 			*bSendPacket = true;
 			prevOrigin = lpData->origin;
 			if (realChokedTicks)

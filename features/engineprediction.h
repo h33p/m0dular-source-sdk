@@ -18,13 +18,19 @@ void RunSimulation(CPrediction* prediction, float curtime, int command_number, C
 
 namespace SourceEnginePred
 {
+#ifdef SOURCE_DEFINITIONS
 	int prevFlags = 0;
 	int nextFlags = 0;
-
 	float curtimeBackup = 0;
 	float frametimeBackup = 0;
-
 	float duckAmount = 0;
+#else
+	extern int prevFlags;
+	extern int nextFlags;
+	extern float curtimeBackup;
+	extern float frametimeBackup;
+	extern float duckAmount;
+#endif
 
 	inline void Prepare(CUserCmd* cmd, C_BaseEntity* localPlayer, void* hostRunFrameFp)
 	{

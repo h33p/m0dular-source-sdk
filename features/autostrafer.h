@@ -11,8 +11,13 @@ namespace SourceAutostrafer
 	constexpr float MAX_MOVE = 450.f;
 	constexpr float SPEED_TOWARDS = 1.3f;
 
+#ifdef SOURCE_DEFINITIONS
 	float lastAng = 0.f;
 	char sign = 0;
+#else
+	extern float lastAng;
+	extern char sign;
+#endif
 
 	inline void Run(CUserCmd* cmd, LocalPlayer* lpData)
 	{

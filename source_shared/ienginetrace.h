@@ -212,26 +212,6 @@ class CTraceFilterWorldAndPropsOnly : public ITraceFilter
 	}
 };
 
-class CTraceFilterPlayersOnlySkipOne : public ITraceFilter
-{
-  public:
-	CTraceFilterPlayersOnlySkipOne(IClientEntity* ent)
-	{
-		pEnt = ent;
-	}
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
-	{
-		return pEntityHandle != pEnt && ((IClientEntity*)pEntityHandle)->GetClientClass()->classID == ClassId::ClassId_CCSPlayer;
-	}
-	virtual TraceType GetTraceType() const
-	{
-		return TraceType::TRACE_ENTITIES_ONLY;
-	}
-
-  private:
-	IClientEntity* pEnt;
-};
-
 class CTraceFilterSkipTwoEntities : public ITraceFilter
 {
   public:
@@ -316,20 +296,36 @@ struct csurface_t
 	unsigned short flags; // BUGBUG: These are declared per surface, not per material, but this database is per-material now
 };
 
+
 //-----------------------------------------------------------------------------
 // A ray...
 //-----------------------------------------------------------------------------
+
+#ifdef SOURCE_CSGO_SDK
+#define RAY_ALIGN alignas(16)
+#else
+#define RAY_ALIGN
+#endif
+
 struct Ray_t
 {
-	alignas(16) vec3_t start; // starting point, centered within the extents
-	alignas(16) vec3_t delta; // direction + length of the ray
-	alignas(16) vec3_t startOffset; // Add this to start to Get the actual ray start
-	alignas(16) vec3_t extents; // Describes an axis aligned box extruded along a ray
+    RAY_ALIGN vec3_t start; // starting point, centered within the extents
+	RAY_ALIGN vec3_t delta; // direction + length of the ray
+	RAY_ALIGN vec3_t startOffset; // Add this to start to Get the actual ray start
+	RAY_ALIGN vec3_t extents; // Describes an axis aligned box extruded along a ray
+#ifdef SOURCE_CSGO_SDK
 	const matrix3x4_t *worldAxisTransform;
+#endif
 	bool isRay; // are the extents zero?
 	bool isSwept; // is delta != 0?
 
-	Ray_t() : worldAxisTransform(NULL) {}
+	Ray_t()
+#ifdef SOURCE_CSGO_SDK
+		: worldAxisTransform(NULL)
+#endif
+	{
+
+	}
 
 	void Init(vec3_t const& vstart, vec3_t const& vend)
 	{
@@ -339,7 +335,9 @@ struct Ray_t
 
 		extents = 0.f;
 
+#ifdef SOURCE_CSGO_SDK
 		worldAxisTransform = NULL;
+#endif
 		isRay = true;
 
 		// Offset start to be in the center of the box...
@@ -351,7 +349,9 @@ struct Ray_t
 	{
 		delta = vend - vstart;
 
+#ifdef SOURCE_CSGO_SDK
 		worldAxisTransform = NULL;
+#endif
 		isSwept = (delta.LengthSqr() != 0);
 
 		extents = maxs - mins;
@@ -382,7 +382,9 @@ struct Ray_t
 
 class
 #ifdef _WIN32
+#ifdef SOURCE_CSGO_SDK
 alignas(1024)
+#endif
 #endif
 CBaseTrace
 {
@@ -426,7 +428,9 @@ class CGameTrace : public CBaseTrace
 	csurface_t surface; // surface hit (impact surface)
 	HitGroups hitgroup; // 0 == generic, non-zero is specific body part
 	short physicsbone; // physics bone hit by trace in studio
+#ifdef SOURCE_CSGO_SDK
 	unsigned short worldSurfaceIndex; // Index of the msurface2_t, if applicable
+#endif
 	IClientEntity* ent; // Entity to hit
 	int hitbox; // box hit by trace in studio
 
@@ -439,7 +443,9 @@ class CGameTrace : public CBaseTrace
 		surface(other.surface),
 		hitgroup(other.hitgroup),
 		physicsbone(other.physicsbone),
+#ifdef SOURCE_CSGO_SDK
 		worldSurfaceIndex(other.worldSurfaceIndex),
+#endif
 		ent(other.ent),
 		hitbox(other.hitbox)
 	{
@@ -467,7 +473,9 @@ class CGameTrace : public CBaseTrace
 		surface = other.surface;
 		hitgroup = other.hitgroup;
 		physicsbone = other.physicsbone;
+#ifdef SOURCE_CSGO_SDK
 		worldSurfaceIndex = other.worldSurfaceIndex;
+#endif
 		ent = other.ent;
 		hitbox = other.hitbox;
 		return *this;
@@ -507,8 +515,10 @@ class IEngineTrace
 public:
 	// Returns the contents mask + entity at a particular world-space position
 	virtual int GetPointContents(const vec3 &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = NULL) = 0;
+#ifdef SOURCE_CSGO_SDK
 	// Returns the contents mask of the world only @ the world-space position (static props are ignored)
 	virtual int GetPointContents_WorldOnly(const vec3 &vecAbsPosition, int contentsMask = MASK_ALL) = 0;
+#endif
 	// Get the point contents, but only test the specific entity. This works
 	// on static props and brush models.
 	//
@@ -538,6 +548,7 @@ public:
 	virtual ICollideable *GetCollideable(IHandleEntity *pEntity) = 0;
 	// HACKHACK: Temp for performance measurments
 	virtual int GetStatByIndex(int index, bool bClear) = 0;
+#ifdef SOURCE_CSGO_SDK
 	//finds brushes in an AABB, prone to some false positives //TODO CUtilvec3<int> *pOutput
 	virtual void GetBrushesInAABB(const vec3 &vMins, const vec3 &vMaxs, void* *pOutput, int iContentsMask = 0xFFFFFFFF) = 0;
 	//Creates a CPhysCollide out of all displacements wholly or partially contained in the specified AABB
@@ -555,6 +566,7 @@ public:
 	virtual void FreeTraceListData(ITraceListData *) = 0;
 	/// Used only in debugging: get/set/clear/increment the trace debug counter. See comment below for details.
 	virtual int GetSetDebugTraceCounter(int value, DebugTraceCounterBehavior_t behavior) = 0;
+#endif
 };
 
 #endif

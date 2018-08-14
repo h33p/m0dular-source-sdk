@@ -266,23 +266,34 @@ class ConVar : public ConCommandBase, public IConVar
 	virtual const char* GetHelpText(void) const;
 	virtual bool IsRegistered(void) const;
 	virtual const char* GetName(void) const;
+#ifdef SOURCE_CSGO_SDK
 	virtual const char* GetBaseName(void) const;
 	virtual int GetSplitScreenPlayerSlot() const;
+#endif
 
 	virtual void AddFlags(int flags);
+#ifdef SOURCE_CSGO_SDK
 	virtual int GetFlags() const;
+#endif
 	virtual bool IsCommand(void) const;
 
 	// Install a change callback (there shouldn't already be one....)
 	void InstallChangeCallback(FnChangeCallback_t callback, bool bInvoke = true);
+#ifdef SOURCE_CSGO_SDK
 	void RemoveChangeCallback(FnChangeCallback_t callbackToRemove);
+#endif
 
 	//int GetChangeCallbackCount() const { return parent->fnChangeCallbacks.Count(); }
 	//FnChangeCallback_t GetChangeCallback(int slot) const { return parent->fnChangeCallbacks[slot]; }
 
 	// Retrieve value
+#ifdef SOURCE_CSGO_SDK
 	virtual float GetFloat(void) const;
 	virtual int GetInt(void) const;
+#else
+    FORCEINLINE_CVAR float GetFloat(void) const;
+	FORCEINLINE_CVAR int GetInt(void) const;
+#endif
 	FORCEINLINE_CVAR Color GetColor(void) const;
 	FORCEINLINE_CVAR bool GetBool() const { return !!GetInt(); }
 	FORCEINLINE_CVAR char const* GetString(void) const;
@@ -298,16 +309,22 @@ class ConVar : public ConCommandBase, public IConVar
 	virtual void SetValue(const char *value);
 	virtual void SetValue(float value);
 	virtual void SetValue(int value);
+#ifdef SOURCE_CSGO_SDK
 	virtual void SetValue(Color value);
+#endif
 
 	// Reset to default value
 	void Revert(void);
+#ifdef SOURCE_CSGO_SDK
 	bool HasMin() const;
 	bool HasMax() const;
+#endif
 	bool GetMin(float& minVal) const;
 	bool GetMax(float& maxVal) const;
+#ifdef SOURCE_CSGO_SDK
 	float GetMinValue() const;
 	float GetMaxValue() const;
+#endif
 	const char* GetDefault(void) const;
 
 	struct CVValue_t
@@ -332,7 +349,9 @@ class ConVar : public ConCommandBase, public IConVar
 	virtual void InternalSetValue(const char *value);
 	virtual void InternalSetFloatValue(float fNewValue);
 	virtual void InternalSetIntValue(int nValue);
+#ifdef SOURCE_CSGO_SDK
 	virtual void InternalSetColorValue(Color value);
+#endif
 	virtual bool ClampValue(float& value);
 	virtual void ChangeStringValue(const char *tempVal, float flOldValue);
 	virtual void Create(const char *pName, const char *pDefaultValue, int flags = 0, const char *pHelpString = 0, bool bMin = false, float fMin = 0.0, bool bMax = false, float fMax = false, FnChangeCallback_t callback = 0);
@@ -365,7 +384,7 @@ FORCEINLINE_CVAR float ConVar::GetFloat(void) const
 		unsigned int iVal;
 		float fVal;
 	} xored;
-	xored.iVal = *(unsigned int*)&parent->value.fValue ^ (unsigned long)this;
+	xored.iVal = *(unsigned int*)&parent->value.fValue;// ^ (unsigned long)this;
 	return xored.fVal;
 }
 
@@ -375,7 +394,7 @@ FORCEINLINE_CVAR float ConVar::GetFloat(void) const
 //-----------------------------------------------------------------------------
 FORCEINLINE_CVAR int ConVar::GetInt(void) const
 {
-	return (int)(parent->value.value ^ (unsigned long)this);
+	return (int)(parent->value.value);// ^ (unsigned long)this);
 }
 
 //-----------------------------------------------------------------------------

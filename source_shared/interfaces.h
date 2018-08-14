@@ -28,6 +28,8 @@ struct InterfaceDefinition
 	bool exact;
 };
 
+extern InterfaceReg** GetInterfaceRegs(MHandle library);
+
 template<typename T>
 T GetInterface(InterfaceReg** interfaceRegs, const char* name, bool exact = false)
 {
@@ -46,14 +48,7 @@ T GetInterface(const char* module, const char* name, bool exact = false)
 	if (!library)
 		return nullptr;
 
-	InterfaceReg** interfaceRegs = nullptr;
-
-#if defined(__linux__) || defined(__APPLE__)
-	interfaceRegs = (InterfaceReg**)dlsym(library, StackString("s_pInterfaceRegs"));
-#elif defined(_WIN32)
-	uintptr_t jmp = (uintptr_t)GetProcAddress(library, StackString("CreateInterface")) + 4;
-	interfaceRegs = *(InterfaceReg***)(GetAbsoluteAddress(jmp, 1, 5) + 6);
-#endif
+	InterfaceReg** interfaceRegs = GetInterfaceRegs(library);
 
 	return GetInterface<T>(interfaceRegs, name, exact);
 }

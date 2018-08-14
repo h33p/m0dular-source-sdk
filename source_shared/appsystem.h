@@ -34,10 +34,12 @@ class IAppSystem
 	virtual void* QueryInterface(const char *pInterfaceName) = 0;
 	virtual InitReturnVal_t Init() = 0;
 	virtual void Shutdown() = 0;
+#ifdef SOURCE_CSGO_SDK
 	virtual const AppSystemInfo_t GetDependencies() = 0;
 	virtual AppSystemTier_t GetTier() = 0;
-	virtual void Reconnect(CreateInterfaceFn factory, const char *pInterfaceName) = 0; 
+	virtual void Reconnect(CreateInterfaceFn factory, const char *pInterfaceName) = 0;
 	virtual bool IsSingleton() = 0;
+#endif
 };
 
 #endif

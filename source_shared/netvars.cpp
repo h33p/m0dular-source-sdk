@@ -6,6 +6,10 @@
 #include "../framework/utils/crc32.h"
 #include "baseclient.h"
 
+#ifdef NETVAR_DUMP
+FILE* nfp = nullptr;
+#endif
+
 struct NetvarEntry
 {
 	int offset;
@@ -40,8 +44,12 @@ static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, Recv
 
 		if(prop->recvType == DPT_DataTable && prop->dataTable)
 			LoadCRCTable(db, prop->dataTable, offset + prop->offset);
-		else if (db->find(tbKey) == db->end())
+		else if (db->find(tbKey) == db->end()) {
+#ifdef NETVAR_DUMP
+			fprintf(nfp, "\t%s\t[%x]\n", prop->varName, offset + prop->offset);
+#endif
 			db->insert(std::make_pair(tbKey, NetvarEntry(offset + prop->offset, prop)));
+		}
 	}
 }
 
@@ -49,16 +57,29 @@ void SourceNetvars::Initialize(CBaseClient* cl)
 {
 	crcDatabase = new std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry>>();
 
+#ifdef NETVAR_DUMP
+	nfp = fopen(PosixWin("/tmp/netvars.txt", "C:\Temp\netvars.txt"), "w");
+#endif
+
 	for(auto clientclass = cl->GetAllClasses();
 		clientclass != nullptr;
 		clientclass = clientclass->next) {
 		if(clientclass->recvTable) {
+
+#ifdef NETVAR_DUMP
+			fprintf(nfp, "%s:\n", clientclass->recvTable->netTableName);
+#endif
+
 			unsigned int tbKey = Crc32(clientclass->recvTable->netTableName, strlen(clientclass->recvTable->netTableName));
 			if (crcDatabase->find(tbKey) == crcDatabase->end())
 				crcDatabase->insert(std::make_pair(tbKey, std::unordered_map<unsigned int, NetvarEntry>()));
 			LoadCRCTable(&crcDatabase->at(tbKey), clientclass->recvTable, 0);
 		}
 	}
+
+#ifdef NETVAR_DUMP
+	fclose(nfp);
+#endif
 }
 
 int SourceNetvars::GetOffset(uintptr_t k1, uintptr_t k2)

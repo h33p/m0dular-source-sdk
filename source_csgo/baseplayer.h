@@ -8,6 +8,7 @@ struct CCSGOPlayerAnimState;
 class C_BasePlayer : public C_BaseEntity
 {
   public:
+	OFFSET(VarMapping_t, varMapping, x64x32(0x48, 0x24));
 	OFFSET(CUtlVector<matrix3x4_t>, boneMatrix, BONE_MATRIX);
 	ONETVAR(AnimationLayer*, animationLayers, "DT_CSRagdoll", "m_vecRagdollVelocity", -x64x32(0x8c, 0x80));
 	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsWalking", -x64x32(0xf, 0xb));

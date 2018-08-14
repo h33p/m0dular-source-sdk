@@ -21,8 +21,8 @@ class IConsoleDisplayFunc
 class ICvar : public IAppSystem
 {
   public:
-	virtual CVarDLLIdentifier_t AllocateDLLIdentifier() = 0; // 9
-	virtual void RegisterConCommand(ConCommandBase *pCommandBase) = 0; //10
+	virtual CVarDLLIdentifier_t AllocateDLLIdentifier() = 0;
+	virtual void RegisterConCommand(ConCommandBase *pCommandBase) = 0;
 	virtual void UnregisterConCommand(ConCommandBase *pCommandBase) = 0;
 	virtual void UnregisterConCommands(CVarDLLIdentifier_t id) = 0;
 	virtual const char* GetCommandLineValue(const char *pVariableName) = 0;

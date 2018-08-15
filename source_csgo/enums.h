@@ -536,26 +536,4 @@ enum EntityClientFlags
 	FX_ALWAYS_INTERP = (1 << 2)
 };
 
-struct DefItem_t
-{
-	DefItem_t(const char* displayName,
-			  const char* entityName,
-			  const char* entityModel,
-			  const char* killIcon = nullptr,
-			  CSWeaponType weaponType = CSWeaponType::WEAPONTYPE_UNKNOWN)
-	{
-		this->displayName = displayName;
-		this->entityName = entityName;
-		this->entityModel = entityModel;
-		this->killIcon = killIcon;
-		this->weaponType = weaponType;
-	}
-
-	const char* displayName = nullptr;
-	const char* entityName = nullptr;
-	const char* entityModel = nullptr;
-	const char* killIcon = nullptr;
-    CSWeaponType weaponType = CSWeaponType::WEAPONTYPE_UNKNOWN;
-};
-
 #endif

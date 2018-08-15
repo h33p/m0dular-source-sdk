@@ -28,47 +28,6 @@ enum Hitboxes
 	HITBOX_MAX
 };
 
-struct mstudiobone_t
-{
-	int sznameindex;
-	int parent; // parent bone
-	int bonecontroller[6]; // bone controller index, -1 == none
-	vec3 pos;
-	Quaternion quat;
-	RadianEuler rot;
-	vec3 posscale;
-	vec3 rotscale;
-
-	matrix3x4_t poseToBone;
-	Quaternion qAlignment;
-	int flags;
-	int proctype;
-	int procindex; // procedural rule
-	mutable int physicsbone; // index into physically simulated bone
-	inline void* pProcedure() const
-	{
-		if (procindex == 0)
-			return NULL;
-		else
-			return (void *)(((char*)this) + procindex);
-	};
-	int surfacepropidx; // index into string tablefor property name
-	inline char* pszSurfaceProp(void) const
-	{
-		return ((char *)this) + surfacepropidx;
-	}
-
-	inline int GetSurfaceProp(void) const
-	{
-		return surfacepropLookup;
-	}
-
-	int contents; // See BSPFlags.h for the contents flags
-	int surfacepropLookup; // this index must be cached by the loader, not saved in the file
-	int unused[7]; // remove as appropriate
-};
-
-
 struct model_t
 {
 	void* fnHandle; //0x0000

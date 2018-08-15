@@ -6,6 +6,7 @@
 //We override the source_shared enums header
 #include "enums.h"
 #include "offsets.h"
+#include "../source_shared/types.h"
 
 #include "icliententity.h"
 

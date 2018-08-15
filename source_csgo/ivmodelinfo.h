@@ -1,7 +1,7 @@
 #ifndef IVMODELINFO_H
 #define IVMODELINFO_H
 
-#include "ienginetrace.h"
+#include "../source_shared/ienginetrace.h"
 #include "studio.h"
 
 class CPhysCollide;

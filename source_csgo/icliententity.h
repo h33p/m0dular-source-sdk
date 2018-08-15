@@ -5,7 +5,7 @@
 #include "iclientunknown.h"
 #include "iclientrenderable.h"
 #include "iclientnetworkable.h"
-#include "netvars.h"
+#include "../source_shared/netvars.h"
 #include "../framework/utils/crc32.h"
 
 class IClientEntity : public IClientUnknown, public IClientRenderable, public IClientNetworkable, public IClientThinkable

@@ -13,7 +13,7 @@ constexpr int LC_DIMENSIONS = 2;
 
 constexpr float LC_DISTANCE = 4096;
 constexpr bool BREAK_LC = true;
-constexpr int MAX_TICKS = 13;
+constexpr int MAX_TICKS = 12;
 
 namespace SourceFakelag
 {

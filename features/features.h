@@ -16,5 +16,6 @@
 #include "bhop.h"
 #include "autostrafer.h"
 #include "fakelag.h"
+#include "gamemovement.h"
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "../source_shared/sdk.h"
 
+#include "debugoverlay.h"
 #include "baseplayer.h"
 #include "combatweapon.h"
 #include "clientstate.h"

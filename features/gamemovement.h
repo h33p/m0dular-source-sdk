@@ -13,7 +13,7 @@ const int MAX_CLIP_PLANES = 5;
 const int COORD_INTEGER_BITS = 14;
 const int COORD_FRACTIONAL_BITS = 5;
 const int COORD_DENOMINATOR = 1 << COORD_FRACTIONAL_BITS;
-const float COORD_RESOLUTION = 1.0 / COORD_DENOMINATOR;
+const float COORD_RESOLUTION = 1.0 / (double)COORD_DENOMINATOR;
 const int COORD_INTEGER_BITS_MP = 11;
 const int COORD_FRACTIONAL_BITS_MP_LOWPRECISION = 3;
 const int COORD_DENOMINATOR_LOWPRECISION = 1 << COORD_FRACTIONAL_BITS_MP_LOWPRECISION;
@@ -228,10 +228,12 @@ static bool StayOnGround(C_BaseEntity* player, vec3_t& position)
 	start.z += 2;
 	end.z -= STEP_SIZE;
 
-	TracePlayerBBox(player, MASK_PLAYERSOLID, position, start, &tr);
-	start = tr.endpos;
+	//This really kills framerate
+	//TracePlayerBBox(player, MASK_PLAYERSOLID, position, start, &tr);
+	//start = tr.endpos;
 
 	TracePlayerBBox(player, MASK_PLAYERSOLID, start, end, &tr);
+
 	if (tr.fraction > 0.0f && tr.fraction < 1.0f && !tr.startsolid && tr.plane.normal[2] >= 0.7) {
 		float delta = fabs(position.z - tr.endpos[2]);
 
@@ -318,7 +320,7 @@ bool SourceGameMovement::PlayerMove(C_BaseEntity* player, vec3_t* position, vec3
 
 	float gravity = sv_gravity ? sv_gravity->GetFloat() : 800;
 
-	if (!isGrounded)
+	if (!*isGrounded)
 		velocity->z -= gravity * interval;
 	else
 		velocity->z = 0.f;

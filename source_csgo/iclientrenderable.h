@@ -17,7 +17,7 @@ class IClientRenderable
 	virtual vec3 const& GetRenderAngles(void) = 0;
 	virtual bool ShouldDraw(void) = 0;
 	virtual int GetRenderFlags(void) = 0; // ERENDERFLAGS_xxx
-	virtual void Unused(void) const {}
+	virtual void Unused(void) const = 0;
 	virtual ClientShadowHandle_t GetShadowHandle() const = 0;
 	virtual ClientRenderHandle_t& RenderHandle() = 0;
 	virtual const model_t* GetModel() const = 0;

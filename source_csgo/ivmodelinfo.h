@@ -36,7 +36,7 @@ class IVModelInfo
 	virtual bool ModelHasMaterialProxy(const model_t *model) const = 0;
 	virtual bool IsTranslucent(model_t const* model) const = 0;
 	virtual bool IsTranslucentTwoPass(const model_t *model) const = 0;
-	virtual void Unused0() {};
+	virtual void Unused0() = 0;
 	virtual RenderableTranslucencyType_t ComputeTranslucencyType(const model_t *model, int nSkin, int nBody) = 0;
 	virtual int GetModelMaterialCount(const model_t* model) const = 0;
 	virtual void GetModelMaterials(const model_t *model, int count, IMaterial** ppMaterial) = 0;
@@ -53,7 +53,7 @@ class IVModelInfo
 	virtual void GetModelMaterialColorAndLighting(const model_t *model, vec3 const& origin, vec3 const& angles, trace_t* pTrace, vec3& lighting, vec3& matColor) = 0;
 	virtual void GetIlluminationPoint(const model_t *model, IClientRenderable *pRenderable, vec3 const& origin, vec3 const& angles, vec3* pLightingCenter) = 0;
 	virtual int GetModelContents(int modelIndex) const = 0;
-	virtual void Unused1() {};
+	virtual void Unused1() = 0;
 	virtual studiohdr_t* GetStudiomodel(const model_t *mod) = 0;
 	virtual int GetModelSpriteWidth(const model_t *model) const = 0;
 	virtual int GetModelSpriteHeight(const model_t *model) const = 0;

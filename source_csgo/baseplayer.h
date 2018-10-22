@@ -16,6 +16,7 @@ class C_BasePlayer : public C_BaseEntity
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
 	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(28, 12));
 	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(34, 16));
+	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
 
 	VFuncPosixWin(void, UpdateClientSideAnimation, 280, 218);
 
@@ -47,7 +48,7 @@ struct CCSGOPlayerAnimState
 	C_BaseCombatWeapon* lastActiveWeapon;
 	float updateTime;
 	int frameCount;
-	float eyePitch;
+	float interval;
 	float eyeYaw;
 	float pitch;
 	float goalFeetYaw;

@@ -60,7 +60,9 @@ struct CCSGOPlayerAnimState
 	vec3 vecVelocity;
 	PAD(0x18);
 	vec3 scaledVelocity;
-	PAD6432(0x2AC, 0x244);
+	PAD(0x2C);
+	float groundedFraction;
+	PAD6432(0x27C, 0x214);
 };
 
 constexpr uintptr_t ANIMSTATE_SIZE = x64x32(0x3B8, 0x33C);

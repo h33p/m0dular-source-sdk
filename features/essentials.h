@@ -5,10 +5,6 @@
 
 struct CUserCmd;
 
-#define _SOLVEY(a, b, c, d, e, f) ((c * b - d * a) / (c * f - d * e))
-#define SOLVEY(world, forward, right) _SOLVEY(world.x, world.y, forward.x, forward.y, right.x, right.y)
-#define SOLVEX(y, world, forward, right) ((world.x - right.x * y) / forward.x)
-
 namespace SourceEssentials
 {
 #ifdef SOURCE_DEFINITIONS
@@ -19,6 +15,7 @@ namespace SourceEssentials
 
 	inline void CorrectMovement(vec3_t& oldAngles, CUserCmd* cmd, int movetype)
 	{
+		fflush(stdout);
 		vec3_t frL, riL, upL, frC, riC, upC;
 		oldAngles.GetVectors(frL, riL, upL, true);
 		vec3_t viewangles = cmd->viewangles;
@@ -32,8 +29,8 @@ namespace SourceEssentials
 
 		vec3_t worldCoords = frL * cmd->forwardmove + riL * cmd->sidemove;
 
-		cmd->sidemove = SOLVEY(worldCoords, frC, riC);
-		cmd->forwardmove = SOLVEX(cmd->sidemove, worldCoords, frC, riC);
+		cmd->sidemove = (frC.x * worldCoords.y - frC.y * worldCoords.x) / (riC.y * frC.x - riC.x * frC.y);
+		cmd->forwardmove = (riC.y * worldCoords.x - riC.x * worldCoords.y) / (riC.y * frC.x - riC.x * frC.y);
 
 		oldAngles = cmd->viewangles;
 	}

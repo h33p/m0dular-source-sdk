@@ -6,7 +6,6 @@
 #include "platform.h"
 
 #include <string.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define MEM_ALLOC_CREDIT_CLASS()

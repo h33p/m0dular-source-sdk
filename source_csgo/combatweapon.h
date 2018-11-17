@@ -34,9 +34,9 @@ class C_BaseCombatWeapon : public C_BaseEntity
 	NETVAR(ItemDefinitionIndex, itemDefinitionIndex, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
 
 	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 515, 445);
-	VFuncPosixWin(float, GetInaccuracy, 536, 468);
-	VFuncPosixWin(float, GetSpread, 505, 437);
-	VFuncPosixWin(void, UpdateAccuracyPenalty, 537, 469);
+	VFuncPosixWin(float, GetInaccuracy, 535, 467);
+	VFuncPosixWin(float, GetSpread, 505, 436);
+	VFuncPosixWin(void, UpdateAccuracyPenalty, 536, 468);
 };
 
 #endif

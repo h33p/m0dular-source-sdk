@@ -25,9 +25,11 @@ namespace SourceFakelag
 #ifdef SOURCE_DEFINITIONS
 	int falseChange = false;
 	FakelagState state = FakelagState::REAL;
+	int prevChokeCount = 0;
 #else
 	extern int falseChange;
 	extern FakelagState state;
+	extern int prevChokeCount;
 #endif
 
 	inline FakelagState Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
@@ -57,6 +59,7 @@ namespace SourceFakelag
 			prevOrigin = lpData->origin;
 			if (realChokedTicks)
 				state = FakelagState::FAKE;
+			prevChokeCount = realChokedTicks;
 			chokedTicks = 0;
 			realChokedTicks = 0;
 			changeAllowed = false;

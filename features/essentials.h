@@ -62,9 +62,22 @@ namespace SourceEssentials
 		cmd->buttons &= (lpData->keys & Keys::ATTACK2) ? ~0 : ~IN_ATTACK2;
 		cmd->buttons &= (lpData->keys & Keys::JUMP) ? ~0 : ~IN_JUMP;
 
+		cmd->buttons |= (lpData->keys & Keys::ATTACK1) ? IN_ATTACK : 0;
+		cmd->buttons |= (lpData->keys & Keys::ATTACK2) ? IN_ATTACK2 : 0;
+		cmd->buttons |= (lpData->keys & Keys::JUMP) ? IN_JUMP : 0;
+
 		lpData->angles.NormalizeAngles<3>(-180.f, 180.f);
 		cmd->viewangles = lpData->angles;
 		CorrectMovement(oldAngles, cmd, 0);
+
+		vec2 move(cmd->sidemove, cmd->forwardmove);
+
+		//Normalize cmd move values if necessary
+		if (move.Length() > 450) {
+			move.Normalize();
+			move *= 450;
+		}
+
 	}
 }
 

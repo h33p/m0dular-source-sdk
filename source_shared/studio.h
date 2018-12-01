@@ -162,6 +162,10 @@ class studiohdr_t
 	int eventsindexed; //0x00C8
 	int numtextures; //0x00CC
 	int textureindex; //0x00D0
+	PAD(120);
+	int contents;
+	PAD(60);
+	const char surfaceProp;
 
 	mstudiohitboxset_t* GetHitboxSet(int i)
 	{

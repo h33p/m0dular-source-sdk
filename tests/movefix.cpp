@@ -30,8 +30,8 @@ int main()
 						if (abs(z2) == 90)
 							continue;
 
-						cmd.forwardmove = 400.f;
-						cmd.sidemove = 0.f;
+						cmd.forwardmove = 0.f;
+						cmd.sidemove = 400.f;
 
 						vec3_t oldAngles(x1, y1, z1);
 

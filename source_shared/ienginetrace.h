@@ -70,6 +70,34 @@
 #define SURF_NOCHOP 0x4000
 #define SURF_HITBOX 0x8000
 
+enum SolidType_t
+{
+	SOLID_NONE = 0, //no solid model
+	SOLID_BSP = 1, //a BSP tree
+	SOLID_BBOX = 2, //an AABB
+	SOLID_OBB = 3, //an OBB (not implemented yet)
+	SOLID_OBB_YAW  = 4, //an OBB, constrained so that it can only yaw
+	SOLID_CUSTOM = 5, //Always call into the entity for tests
+	SOLID_VPHYSICS = 6, //solid vphysics object, get vcollide from the model and collide with that
+	SOLID_LAST,
+};
+
+enum SolidFlags_t
+{
+	FSOLID_CUSTOMRAYTEST = (1 << 0), //Ignore solid type + always call into the entity for ray tests
+	FSOLID_CUSTOMBOXTEST = (1 << 1), //Ignore solid type + always call into the entity for swept box tests
+	FSOLID_NOT_SOLID = (1 << 2), //Are we currently not solid?
+	FSOLID_TRIGGER  = (1 << 3), //This is something may be collideable but fires touch functions, even when it's not collideable (when the FSOLID_NOT_SOLID flag is set)
+	FSOLID_NOT_STANDABLE = (1 << 4), //You can't stand on this
+	FSOLID_VOLUME_CONTENTS = (1 << 5), //Contains volumetric contents (like water)
+	FSOLID_FORCE_WORLD_ALIGNED = (1 << 6), //Forces the collision rep to be world-aligned even if it's SOLID_BSP or SOLID_VPHYSICS
+	FSOLID_USE_TRIGGER_BOUNDS = (1 << 7), //Uses a special trigger bounds separate from the normal OBB
+	FSOLID_ROOT_PARENT_ALIGNED = (1 << 8), //Collisions are defined in root parent's local coordinate space
+	FSOLID_TRIGGER_TOUCH_DEBRIS = (1 << 9), //This trigger will touch debris objects
+	FSOLID_MAX_BITS = 10
+};
+
+
 // -----------------------------------------------------
 // spatial content masks - used for spatial queries (traceline,etc.)
 // -----------------------------------------------------
@@ -243,6 +271,19 @@ class CTraceFilterHitAll : public CTraceFilter
 	}
 };
 
+class CTraceFilterSkipPlayers : public ITraceFilter
+{
+  public:
+	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	{
+		return pEntityHandle && !((C_BaseEntity*)pEntityHandle)->IsPlayer();
+	}
+	virtual TraceType GetTraceType() const
+	{
+		return TraceType::TRACE_EVERYTHING;
+	}
+};
+
 
 enum class DebugTraceCounterBehavior_t
 {
@@ -257,7 +298,42 @@ class IEntityEnumerator
 {
   public:
 	// This gets called with each handle
-	virtual bool EnumEntity(IHandleEntity *pHandleEntity) = 0;
+	virtual bool EnumElement(IHandleEntity *handleEntity) = 0;
+};
+
+class CEntityListAlongRay : public IEntityEnumerator
+{
+  public:
+
+	enum { MAX_ENTITIES_ALONGRAY = 1024 };
+
+	CEntityListAlongRay()
+	{
+		count = 0;
+	}
+
+	void Reset()
+	{
+		count = 0;
+	}
+
+	int Count()
+	{
+		return count;
+	}
+
+	virtual bool EnumElement(IHandleEntity* handleEntity) override
+	{
+		if (count < MAX_ENTITIES_ALONGRAY)
+			entityHandles[count++] = handleEntity;
+		else
+			return true;
+
+		return false;
+	}
+
+	int count;
+	IHandleEntity* entityHandles[MAX_ENTITIES_ALONGRAY];
 };
 
 
@@ -436,7 +512,6 @@ class CGameTrace : public CBaseTrace
 
 	CGameTrace() {}
 
-  private:
 	// No copy constructors allowed
 	CGameTrace(const CGameTrace& other) :
 		fractionleftsolid(other.fractionleftsolid),
@@ -510,6 +585,17 @@ inline bool CGameTrace::IsVisible() const
 	return fraction > 0.97f;
 }
 
+class ITraceListData
+{
+  public:
+	virtual void EnumElement(IHandleEntity*) = 0;
+	virtual void Destr1() = 0;
+	virtual void Destr2() = 0;
+	virtual void Reset() = 0;
+	virtual bool IsEmpty() = 0;
+	virtual bool CanTraceRay(const Ray_t&) = 0;
+};
+
 class IEngineTrace
 {
 public:
@@ -562,10 +648,21 @@ public:
 	virtual bool PointOutsideWorld(const vec3 &ptTest) = 0; //Tests a point to see if it's outside any playable area
 	// Walks bsp to find the leaf containing the specified point
 	virtual int GetLeafContainingPoint(const vec3 &ptTest) = 0;
-	virtual ITraceListData *AllocTraceListData() = 0;
-	virtual void FreeTraceListData(ITraceListData *) = 0;
+	virtual ITraceListData* AllocTraceListData() = 0;
+	virtual void FreeTraceListData(ITraceListData*) = 0;
 	/// Used only in debugging: get/set/clear/increment the trace debug counter. See comment below for details.
 	virtual int GetSetDebugTraceCounter(int value, DebugTraceCounterBehavior_t behavior) = 0;
+
+	virtual void GetMeshesFromDisplacementsInAABB(const vec3&, const vec3&, void*, int) = 0;
+	virtual void GetBrushesInCollideable(ICollideable*, void*) = 0;
+	virtual bool IsFullyOccluded(int, void*, void*, const vec3&) = 0;
+	virtual void SuspendOcclusionTests(void) = 0;
+	virtual void ResumeOcclusionTests(void) = 0;
+	virtual void FlushOcclusionQueries(void) = 0;
+	virtual void HandleEntityToCollideable(IHandleEntity*, ICollideable**) = 0;
+	virtual ICollideable* GetWorldCollideable(void) = 0;
+	virtual void GetDebugName(IHandleEntity*) = 0;
+	virtual void SetTraceEntity(ICollideable*, CGameTrace*) = 0;
 #endif
 };
 

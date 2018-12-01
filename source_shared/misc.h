@@ -10,9 +10,10 @@
 #define PAD6432(o1, o2) PAD(x64x32(o1, o2))
 
 #define VFuncPosixWin(type, name, index_posix, index_win)				\
-	type name () {														\
-		typedef type(__thiscall* name##fn)(void*);						\
-		return GetVFunc<name##fn, PosixWin(index_posix, index_win)>(this)(this); \
+	template<typename... Args>											\
+	type name (Args... args) {											\
+		typedef type(__thiscall* name##fn)(void*, Args...);				\
+		return GetVFunc<name##fn, PosixWin(index_posix, index_win)>(this)(this, args...); \
 	}
 
 #endif

@@ -47,6 +47,12 @@
 #include "eventmanager.h"
 #include "studio.h"
 #include "mdl.h"
+#include "mdlcache.h"
 #include "ienginetrace.h"
+#include "spatialpartition.h"
+#include "staticpropmgr.h"
+#include "modelloader.h"
+#include "physicssurfaceprops.h"
+#include "voxeltree.h"
 
 #endif

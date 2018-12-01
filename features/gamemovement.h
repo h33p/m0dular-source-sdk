@@ -316,7 +316,7 @@ bool SourceGameMovement::PlayerMove(C_BaseEntity* player, vec3_t* position, vec3
 	includePlayers = incPlayers;
 
 	if (!sv_gravity)
-		sv_gravity = cvar->FindVar("sv_gravity");
+		sv_gravity = cvar->FindVar(ST("sv_gravity"));
 
 	float gravity = sv_gravity ? sv_gravity->GetFloat() : 800;
 
@@ -360,7 +360,7 @@ bool SourceGameMovement::PlayerMove(C_BaseEntity* player, vec3_t* position, vec3
 			*isGrounded = false;
 
 			if (!sv_jump_impulse)
-				sv_jump_impulse = cvar->FindVar("sv_jump_impulse");
+				sv_jump_impulse = cvar->FindVar(ST("sv_jump_impulse"));
 
 			velocity->z = sv_jump_impulse->GetFloat();
 		}

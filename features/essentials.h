@@ -78,6 +78,8 @@ namespace SourceEssentials
 			move *= 450;
 		}
 
+		cmd->sidemove = move[0];
+		cmd->forwardmove = move[1];
 	}
 }
 

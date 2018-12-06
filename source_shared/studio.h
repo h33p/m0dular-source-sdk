@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 typedef float Quaternion[4];
-typedef float RadianEuler[3];
 
 #define MAX_QPATH 260
 
@@ -62,7 +61,7 @@ struct mstudiobone_t
 	int bonecontroller[6]; // bone controller index, -1 == none
 	vec3 pos;
 	Quaternion quat;
-	RadianEuler rot;
+	vec3 rot;
 	vec3 posscale;
 	vec3 rotscale;
 

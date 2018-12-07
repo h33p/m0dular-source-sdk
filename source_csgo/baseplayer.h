@@ -9,16 +9,16 @@ class C_BasePlayer : public C_BaseEntity
 {
   public:
 	OFFSET(VarMapping_t, varMapping, x64x32(0x48, 0x24));
-	OFFSET(CUtlVector<matrix3x4_t>, boneMatrix, BONE_MATRIX);
 	ONETVAR(AnimationLayer*, animationLayers, "DT_CSRagdoll", "m_vecRagdollVelocity", -x64x32(0x8c, 0x80));
 	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsWalking", -x64x32(0xf, 0xb));
 	ONETVAR(vec3, localAngles, "DT_BasePlayer", "deadflag", 0x4);
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
 	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(28, 12));
+	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_nForceBone", x64x32(44, 24));
 	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(34, 16));
 	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
 
-	VFuncPosixWin(void, UpdateClientSideAnimation, 280, 218);
+	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 219);
 
 	inline void InvalidateBoneCache()
 	{

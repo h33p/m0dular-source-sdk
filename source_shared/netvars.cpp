@@ -6,6 +6,8 @@
 #include "../framework/utils/crc32.h"
 #include "baseclient.h"
 
+#define NETVAR_DUMP
+
 #ifdef NETVAR_DUMP
 FILE* nfp = nullptr;
 #endif
@@ -58,7 +60,7 @@ void SourceNetvars::Initialize(CBaseClient* cl)
 	crcDatabase = new std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry>>();
 
 #ifdef NETVAR_DUMP
-	nfp = fopen(PosixWin("/tmp/netvars.txt", "C:\Temp\netvars.txt"), "w");
+	nfp = fopen(PosixWin("/tmp/netvars.txt", "C:\\Temp\\netvars.txt"), "w");
 #endif
 
 	for(auto clientclass = cl->GetAllClasses();

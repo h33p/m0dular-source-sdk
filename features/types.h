@@ -3,8 +3,8 @@
 
 enum FakelagState
 {
-	REAL = 0,
-	FAKE,
+	FIRST = 0,
+	LAST,
 	INTERMEDIATE
 };
 

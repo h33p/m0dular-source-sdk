@@ -13,7 +13,7 @@ constexpr int LC_DIMENSIONS = 2;
 
 constexpr float LC_DISTANCE = 4096;
 constexpr bool BREAK_LC = true;
-constexpr int MAX_TICKS = 12;
+constexpr int MAX_TICKS = 10;
 
 namespace SourceFakelag
 {
@@ -24,7 +24,7 @@ namespace SourceFakelag
 
 #ifdef SOURCE_DEFINITIONS
 	int falseChange = false;
-	FakelagState state = FakelagState::REAL;
+	FakelagState state = FakelagState::LAST;
 	int prevChokeCount = 0;
 #else
 	extern int falseChange;
@@ -52,13 +52,13 @@ namespace SourceFakelag
 		}
 
 		if (!realChokedTicks)
-			state = FakelagState::REAL;
+			state = FakelagState::LAST;
 
 		if (canChange && (chokedTicks >= 1 || realChokedTicks >= MAX_TICKS)) {
 			*bSendPacket = true;
 			prevOrigin = lpData->origin;
 			if (realChokedTicks)
-				state = FakelagState::FAKE;
+				state = FakelagState::FIRST;
 			prevChokeCount = realChokedTicks;
 			chokedTicks = 0;
 			realChokedTicks = 0;

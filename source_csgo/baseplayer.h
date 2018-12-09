@@ -14,9 +14,10 @@ class C_BasePlayer : public C_BaseEntity
 	ONETVAR(vec3, localAngles, "DT_BasePlayer", "deadflag", 0x4);
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
 	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(28, 12));
-	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_nForceBone", x64x32(44, 24));
+	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_nForceBone", x64x32(44, 28));
 	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(34, 16));
 	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
+	NETVAR(int, survivalTeamNum, "DT_CSPlayer", "m_nSurvivalTeam");
 
 	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 219);
 

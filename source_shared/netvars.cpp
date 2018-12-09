@@ -6,8 +6,6 @@
 #include "../framework/utils/crc32.h"
 #include "baseclient.h"
 
-#define NETVAR_DUMP
-
 #ifdef NETVAR_DUMP
 FILE* nfp = nullptr;
 #endif

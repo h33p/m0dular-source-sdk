@@ -1,11 +1,13 @@
 #ifndef SOURCE_TYPES_H
 #define SOURCE_TYPES_H
 
+typedef unsigned char FakelagState_t;
+
 enum FakelagState
 {
-	FIRST = 0,
-	LAST,
-	INTERMEDIATE
+	NONE = 0,
+	FIRST = (1 << 0),
+	LAST = (1 << 1)
 };
 
 #endif

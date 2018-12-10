@@ -24,15 +24,17 @@ namespace SourceFakelag
 
 #ifdef SOURCE_DEFINITIONS
 	int falseChange = false;
-	FakelagState state = FakelagState::LAST;
+	FakelagState_t state = FakelagState::FIRST | FakelagState::LAST;
 	int prevChokeCount = 0;
+	int ticksToChoke = 5;
 #else
 	extern int falseChange;
-	extern FakelagState state;
+	extern FakelagState_t state;
 	extern int prevChokeCount;
+	extern int ticksToChoke;
 #endif
 
-	inline FakelagState Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
+	inline FakelagState_t Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
 	{
 		if (allowChange)
 			changeAllowed = true;
@@ -51,22 +53,21 @@ namespace SourceFakelag
 				canChange = false;
 		}
 
-		if (!realChokedTicks)
-			state = FakelagState::LAST;
+		state = FakelagState::NONE;
 
-		if (canChange && (chokedTicks >= 1 || realChokedTicks >= MAX_TICKS)) {
+		if (!realChokedTicks)
+			state |= FakelagState::FIRST;
+
+		if (canChange && (chokedTicks >= ticksToChoke || realChokedTicks >= MAX_TICKS)) {
 			*bSendPacket = true;
 			prevOrigin = lpData->origin;
-			if (realChokedTicks)
-				state = FakelagState::FIRST;
+			state |= FakelagState::LAST;
 			prevChokeCount = realChokedTicks;
 			chokedTicks = 0;
 			realChokedTicks = 0;
 			changeAllowed = false;
 		} else {
 			*bSendPacket = false;
-			if (realChokedTicks)
-				state = FakelagState::INTERMEDIATE;
 			chokedTicks++;
 			realChokedTicks++;
 		}

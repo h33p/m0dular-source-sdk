@@ -18,6 +18,10 @@ class C_BasePlayer : public C_BaseEntity
 	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(34, 16));
 	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
 	NETVAR(int, survivalTeamNum, "DT_CSPlayer", "m_nSurvivalTeam");
+	ONETVAR(long, mostRecentBoneCounter, "DT_BaseAnimating", "m_nForceBone", 4);
+	ONETVAR(int, occlusionFlags2, "DT_BaseAnimating", "m_nBody", 4);
+	ONETVAR(int, occlusionFlags, "DT_BaseAnimating", "m_nBody", 8);
+	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
 
 	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 219);
 

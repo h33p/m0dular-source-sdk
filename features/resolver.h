@@ -11,12 +11,20 @@
  * RESOLVEBASECOUNT has to be defined by the compiler.
 */
 
-constexpr int ANGLE_STEP = 10;
-constexpr int SCHED_COUNT = 5;
-constexpr int ANGLE_COUNT = 360 / ANGLE_STEP;
+#ifndef RESOLVE_ANGLE_STEP
+constexpr int RESOLVE_ANGLE_STEP = 10;
+#endif
+#ifndef RESOLVE_SCHED_COUNT
+constexpr int RESOLVE_SCHED_COUNT = 5;
+#endif
+constexpr int RESOLVE_ANGLE_COUNT = 360 / RESOLVE_ANGLE_STEP;
 
-constexpr int BRUTEFORCE_SHOTS = 10;
-constexpr int BRUTEFORCE_STEP = ANGLE_STEP * 3;
+#ifndef RESOLVE_BRUTEFORCE_SHOTS
+constexpr int RESOLVE_BRUTEFORCE_SHOTS = 10;
+#endif
+#ifndef RESOLVE_BRUTEFORCE_STEP
+constexpr int RESOLVE_BRUTEFORCE_STEP = RESOLVE_ANGLE_STEP * 3;
+#endif
 
 class RandomResolver
 {
@@ -26,6 +34,7 @@ class RandomResolver
 	void ProcessHit(int id, float angle);
 	void ShotFired(int id);
 	void UpdateBases(int id, float bases[RESOLVEBASECOUNT]);
+	void UpdateOffsets(float offsets[RESOLVEBASECOUNT][2]);
 	RandomResolver();
 
   private:
@@ -33,9 +42,10 @@ class RandomResolver
 	void Requeue(int id, int insertID = -1);
 
 	float baseOffsets[MAX_PLAYERS][RESOLVEBASECOUNT];
-	int score[MAX_PLAYERS][RESOLVEBASECOUNT][ANGLE_COUNT];
+	float offsetRanges[RESOLVEBASECOUNT][2];
+	int score[MAX_PLAYERS][RESOLVEBASECOUNT][RESOLVE_ANGLE_COUNT];
 	int maxScore[MAX_PLAYERS];
-	Scheduler<int, SCHED_COUNT> queue[MAX_PLAYERS];
+	Scheduler<int, RESOLVE_SCHED_COUNT> queue[MAX_PLAYERS];
 	int lastID[MAX_PLAYERS];
 	int prevID[MAX_PLAYERS];
 	int shotCount[MAX_PLAYERS];

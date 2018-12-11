@@ -459,7 +459,7 @@ struct Ray_t
 class
 #ifdef _WIN32
 #ifdef SOURCE_CSGO_SDK
-alignas(1024)
+//alignas(1024)
 #endif
 #endif
 CBaseTrace

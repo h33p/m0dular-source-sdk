@@ -208,13 +208,13 @@
 #define FLOAT64_MAX DBL_MAX
 
 #ifdef GNUC
-#undef offsetof
+//#undef offsetof
 //#define offsetof( type, var ) __builtin_offsetof( type, var ) 
-#define offsetof(s,m) (size_t)&(((s *)0)->m)
+//#define offsetof(s,m) (size_t)&(((s *)0)->m)
 #else
 #include <stddef.h>
-#undef offsetof
-#define offsetof(s,m) (size_t)&(((s *)0)->m)
+//#undef offsetof
+//#define offsetof(s,m) (size_t)&(((s *)0)->m)
 #endif
 
 

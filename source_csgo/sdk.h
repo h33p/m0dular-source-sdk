@@ -21,6 +21,7 @@
 #include "ivmodelinfo.h"
 #include "view_sharedv2.h"
 #include "engineclient.h"
+#include "physics.h"
 
 #include "../source_2007/sdk.h"
 

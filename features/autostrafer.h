@@ -9,7 +9,6 @@ namespace SourceAutostrafer
 {
 	constexpr float AIR_SPEED_CAP = 30.f;
 	constexpr float MAX_MOVE = 450.f;
-	constexpr float SPEED_TOWARDS = 1.3f;
 
 #ifdef SOURCE_DEFINITIONS
 	float lastAng = 0.f;
@@ -19,7 +18,8 @@ namespace SourceAutostrafer
 	extern char sign;
 #endif
 
-	inline void Run(CUserCmd* cmd, LocalPlayer* lpData)
+	//rtSpeed 1.3f works fine. Speed of 1 ensures no speed is lost but may feel sluggish
+	inline void Run(CUserCmd* cmd, LocalPlayer* lpData, float rtSpeed)
 	{
 #ifdef SOURCE_ENGINEPREDICTION_H
 		bool onGround = SourceEnginePred::prevFlags & FL_ONGROUND;
@@ -39,7 +39,7 @@ namespace SourceAutostrafer
 		else {
 			vec3_t velAngles = lpData->velocity.GetAngles(true);
 			float idealAngle = std::clamp(atan2f(AIR_SPEED_CAP, speed) * RAD2DEG, -90.f, 90.f);
-			float velDeg = idealAngle * SPEED_TOWARDS;
+			float velDeg = idealAngle * rtSpeed;
 			vec3_t backup = lpData->angles;
 			vec3_t ang = SourceEssentials::oldAngles;
 			float velAngDelta = NormalizeFloat(velAngles.y - lastAng, -180.f, 180.f);

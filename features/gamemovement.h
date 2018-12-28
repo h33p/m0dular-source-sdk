@@ -209,7 +209,7 @@ static void TryPlayerMove(C_BaseEntity* player, vec3_t& vecPos, vec3_t& vecVel, 
 		vecVel = 0.f;
 
 	// Check if they slammed into a wall
-	float slamVol = 0.0f;
+	[[maybe_unused]] float slamVol = 0.0f;
 
 	float lateralStoppingAmount = originalVelocity.Length<2>() - vecVel.Length<2>();
 	if (lateralStoppingAmount > PLAYER_MAX_SAFE_FALL_SPEED * 2.0f)

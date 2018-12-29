@@ -136,7 +136,8 @@ class CPhysCollide;
 struct cplane_t;
 struct virtualmeshlist_t;
 
-extern IClientEntityList* g_EntityList;
+//TODO: Move this out of here!!!
+extern IClientEntityList* entityList;
 
 // Settings for takeDamage
 #define DAMAGE_NO 0					// Don't call damage functions
@@ -559,7 +560,7 @@ class CGameTrace : public CBaseTrace
 
 inline bool CGameTrace::DidHitWorld() const
 {
-	return ent == g_EntityList->GetClientEntity(0);
+	return ent == entityList->GetClientEntity(0);
 }
 
 inline bool CGameTrace::DidHitNonWorldEntity() const

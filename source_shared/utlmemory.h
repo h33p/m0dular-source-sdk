@@ -5,11 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef _WIN32
 #define UTLMEMORY_TRACK_ALLOC()
 #define UTLMEMORY_TRACK_FREE()
 #define MEM_ALLOC_CREDIT_CLASS()
 #define COMPILE_TIME_ASSERT(a)
+#ifndef _WIN32
 #define _aligned_malloc(a, b) aligned_alloc(b, a)
 #define _stricmp(a, b) strcasecmp(a, b)
 #endif

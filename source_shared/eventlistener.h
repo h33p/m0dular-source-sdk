@@ -10,8 +10,9 @@ template <typename T, size_t N>
 class EventListener : IGameEventListener
 {
 	T fptrs[N];
-	bool initialized;
   public:
+	bool initialized;
+
 	EventListener(const T (&funcs)[N])
 	{
 		initialized = false;

@@ -1,6 +1,8 @@
 #ifndef SOURCE_GAMEMOVEMENT_H
 #define SOURCE_GAMEMOVEMENT_H
 
+#include "gametrace.h"
+
 namespace SourceGameMovement
 {
 	bool PlayerMove(C_BaseEntity* player, vec3_t* position, vec3_t* velocity, bool* isGrounded, bool jumpPressed, float interval, bool incPlayers = false);
@@ -26,7 +28,7 @@ const float STEP_SIZE = 15.f;
 
 static ConVar* sv_gravity = nullptr;
 static ConVar* sv_jump_impulse = nullptr;
-static bool includePlayers = false;
+static thread_local bool includePlayers = false;
 
 
 static void TracePlayerBBox(C_BaseEntity* player, int mask, vec3_t start, vec3_t end, CGameTrace* tr)
@@ -35,13 +37,13 @@ static void TracePlayerBBox(C_BaseEntity* player, int mask, vec3_t start, vec3_t
 		CTraceFilterWorldAndPropsOnly filter;
 		Ray_t ray;
 		ray.Init(start, end, (vec3)player->GetCollideable()->OBBMins(), (vec3)player->GetCollideable()->OBBMaxs());
-		engineTrace->TraceRay(ray, mask, &filter, tr);
+		GameTrace::TraceRay(ray, mask, &filter, tr, 0);
 	} else {
 		CTraceFilter filter;
 		filter.pSkip = player;
 		Ray_t ray;
 		ray.Init(start, end, (vec3)player->GetCollideable()->OBBMins(), (vec3)player->GetCollideable()->OBBMaxs());
-		engineTrace->TraceRay(ray, mask, &filter, tr);
+		GameTrace::TraceRay(ray, mask, &filter, tr, 0);
 	}
 }
 

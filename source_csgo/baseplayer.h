@@ -22,7 +22,7 @@ class C_BasePlayer : public C_BaseEntity
 	ONETVAR(int, occlusionFlags2, "DT_BaseAnimating", "m_nBody", 4);
 	ONETVAR(int, occlusionFlags, "DT_BaseAnimating", "m_nBody", 8);
 	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
-	ONETVAR(int, takeDamage, "DT_BaseEntity", "m_nModelIndex",  x64x32(-0xf, 0x28));
+	ONETVAR(uint8_t, takeDamage, "DT_BaseEntity", "m_nModelIndex", 0x28);
 
 	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 219);
 

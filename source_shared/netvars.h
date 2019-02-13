@@ -6,6 +6,7 @@
 #include "recv.h"
 
 class CBaseClient;
+class CServerGame;
 
 typedef struct
 {
@@ -22,10 +23,20 @@ namespace SourceNetvars
 	void HookAll(NetvarHook* hooks, size_t size);
 	void UnhookAll(NetvarHook* hooks, size_t size);
 
+	void InitializeServer(CServerGame* server);
+	int GetOffsetServer(uintptr_t k1, uintptr_t k2);
+
 	template<typename T, int off, unsigned int k1, unsigned int k2>
 	T& NetvarOffset(uintptr_t tptr)
 	{
 		static int offset = SourceNetvars::GetOffset(k1, k2);
+		return *(T*)(tptr + offset + off);
+	}
+
+	template<typename T, int off, unsigned int k1, unsigned int k2>
+	T& NetvarOffsetServer(uintptr_t tptr)
+	{
+		static int offset = SourceNetvars::GetOffsetServer(k1, k2);
 		return *(T*)(tptr + offset + off);
 	}
 
@@ -34,4 +45,6 @@ namespace SourceNetvars
 #define ONETVAR(t,n,k1,k2,o) t& n(){return SourceNetvars::NetvarOffset<t, o, CCRC32(k1), CCRC32(k2)>((uintptr_t)this);}
 #define NETVAR(t,n,k1,k2) ONETVAR(t,n,k1,k2,0)
 
+#define ONETVAR_SERVER(t,n,k1,k2,o) t& n(){return SourceNetvars::NetvarOffsetServer<t, o, CCRC32(k1), CCRC32(k2)>((uintptr_t)this);}
+#define NETVAR_SERVER(t,n,k1,k2) ONETVAR_SERVER(t,n,k1,k2,0)
 #endif

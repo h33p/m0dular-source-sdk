@@ -12,8 +12,7 @@ constexpr int LC_DIMENSIONS = 2;
 #endif
 
 constexpr float LC_DISTANCE = 4096;
-constexpr bool BREAK_LC = true;
-constexpr int MAX_TICKS = 10;
+constexpr int MAX_TICKS = 14;
 
 namespace SourceFakelag
 {
@@ -26,12 +25,14 @@ namespace SourceFakelag
 	int falseChange = false;
 	FakelagState_t state = FakelagState::FIRST | FakelagState::LAST;
 	int prevChokeCount = 0;
-	int ticksToChoke = 5;
+	int ticksToChoke = 3;
+	bool breakLagCompensation = false;
 #else
 	extern int falseChange;
 	extern FakelagState_t state;
 	extern int prevChokeCount;
 	extern int ticksToChoke;
+	extern int breakLagCompensation;
 #endif
 
 	inline FakelagState_t Run(CUserCmd* cmd, LocalPlayer* lpData, bool* bSendPacket, bool allowChange)
@@ -42,7 +43,7 @@ namespace SourceFakelag
 		bool canChange = changeAllowed;
 
 		//Break lag compensation
-		if (~lpData->flags & Flags::ONGROUND && BREAK_LC && (lpData->origin - prevOrigin).LengthSqr<LC_DIMENSIONS>() < LC_DISTANCE)
+		if (~lpData->flags & Flags::ONGROUND && breakLagCompensation && (lpData->origin - prevOrigin).LengthSqr<LC_DIMENSIONS>() < LC_DISTANCE)
 			chokedTicks = -1;
 
 		//Prevent hitting ground with the real angle

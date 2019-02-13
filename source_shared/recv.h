@@ -1,8 +1,6 @@
 #ifndef RECV_H
 #define RECV_H
 
-#include <string>
-
 enum SendPropType
 {
 	DPT_Int = 0,
@@ -69,7 +67,7 @@ class RecvProp
 {
   public:
 	char* varName;
-	SendPropType recvType;
+	SendPropType propType;
 	int flags;
 	int stringBufferSize;
 	int insideArray;

@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include "recv.h"
+#include "send_table.h"
 #include "../framework/utils/crc32.h"
 #include "baseclient.h"
 
@@ -10,30 +11,37 @@
 FILE* nfp = nullptr;
 #endif
 
+template<typename PROP_TYPE>
 struct NetvarEntry
 {
 	int offset;
-	RecvProp* prop;
+	PROP_TYPE* prop;
 
-	NetvarEntry(int o, RecvProp* p) : offset(o), prop(p) {}
+	NetvarEntry(int o, PROP_TYPE* p) : offset(o), prop(p) {}
 };
 
-static std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry> >* crcDatabase = nullptr;
+//TODO: This may actually leak
+static std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry<RecvProp>> >* crcDatabase = nullptr;
+static std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry<SendProp>> >* crcDatabaseServer = nullptr;
 
+template<typename PROP_TYPE>
 struct NetvarTable
 {
 	std::string name;
-	RecvProp* prop;
+	PROP_TYPE* prop;
 	uint32_t offset;
-	std::vector<RecvProp*> childProps;
+	std::vector<PROP_TYPE*> childProps;
 	std::vector<NetvarTable> childTables;
 };
 
-static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, RecvTable* recvTable, int offset)
+template<typename PROP_TYPE, typename TABLE_TYPE>
+static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry<PROP_TYPE>>* db, TABLE_TYPE* recvTable, int offset)
 {
 
 	for(int i = 0; i < recvTable->nProps; i++) {
-		RecvProp* prop = &recvTable->props[i];
+	    PROP_TYPE* prop = &recvTable->props[i];
+
+		PROP_TYPE p = *prop;
 
 		if(!prop || isdigit(prop->varName[0]))
 			continue;
@@ -42,7 +50,7 @@ static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, Recv
 
 		unsigned int tbKey = Crc32(prop->varName, strlen(prop->varName));
 
-		if(prop->recvType == DPT_DataTable && prop->dataTable)
+		if(prop->propType == DPT_DataTable && prop->dataTable)
 			LoadCRCTable(db, prop->dataTable, offset + prop->offset);
 		else if (db->find(tbKey) == db->end()) {
 #ifdef NETVAR_DUMP
@@ -55,7 +63,7 @@ static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry>* db, Recv
 
 void SourceNetvars::Initialize(CBaseClient* cl)
 {
-	crcDatabase = new std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry>>();
+	crcDatabase = new std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry<RecvProp>>>();
 
 #ifdef NETVAR_DUMP
 	nfp = fopen(PosixWin("/tmp/netvars.txt", "C:\\Temp\\netvars.txt"), "w");
@@ -72,8 +80,39 @@ void SourceNetvars::Initialize(CBaseClient* cl)
 
 			unsigned int tbKey = Crc32(clientclass->recvTable->netTableName, strlen(clientclass->recvTable->netTableName));
 			if (crcDatabase->find(tbKey) == crcDatabase->end())
-				crcDatabase->insert(std::make_pair(tbKey, std::unordered_map<unsigned int, NetvarEntry>()));
+				crcDatabase->insert(std::make_pair(tbKey, std::unordered_map<unsigned int, NetvarEntry<RecvProp>>()));
 			LoadCRCTable(&crcDatabase->at(tbKey), clientclass->recvTable, 0);
+		}
+	}
+
+#ifdef NETVAR_DUMP
+	fclose(nfp);
+#endif
+}
+
+void SourceNetvars::InitializeServer(CServerGame* server)
+{
+	crcDatabaseServer = new std::unordered_map<unsigned int, std::unordered_map<unsigned int, NetvarEntry<SendProp>>>();
+
+#ifdef NETVAR_DUMP
+	nfp = fopen(PosixWin("/tmp/netvars_server.txt", "C:\\Temp\\netvars_server.txt"), "w");
+#endif
+
+	for(auto serverclass = server->GetAllServerClasses();
+	    serverclass != nullptr;
+	    serverclass = serverclass->next) {
+		if(serverclass->sendTable) {
+
+			SendTable tb = *serverclass->sendTable;
+
+#ifdef NETVAR_DUMP
+			fprintf(nfp, "%s:\n", serverclass->sendTable->netTableName);
+#endif
+
+			unsigned int tbKey = Crc32(serverclass->sendTable->netTableName, strlen(serverclass->sendTable->netTableName));
+			if (crcDatabaseServer->find(tbKey) == crcDatabaseServer->end())
+				crcDatabaseServer->insert(std::make_pair(tbKey, std::unordered_map<unsigned int, NetvarEntry<SendProp>>()));
+			LoadCRCTable(&crcDatabaseServer->at(tbKey), serverclass->sendTable, 0);
 		}
 	}
 
@@ -89,6 +128,16 @@ int SourceNetvars::GetOffset(uintptr_t k1, uintptr_t k2)
 	if (crcDatabase->find(k1) != crcDatabase->end())
 		if (crcDatabase->at(k1).find(k2) != crcDatabase->at(k1).end())
 			return crcDatabase->at(k1).at(k2).offset;
+	return 0;
+}
+
+int SourceNetvars::GetOffsetServer(uintptr_t k1, uintptr_t k2)
+{
+	if (!crcDatabaseServer)
+		return 0;
+	if (crcDatabaseServer->find(k1) != crcDatabaseServer->end())
+		if (crcDatabaseServer->at(k1).find(k2) != crcDatabaseServer->at(k1).end())
+			return crcDatabaseServer->at(k1).at(k2).offset;
 	return 0;
 }
 

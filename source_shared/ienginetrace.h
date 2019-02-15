@@ -156,8 +156,8 @@ enum class TraceType
 class ITraceFilter
 {
   public:
-	virtual bool ShouldHitEntity(IHandleEntity *pEntity, int contentsMask) = 0;
-	virtual TraceType GetTraceType() const = 0;
+	virtual bool ShouldHitEntity(IHandleEntity *pEntity, int) = 0;
+	virtual TraceType GetTraceType() = 0;
 };
 
 //-----------------------------------------------------------------------------
@@ -168,11 +168,11 @@ class ITraceFilter
 class CTraceFilter : public ITraceFilter
 {
   public:
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/) override
 	{
 		return !(pEntityHandle == pSkip);
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_EVERYTHING;
 	}
@@ -187,11 +187,11 @@ class CTraceFilterSkipEntity : public ITraceFilter
 		pSkip = pEntityHandle;
 	}
 
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/) override
 	{
 		return !(pEntityHandle == pSkip);
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_EVERYTHING;
 	}
@@ -201,11 +201,11 @@ class CTraceFilterSkipEntity : public ITraceFilter
 class CTraceFilterEntitiesOnly : public ITraceFilter
 {
   public:
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/) override
 	{
 		return true;
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_ENTITIES_ONLY;
 	}
@@ -218,11 +218,11 @@ class CTraceFilterEntitiesOnly : public ITraceFilter
 class CTraceFilterWorldOnly : public ITraceFilter
 {
   public:
-	bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/) override
 	{
 		return false;
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_WORLD_ONLY;
 	}
@@ -231,11 +231,11 @@ class CTraceFilterWorldOnly : public ITraceFilter
 class CTraceFilterWorldAndPropsOnly : public ITraceFilter
 {
   public:
-	bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/) override
 	{
 		return false;
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_EVERYTHING;
 	}
@@ -249,11 +249,11 @@ class CTraceFilterSkipTwoEntities : public ITraceFilter
 		pEnt1 = ent1;
 		pEnt2 = ent2;
 	}
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/) override
 	{
 		return !(pEntityHandle == pEnt1 || pEntityHandle == pEnt2);
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_EVERYTHING;
 	}
@@ -266,7 +266,12 @@ class CTraceFilterSkipTwoEntities : public ITraceFilter
 class CTraceFilterHitAll : public CTraceFilter
 {
   public:
-	virtual bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/)
+	virtual TraceType GetTraceType() override
+	{
+		return TraceType::TRACE_EVERYTHING;
+	}
+
+	virtual bool ShouldHitEntity(IHandleEntity* /*pServerEntity*/, int /*contentsMask*/l) override
 	{
 		return true;
 	}
@@ -275,11 +280,11 @@ class CTraceFilterHitAll : public CTraceFilter
 class CTraceFilterSkipPlayers : public ITraceFilter
 {
   public:
-	bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/)
+	virtual bool ShouldHitEntity(IHandleEntity* pEntityHandle, int /*contentsMask*/) override
 	{
 		return pEntityHandle && !((C_BaseEntity*)pEntityHandle)->IsPlayer();
 	}
-	virtual TraceType GetTraceType() const
+	virtual TraceType GetTraceType() override
 	{
 		return TraceType::TRACE_EVERYTHING;
 	}

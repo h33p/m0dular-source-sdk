@@ -101,13 +101,13 @@ class CUtlMemory
 //-----------------------------------------------------------------------------
 
 template< class T, class I >
-CUtlMemory<T, I>::CUtlMemory(int nGrowSize, int nInitAllocationCount) : memory(0),
+CUtlMemory<T, I>::CUtlMemory(int nGrowSize, int nInitAllocationCount) : memory(nullptr),
 																		allocationCount(nInitAllocationCount), growSize(nGrowSize)
 {
 	ValidateGrowSize();
 	assert(nGrowSize >= 0);
 	if(allocationCount) {
-		memory = (T*)new unsigned char[allocationCount * sizeof(T)];
+		memory = (T*)new unsigned char[(size_t)allocationCount * sizeof(T)];
 		//memory = (T*)malloc(allocationCount * sizeof(T));
 	}
 }
@@ -461,7 +461,7 @@ void CUtlMemory<T, I>::Purge()
 	if(!IsExternallyAllocated()) {
 		if(memory) {
 			free((void*)memory);
-			memory = 0;
+			memory = nullptr;
 		}
 		allocationCount = 0;
 	}

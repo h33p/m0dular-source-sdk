@@ -33,7 +33,7 @@ extern InterfaceReg** GetInterfaceRegs(MHandle library);
 template<typename T>
 T GetInterface(InterfaceReg** interfaceRegs, const char* name, bool exact = false)
 {
-	int len = strlen(name);
+    size_t len = strlen(name);
 	for (InterfaceReg* interface = *interfaceRegs; interface; interface = interface->next)
 		if (exact ? (!rstrcmp(interface->name, name)) : (strstr(interface->name, name) && strlen(interface->name) - len == 3))
 			return (T)interface->createFn();

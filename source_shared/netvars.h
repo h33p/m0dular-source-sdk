@@ -30,14 +30,14 @@ namespace SourceNetvars
 	T& NetvarOffset(uintptr_t tptr)
 	{
 		static int offset = SourceNetvars::GetOffset(k1, k2);
-		return *(T*)(tptr + offset + off);
+		return *(T*)(tptr + (size_t)(offset + off));
 	}
 
 	template<typename T, int off, unsigned int k1, unsigned int k2>
 	T& NetvarOffsetServer(uintptr_t tptr)
 	{
 		static int offset = SourceNetvars::GetOffsetServer(k1, k2);
-		return *(T*)(tptr + offset + off);
+		return *(T*)(tptr + (size_t)(offset + off));
 	}
 
 }

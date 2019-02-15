@@ -41,8 +41,6 @@ static void LoadCRCTable(std::unordered_map<unsigned int, NetvarEntry<PROP_TYPE>
 	for(int i = 0; i < recvTable->nProps; i++) {
 	    PROP_TYPE* prop = &recvTable->props[i];
 
-		PROP_TYPE p = *prop;
-
 		if(!prop || isdigit(prop->varName[0]))
 			continue;
 		if(strcmp("baseclass", prop->varName) == 0)
@@ -102,8 +100,6 @@ void SourceNetvars::InitializeServer(CServerGame* server)
 	    serverclass != nullptr;
 	    serverclass = serverclass->next) {
 		if(serverclass->sendTable) {
-
-			SendTable tb = *serverclass->sendTable;
 
 #ifdef NETVAR_DUMP
 			fprintf(nfp, "%s:\n", serverclass->sendTable->netTableName);

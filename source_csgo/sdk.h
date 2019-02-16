@@ -22,6 +22,7 @@
 #include "view_sharedv2.h"
 #include "engineclient.h"
 #include "physics.h"
+#include "input.h"
 
 #include "../source_2007/sdk.h"
 

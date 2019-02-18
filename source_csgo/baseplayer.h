@@ -5,7 +5,7 @@ class C_BaseEntity;
 struct AnimationLayer;
 struct CCSGOPlayerAnimState;
 
-class C_BasePlayer : public C_BaseEntity
+class C_BasePlayer : public C_CSPlayer
 {
   public:
 	OFFSET(VarMapping_t, varMapping, x64x32(0x48, 0x24));

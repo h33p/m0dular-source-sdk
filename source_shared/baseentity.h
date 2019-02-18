@@ -18,16 +18,6 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(float, simulationTime, "DT_BaseEntity", "m_flSimulationTime");
 	ONETVAR(float, prevSimulationTime, "DT_BaseEntity", "m_flSimulationTime", 4);
 	NETVAR(int, flags, "DT_BasePlayer", "m_fFlags");
-	NETVAR(bool, hasDefuser, "DT_CSPlayer", "m_bHasDefuser");
-	NETVAR(bool, gunGameImmunity, "DT_CSPlayer", "m_bGunGameImmunity");
-	NETVAR(int, shotsFired, "DT_CSPlayer", "m_iShotsFired");
-	NETVAR(vec3, eyeAngles, "DT_CSPlayer", "m_angEyeAngles[0]");
-	NETVAR(vec3, angles, "DT_BaseEntity", "m_angRotation");
-	NETVAR(int, armorValue, "DT_CSPlayer", "m_ArmorValue");
-	NETVAR(bool, hasHelmet, "DT_CSPlayer", "m_bHasHelmet");
-	NETVAR(bool, hasHeavyArmor, "DT_CSPlayer", "m_bHasHeavyArmor");
-	NETVAR(bool, isScoped, "DT_CSPlayer", "m_bIsScoped");
-	NETVAR(float, lowerBodyYawTarget, "DT_CSPlayer", "m_flLowerBodyYawTarget");
 	NETVAR(int, health, "DT_BasePlayer", "m_iHealth");
 	NETVAR(LifeState, lifeState, "DT_BasePlayer", "m_lifeState");
 	NETVAR(int, tickBase, "DT_BasePlayer", "m_nTickBase");
@@ -38,7 +28,6 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(vec3, origin, "DT_BaseEntity", "m_vecOrigin");
 	NETVAR(int, teamNum, "DT_BaseEntity", "m_iTeamNum");
 	NETVAR(float, maxspeed, "DT_BasePlayer", "m_flMaxspeed");
-	NETVAR(float, flashMaxAlpha, "DT_CSPlayer", "m_flFlashMaxAlpha");
 	NETVAR(int, collisionGroup, "DT_BaseEntity", "m_CollisionGroup");
 	NETVAR(vec3, mins, "DT_BaseEntity", "m_vecMins");
 	NETVAR(vec3, maxs, "DT_BaseEntity", "m_vecMaxs");
@@ -50,6 +39,22 @@ class C_BaseEntity : public IClientEntity
 
 	NETVAR(CHandle<C_BaseEntity>, observerTarget, "DT_BasePlayer", "m_hObserverTarget");
 	NETVAR(CHandle<C_BaseCombatWeapon>, activeWeapon, "DT_BaseCombatCharacter", "m_hActiveWeapon");
+};
+
+class C_CSPlayer : public C_BaseEntity
+{
+  public:
+	NETVAR(bool, hasDefuser, "DT_CSPlayer", "m_bHasDefuser");
+	NETVAR(bool, gunGameImmunity, "DT_CSPlayer", "m_bGunGameImmunity");
+	NETVAR(int, shotsFired, "DT_CSPlayer", "m_iShotsFired");
+	NETVAR(vec3, eyeAngles, "DT_CSPlayer", "m_angEyeAngles[0]");
+	NETVAR(vec3, angles, "DT_BaseEntity", "m_angRotation");
+	NETVAR(int, armorValue, "DT_CSPlayer", "m_ArmorValue");
+	NETVAR(bool, hasHelmet, "DT_CSPlayer", "m_bHasHelmet");
+	NETVAR(bool, hasHeavyArmor, "DT_CSPlayer", "m_bHasHeavyArmor");
+	NETVAR(bool, isScoped, "DT_CSPlayer", "m_bIsScoped");
+	NETVAR(float, lowerBodyYawTarget, "DT_CSPlayer", "m_flLowerBodyYawTarget");
+	NETVAR(float, flashDuration, "DT_CSPlayer", "m_flFlashDuration");
 };
 
 #endif

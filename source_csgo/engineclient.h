@@ -73,7 +73,7 @@ class IVEngineClient
 	virtual float GetSentenceLength(CAudioSource *pAudioSource) = 0;
 	virtual bool IsStreaming(CAudioSource *pAudioSource) const = 0;
 	virtual void GetViewAngles(vec3& va) = 0;
-	virtual void SetViewAngles(vec3& va) = 0;
+	virtual void SetViewAngles(const vec3& va) = 0;
 	virtual int GetMaxClients(void) = 0; // 20
 	virtual const char* Key_LookupBinding(const char *pBinding) = 0;
 	virtual const char* Key_BindingForKey(int &code) = 0;

@@ -23,6 +23,7 @@
 #include "engineclient.h"
 #include "physics.h"
 #include "input.h"
+#include "gamemovement.h"
 
 #include "../source_2007/sdk.h"
 

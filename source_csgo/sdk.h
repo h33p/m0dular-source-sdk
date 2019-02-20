@@ -14,6 +14,7 @@
 
 #include "debugoverlay.h"
 #include "baseplayer.h"
+#include "miscents.h"
 #include "combatweapon.h"
 #include "clientstate.h"
 #include "studio.h"

@@ -37,6 +37,12 @@ class C_BaseEntity : public IClientEntity
 	NETVAR(bool, clientSideAnimation, "DT_BaseAnimating", "m_bClientSideAnimation");
 	ONETVAR(float, poseParameter, "DT_BaseAnimating", "m_ScaleType", x64x32(0x34, 0x28));
 
+	NETVAR(bool, skybox3dFogEnable, "DT_BasePlayer", "m_skybox3d.fog.enable");
+	NETVAR(float, skybox3dFogStart, "DT_BasePlayer", "m_skybox3d.fog.start");
+	NETVAR(float, skybox3dFogEnd, "DT_BasePlayer", "m_skybox3d.fog.end");
+	NETVAR(vec3, skybox3dOrigin, "DT_BasePlayer", "m_skybox3d.origin");
+	NETVAR(int, skybox3dScale, "DT_BasePlayer", "m_skybox3d.scale");
+
 	NETVAR(CHandle<C_BaseEntity>, observerTarget, "DT_BasePlayer", "m_hObserverTarget");
 	NETVAR(CHandle<C_BaseCombatWeapon>, activeWeapon, "DT_BaseCombatCharacter", "m_hActiveWeapon");
 };

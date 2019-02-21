@@ -8,9 +8,13 @@ struct CUserCmd;
 namespace SourceEssentials
 {
 #ifdef SOURCE_DEFINITIONS
-	vec3_t oldAngles;
+	vec3_t oldAngles(0);
+	vec3_t prevAngles(0);
+	int prevFramecount = 0;
 #else
 	extern vec3_t oldAngles;
+	extern vec3_t prevAngles;
+	extern int prevFramecount;
 #endif
 
 	inline void CorrectMovement(vec3_t& oldAngles, CUserCmd* cmd, int movetype)
@@ -56,7 +60,7 @@ namespace SourceEssentials
 
 	}
 
-	inline void UpdateCMD(CUserCmd* cmd, LocalPlayer* lpData)
+	inline void UpdateCMD(CUserCmd* cmd, LocalPlayer* lpData, vec2 sensitivity, float sampleRate)
 	{
 		cmd->buttons &= (lpData->keys & Keys::ATTACK1) ? ~0 : ~IN_ATTACK;
 		cmd->buttons &= (lpData->keys & Keys::ATTACK2) ? ~0 : ~IN_ATTACK2;
@@ -80,6 +84,20 @@ namespace SourceEssentials
 
 		cmd->sidemove = move[0];
 		cmd->forwardmove = move[1];
+
+		//The mousedx/y values only seem to be of the last mouse sample -- not the exact delta. Thus, we use framecount difference to make it seem more like a reality
+	    int frameCountDelta = (globalVars->framecount - prevFramecount);
+
+		if (prevAngles != vec3_t(0) && frameCountDelta > 0) {
+
+			vec3_t angleDelta = (cmd->viewangles - prevAngles).NormalizeAngles<2>(-180.f, 180.f) / Max(1, frameCountDelta);
+
+			cmd->mousedx = -angleDelta[1] / sensitivity[0];
+			cmd->mousedy = angleDelta[0] / sensitivity[1];
+		}
+
+		prevAngles = cmd->viewangles;
+		prevFramecount = globalVars->framecount;
 	}
 }
 

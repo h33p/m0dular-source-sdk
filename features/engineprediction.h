@@ -32,6 +32,8 @@ namespace SourceEnginePred
 	extern float duckAmount;
 #endif
 
+	static bool simulated = false;
+
 	inline void Prepare(CUserCmd* cmd, C_BaseEntity* localPlayer, void* hostRunFrameFp)
 	{
 		if (localPlayer->lifeState() == LIFE_ALIVE) {
@@ -53,21 +55,24 @@ namespace SourceEnginePred
 	/*
 	  Temporary engine prediction.
 	  TODO: Rebuild the functions or find a better way of executing it.
-	  Shoot height bugs out on CSGO Linux when crouched.
+	  Shoot height bugs out on CSGO Linux when crouched. NOTE: This is probably not due to this prediction code.
 	*/
 	inline void Run(CUserCmd* cmd, C_BaseEntity* localPlayer)
 	{
 		if (localPlayer->lifeState() == LIFE_ALIVE) {
 			int tickbaseBackup = localPlayer->tickBase();
 
-			CUserCmd* tCmd = new CUserCmd(*cmd);
+			CUserCmd tCmd = *cmd;
 
 			//This is a hack
 			C_BaseCombatWeapon* activeWeapon = localPlayer->activeWeapon();
-			localPlayer->activeWeapon() = nullptr;
+			if (simulated)
+				localPlayer->activeWeapon() = nullptr;
 
-			RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, tCmd, localPlayer);
+			RunSimulation(prediction, globalVars->curtime, cmd->command_number - 1, &tCmd, localPlayer);
 			localPlayer->activeWeapon() = activeWeapon;
+
+			simulated = true;
 
 			globalVars->curtime = localPlayer->tickBase() * globalVars->interval_per_tick;
 			globalVars->frametime = globalVars->interval_per_tick;
@@ -78,8 +83,6 @@ namespace SourceEnginePred
 			localPlayer->tickBase() = tickbaseBackup;
 
 			duckAmount = localPlayer->duckAmount();
-
-			delete tCmd;
 		}
 	}
 

@@ -10,7 +10,7 @@ class C_BasePlayer : public C_CSPlayer
   public:
 	OFFSET(VarMapping_t, varMapping, x64x32(0x48, 0x24));
 	ONETVAR(AnimationLayer*, animationLayers, "DT_CSRagdoll", "m_vecRagdollVelocity", -x64x32(0x8c, 0x80));
-	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsWalking", -x64x32(0xf, 0xb));
+	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsScoped", -x64x32(0x14, 0x10));
 	ONETVAR(vec3, localAngles, "DT_BasePlayer", "deadflag", 0x4);
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
 	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(28, 12));
@@ -24,7 +24,7 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
 	ONETVAR(uint8_t, takeDamage, "DT_BaseEntity", "m_nModelIndex", 0x28);
 
-	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 219);
+	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 221);
 
 	inline void InvalidateBoneCache()
 	{
@@ -34,7 +34,7 @@ class C_BasePlayer : public C_CSPlayer
 
 struct AnimationLayer
 {
-	char pad_0000[x64x32(24, 20)];
+	PAD6432(24, 20);
 	int order;
 	int sequence;
 	float_t prevCycle;
@@ -68,9 +68,10 @@ struct CCSGOPlayerAnimState
 	vec3 scaledVelocity;
 	PAD(0x2C);
 	float groundedFraction;
-	PAD6432(0x27C, 0x214);
+	PAD6432(0x27C, 0x21c);
 };
 
-constexpr uintptr_t ANIMSTATE_SIZE = x64x32(0x3B8, 0x33C);
+constexpr uintptr_t ANIMSTATE_SIZE = x64x32(0x3B8, 0x344);
+static_assert(sizeof(CCSGOPlayerAnimState) == ANIMSTATE_SIZE);
 
 #endif

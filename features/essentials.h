@@ -86,7 +86,7 @@ namespace SourceEssentials
 		cmd->forwardmove = move[1];
 
 		//The mousedx/y values only seem to be of the last mouse sample -- not the exact delta. Thus, we use framecount difference to make it seem more like a reality
-	    int frameCountDelta = (globalVars->framecount - prevFramecount);
+		int frameCountDelta = (globalVars->framecount - prevFramecount);
 
 		if (prevAngles != vec3_t(0) && frameCountDelta > 0) {
 

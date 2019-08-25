@@ -12,7 +12,7 @@ class IVDebugOverlay
 
 	void AddCapsuleOverlay(const vec3& mins, const vec3& max, float& diameter, Color col, float duration)
 	{
-	    AddCapsuleOverlay(mins, max, diameter, col.r(), col.g(), col.b(), col.a(), duration);
+		AddCapsuleOverlay(mins, max, diameter, col.r(), col.g(), col.b(), col.a(), duration);
 	}
 
 	void AddBoxOverlay(const vec3& origin, const vec3& mins, const vec3& max, const vec3& angles, int r, int g, int b, int a, float duration)
@@ -23,7 +23,7 @@ class IVDebugOverlay
 
 	void AddBoxOverlay(const vec3& origin, const vec3& mins, const vec3& max, const vec3& angles, Color col, float duration)
 	{
-	    AddBoxOverlay(origin, mins, max, angles, col.r(), col.g(), col.b(), col.a(), duration);
+		AddBoxOverlay(origin, mins, max, angles, col.r(), col.g(), col.b(), col.a(), duration);
 	}
 
 	void AddBoxOverlay2(const vec3& origin, const vec3& mins, const vec3& max, const vec3& angles, Color faceCol, Color edgeCol, float duration)

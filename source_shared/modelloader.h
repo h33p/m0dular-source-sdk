@@ -10,7 +10,7 @@ enum REFERENCETYPE
 	// The name is allocated, but nothing else is in memory or being referenced
 	FMODELLOADER_NOTLOADEDORREFERENCED = 0,
 	// The model has been loaded into memory
-	FMODELLOADER_LOADED     = (1<<0),
+	FMODELLOADER_LOADED	 = (1<<0),
 	// The model is being referenced by the server code
 	FMODELLOADER_SERVER = (1<<1),
 	// The model is being referenced by the client code

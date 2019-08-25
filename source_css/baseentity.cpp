@@ -2,7 +2,7 @@
 
 bool C_BaseEntity::IsPlayer()
 {
-    return GetVFunc<bool(__thiscall*)(C_BaseEntity*), 184>(this)(this);
+	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), 184>(this)(this);
 }
 
 bool C_BaseEntity::IsWeapon()

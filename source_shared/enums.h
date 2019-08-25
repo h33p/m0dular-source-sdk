@@ -140,7 +140,7 @@ struct DefItem_t
 	const char* entityName = nullptr;
 	const char* entityModel = nullptr;
 	const char* killIcon = nullptr;
-    CSWeaponType weaponType = CSWeaponType::WEAPONTYPE_UNKNOWN;
+	CSWeaponType weaponType = CSWeaponType::WEAPONTYPE_UNKNOWN;
 };
 
 //Flags that are supposed to be implemented by other SDKs

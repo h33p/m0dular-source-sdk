@@ -28,7 +28,7 @@ class INetChannelInfo
 	virtual const char* GetName(void) const = 0; // get channel name
 	virtual const char* GetAddress(void) const = 0; // get channel IP address as string
 	virtual float GetTime(void) const = 0; // current net time
-	virtual float GetTimeConnected(void) const = 0;       // get connection time in seconds
+	virtual float GetTimeConnected(void) const = 0;	   // get connection time in seconds
 	virtual int GetBufferSize(void) const = 0; // netchannel packet history size
 	virtual int GetDataRate(void) const = 0; // send data rate in byte/sec
 
@@ -39,7 +39,7 @@ class INetChannelInfo
 	virtual float GetLatency(int flow) const = 0; // current latency (RTT), more accurate but jittering
 	virtual float GetAvgLatency(int flow) const = 0; // average packet latency in seconds
 	virtual float GetAvgLoss(int flow) const = 0; // avg packet loss[0..1]
-	virtual float GetAvgChoke(int flow) const = 0;         // avg packet choke[0..1]
+	virtual float GetAvgChoke(int flow) const = 0;		 // avg packet choke[0..1]
 	virtual float GetAvgData(int flow) const = 0; // data flow in bytes/sec
 	virtual float GetAvgPackets(int flow) const = 0; // avg packets/sec
 	virtual int GetTotalData(int flow) const = 0; // total flow in/out in bytes

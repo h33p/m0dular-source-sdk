@@ -16,7 +16,7 @@ class SendProp
   public:
 	virtual ~SendProp() {};
 
-    RecvProp* matchingRecvProp;
+	RecvProp* matchingRecvProp;
 
 	SendPropType propType;
 	int bits;
@@ -25,7 +25,7 @@ class SendProp
 	int stringBufferSize;
 	SendProp* arrayProp;
 	ArrayLengthSendProxyFn arrayLengthProxy;
-    int elements;
+	int elements;
 	int elementStride;
 
 	union
@@ -42,7 +42,7 @@ class SendProp
 	//TODO: figure this out, there is a high chance this is in wrong place
 	long pad;
 
-    SendVarProxyFn proxyFn;
+	SendVarProxyFn proxyFn;
 	SendTableProxyFn dataTableProxyFn;
 	SendTable* dataTable;
 	int offset;

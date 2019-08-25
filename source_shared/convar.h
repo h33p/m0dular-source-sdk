@@ -291,7 +291,7 @@ class ConVar : public ConCommandBase, public IConVar
 	virtual float GetFloat(void) const;
 	virtual int GetInt(void) const;
 #else
-    FORCEINLINE_CVAR float GetFloat(void) const;
+	FORCEINLINE_CVAR float GetFloat(void) const;
 	FORCEINLINE_CVAR int GetInt(void) const;
 #endif
 	FORCEINLINE_CVAR Color GetColor(void) const;

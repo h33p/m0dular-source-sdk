@@ -69,7 +69,7 @@ class CInput
 	int cameraY;
 	bool cameraIsOrthographic;
 	char pad2[0x14];
-    void* pad3;
+	void* pad3;
 	CUserCmd* commands;
 };
 

@@ -51,7 +51,7 @@ namespace SourceAutostrafer
 				ang.y += idealAngle * 0.5f * (sign * 2 - 1);
 			else {
 				sign = velAngDelta > 0;
-			    ang.y = velAngles.y - velDeg * (sign * 2 - 1);
+				ang.y = velAngles.y - velDeg * (sign * 2 - 1);
 			}
 
 			cmd->sidemove = MAX_MOVE * (sign * 2 - 1);

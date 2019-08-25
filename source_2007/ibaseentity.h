@@ -11,12 +11,12 @@ class IBaseEntity : public IClientUnknown
   public:
 	virtual vec3 GetAbsOrigin() = 0;
 	virtual vec3 GetAbsAngles() = 0;
-    virtual void GetMouth_() = 0;
-    virtual void GetSoundSpatialization_() = 0;
-    virtual void GetDataDescMap_() = 0;
-    virtual void YouForgotToImplementOrDeclareClientClass_() = 0;
-    virtual void GetClientClass_() = 0;
-    virtual void GetPredDescMap_() = 0;
+	virtual void GetMouth_() = 0;
+	virtual void GetSoundSpatialization_() = 0;
+	virtual void GetDataDescMap_() = 0;
+	virtual void YouForgotToImplementOrDeclareClientClass_() = 0;
+	virtual void GetClientClass_() = 0;
+	virtual void GetPredDescMap_() = 0;
 	virtual void FireBullets(const FireBulletsInfo_t &info) = 0;
 	virtual void ModifyFireBulletsDamage_() = 0;
 	virtual bool ShouldDrawUnderwaterBulletBubbles() = 0;

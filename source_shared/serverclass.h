@@ -8,7 +8,7 @@ class ServerClass
   public:
 	char* networkName;
 	SendTable* sendTable;
-    ServerClass* next;
+	ServerClass* next;
 	ClassId classID;
 };
 

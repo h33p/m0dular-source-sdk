@@ -125,7 +125,7 @@ bool GameTrace::ClipRayToBBox(const Ray_t &ray, unsigned int mask, ICollideable*
 #endif
 
 		if (trace->DidHit()) {
-		    trace->plane.normal = rootMoveParent->Vector3Rotate(trace->plane.normal);
+			trace->plane.normal = rootMoveParent->Vector3Rotate(trace->plane.normal);
 			trace->startpos = ray.start + ray.startOffset;
 
 			if (trace->fraction == 1)
@@ -324,7 +324,7 @@ void GameTrace::TraceRay(const Ray_t& ray, unsigned int mask, ITraceFilter* filt
 
 		bool staticProp = staticPropMgr->IsStaticProp(handle);
 
-	    col = GetCollideable(handle, staticProp);
+		col = GetCollideable(handle, staticProp);
 
 		if (!col)
 			col = ((C_BasePlayer*)handle)->GetCollideable();

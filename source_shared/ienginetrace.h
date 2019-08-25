@@ -391,7 +391,7 @@ struct csurface_t
 
 struct Ray_t
 {
-    RAY_ALIGN vec3_t start; // starting point, centered within the extents
+	RAY_ALIGN vec3_t start; // starting point, centered within the extents
 	RAY_ALIGN vec3_t delta; // direction + length of the ray
 	RAY_ALIGN vec3_t startOffset; // Add this to start to Get the actual ray start
 	RAY_ALIGN vec3_t extents; // Describes an axis aligned box extruded along a ray

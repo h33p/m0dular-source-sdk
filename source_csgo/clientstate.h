@@ -18,7 +18,7 @@ class INetChannel
 
 	void Transmit(bool val)
 	{
-	    GetVFunc<void(__thiscall*)(void*, bool), PosixWin(50, 49)>(this)(this, val);
+		GetVFunc<void(__thiscall*)(void*, bool), PosixWin(50, 49)>(this)(this, val);
 	}
 }; //Size: 0x0444
 

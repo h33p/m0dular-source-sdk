@@ -155,7 +155,7 @@ static void TryPlayerMove(C_BaseEntity* player, vec3_t& vecPos, vec3_t& vecVel, 
 		}
 
 		// Set up next clipping plane
-	    planes[numplanes] = tr.plane.normal;
+		planes[numplanes] = tr.plane.normal;
 		numplanes++;
 
 		int o = 0;
@@ -166,7 +166,7 @@ static void TryPlayerMove(C_BaseEntity* player, vec3_t& vecPos, vec3_t& vecVel, 
 				if (planes[i][2] > 0.7) {
 					// floor or slope
 					ClipVelocity(originalVelocity, planes[i], vecVel, 1);
-				    originalVelocity = vecVel;
+					originalVelocity = vecVel;
 				}
 			}
 
@@ -191,7 +191,7 @@ static void TryPlayerMove(C_BaseEntity* player, vec3_t& vecPos, vec3_t& vecVel, 
 				vecVel = 0.f;
 				break;
 			}
-		    dir = planes[0].Cross(planes[1]);
+			dir = planes[0].Cross(planes[1]);
 			dir.Normalize();
 			vecVel = dir * dir.Dot(vecVel);
 		}
@@ -202,7 +202,7 @@ static void TryPlayerMove(C_BaseEntity* player, vec3_t& vecPos, vec3_t& vecVel, 
 		//
 		d = vecVel.Dot(originalVelocity);
 		if (d <= 0) {
-		    vecVel = 0.f;
+			vecVel = 0.f;
 			break;
 		}
 	}
@@ -225,7 +225,7 @@ static bool StayOnGround(C_BaseEntity* player, vec3_t& position)
 
 	CGameTrace tr;
 
-    vec3_t start = position;
+	vec3_t start = position;
 	vec3_t end = position;
 	start.z += 2;
 	end.z -= STEP_SIZE;

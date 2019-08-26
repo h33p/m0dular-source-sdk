@@ -127,6 +127,26 @@ int SourceNetvars::GetOffset(uintptr_t k1, uintptr_t k2)
 	return 0;
 }
 
+uintptr_t SourceNetvars::GetNearestNetvar(uintptr_t k1, int offset)
+{
+	if (!crcDatabase)
+		return 0;
+
+	uintptr_t bestNetvar = 0;
+	int delta = 1 << 30;
+
+	if (crcDatabase->find(k1) != crcDatabase->end()) {
+		for (const auto& i : crcDatabase->at(k1)) {
+			if (std::abs(i.second.offset - offset) < delta) {
+				delta = std::abs(i.second.offset - offset);
+				bestNetvar = i.first;
+			}
+		}
+	}
+
+	return bestNetvar;
+}
+
 int SourceNetvars::GetOffsetServer(uintptr_t k1, uintptr_t k2)
 {
 	if (!crcDatabaseServer)

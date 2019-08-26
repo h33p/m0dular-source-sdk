@@ -20,6 +20,7 @@ namespace SourceNetvars
 {
 	void Initialize(CBaseClient* cl);
 	int GetOffset(uintptr_t k1, uintptr_t k2);
+	uintptr_t GetNearestNetvar(uintptr_t k1, int offset);
 	void HookAll(NetvarHook* hooks, size_t size);
 	void UnhookAll(NetvarHook* hooks, size_t size);
 

@@ -13,9 +13,9 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(CCSGOPlayerAnimState*, animState, "DT_CSPlayer", "m_bIsScoped", -x64x32(0x14, 0x10));
 	ONETVAR(vec3, localAngles, "DT_BasePlayer", "deadflag", 0x4);
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
-	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(28, 12));
+	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_bClientSideFrameReset", -x64x32(0x14, 0x18));
 	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_nForceBone", x64x32(44, 28));
-	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(34, 16));
+	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_bClientSideFrameReset", -x64x32(0x10, 0x14));
 	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
 	NETVAR(int, survivalTeamNum, "DT_CSPlayer", "m_nSurvivalTeam");
 	ONETVAR(long, mostRecentBoneCounter, "DT_BaseAnimating", "m_nForceBone", 4);
@@ -24,7 +24,7 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
 	ONETVAR(uint8_t, takeDamage, "DT_BaseEntity", "m_nModelIndex", 0x28);
 
-	VFuncPosixWin(void, UpdateClientSideAnimation, 281, 221);
+	VFuncPosixWin(void, UpdateClientSideAnimation, 283, 221);
 
 	inline void InvalidateBoneCache()
 	{

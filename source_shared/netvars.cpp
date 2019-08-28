@@ -127,6 +127,16 @@ int SourceNetvars::GetOffset(uintptr_t k1, uintptr_t k2)
 	return 0;
 }
 
+const char* SourceNetvars::GetName(uintptr_t k1, uintptr_t k2)
+{
+	if (!crcDatabase)
+		return nullptr;
+	if (crcDatabase->find(k1) != crcDatabase->end())
+		if (crcDatabase->at(k1).find(k2) != crcDatabase->at(k1).end())
+			return crcDatabase->at(k1).at(k2).prop->varName;
+	return nullptr;
+}
+
 uintptr_t SourceNetvars::GetNearestNetvar(uintptr_t k1, int offset)
 {
 	if (!crcDatabase)

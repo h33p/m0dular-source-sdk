@@ -35,7 +35,7 @@ class C_BaseCombatWeapon : public C_BaseEntity
 
 	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 522, 454);
 	VFuncPosixWin(float, GetInaccuracy, 544, 476);
-	VFuncPosixWin(float, GetSpread, 514, 450);
+	VFuncPosixWin(float, GetSpread, 514, 446);
 	VFuncPosixWin(void, UpdateAccuracyPenalty, 545, 477);
 };
 

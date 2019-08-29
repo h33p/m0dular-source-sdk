@@ -57,5 +57,7 @@
 #include "modelloader.h"
 #include "physicssurfaceprops.h"
 #include "voxeltree.h"
+#include "glow_object.h"
+#include "glow_object_manager.h"
 
 #endif

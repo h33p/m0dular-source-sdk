@@ -7,8 +7,10 @@
 #include "enums.h"
 #include "offsets.h"
 #include "../source_shared/types.h"
+#include "../source_shared/misc.h"
 
 #include "icliententity.h"
+#include "glow_object.h"
 
 #include "../source_shared/sdk.h"
 

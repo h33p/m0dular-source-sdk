@@ -7,7 +7,7 @@ bool C_BaseEntity::IsPlayer()
 
 bool C_BaseEntity::IsWeapon()
 {
-	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(206, 163)>(this)(this);
+	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(215, 163)>(this)(this);
 }
 
 bool C_BaseEntity::IsPlantedC4()

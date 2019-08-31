@@ -59,5 +59,6 @@
 #include "voxeltree.h"
 #include "glow_object.h"
 #include "glow_object_manager.h"
+#include "host_state.h"
 
 #endif

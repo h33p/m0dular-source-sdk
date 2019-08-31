@@ -27,6 +27,7 @@
 #include "physics.h"
 #include "input.h"
 #include "gamemovement.h"
+#include "studiorendercontext.h"
 
 #include "../source_2007/sdk.h"
 

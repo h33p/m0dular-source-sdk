@@ -33,10 +33,10 @@ class C_BaseCombatWeapon : public C_BaseEntity
 	NETVAR(float_t, postponeFireReadyTime, "DT_WeaponCSBase", "m_flPostponeFireReadyTime");
 	NETVAR(ItemDefinitionIndex, itemDefinitionIndex, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
 
-	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 522, 454);
-	VFuncPosixWin(float, GetInaccuracy, 544, 476);
-	VFuncPosixWin(float, GetSpread, 514, 446);
-	VFuncPosixWin(void, UpdateAccuracyPenalty, 545, 477);
+	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 522, 456);
+	VFuncPosixWin(float, GetInaccuracy, 544, 478);
+	VFuncPosixWin(float, GetSpread, 514, 448);
+	VFuncPosixWin(void, UpdateAccuracyPenalty, 545, 479);
 };
 
 #endif

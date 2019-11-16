@@ -24,7 +24,7 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
 	ONETVAR(uint8_t, takeDamage, "DT_BaseEntity", "m_nModelIndex", 0x28);
 
-	VFuncPosixWin(void, UpdateClientSideAnimation, 283, 221);
+	VFuncPosixWin(void, UpdateClientSideAnimation, 285, 223);
 
 	inline void InvalidateBoneCache()
 	{

@@ -3,12 +3,13 @@
 
 struct GlowObjectDefinition_t
 {
+	int nextFreeSlot;
 	class IHandleEntity* ent;
 	vec4_t color;
 	PAD(4);
 	float movementAlpha;
 	float bloomAmount;
-	PAD(4);
+	float pulseOverdrive;
 	bool renderWhenOccluded;
 	bool renderWhenUnoccluded;
 	bool fullBloom;
@@ -16,7 +17,6 @@ struct GlowObjectDefinition_t
 	int fullBloomStencilTestValue;
 	int glowStyle;
 	int splitScreenSlot;
-	int nextFreeSlot;
 };
 
 #endif

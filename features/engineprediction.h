@@ -1,3 +1,4 @@
+#ifndef SOURCE_NO_ENGINEPREDICTION
 #ifndef SOURCE_ENGINEPREDICTION_H
 #define SOURCE_ENGINEPREDICTION_H
 
@@ -96,4 +97,5 @@ namespace SourceEnginePred
 	}
 }
 
+#endif
 #endif

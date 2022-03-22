@@ -47,12 +47,14 @@ namespace SourceFakelag
 			chokedTicks = -1;
 
 		//Prevent hitting ground with the real angle
+#ifdef SOURCE_ENGINEPREDICTION_H
 		if (falseChange || (SourceEnginePred::nextFlags & FL_ONGROUND && ~SourceEnginePred::prevFlags & FL_ONGROUND)) {
 			if (!falseChange)
 				falseChange = (SourceEnginePred::duckAmount != 0.f) ? 3 : 2;
 			if (falseChange)
 				canChange = false;
 		}
+#endif
 
 		state = FakelagState::NONE;
 

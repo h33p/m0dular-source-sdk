@@ -1,3 +1,4 @@
+#ifndef SOURCE_NO_GAMEMOVEMENT
 #ifndef SOURCE_GAMEMOVEMENT_H
 #define SOURCE_GAMEMOVEMENT_H
 
@@ -372,4 +373,5 @@ bool SourceGameMovement::PlayerMove(C_BaseEntity* player, vec3_t* position, vec3
 }
 #endif
 
+#endif
 #endif

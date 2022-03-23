@@ -2,12 +2,12 @@
 
 bool C_BaseEntity::IsPlayer()
 {
-	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(207, 155)>(this)(this);
+	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(210, 158)>(this)(this);
 }
 
 bool C_BaseEntity::IsWeapon()
 {
-	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(217, 165)>(this)(this);
+	return GetVFunc<bool(__thiscall*)(C_BaseEntity*), PosixWin(218, 166)>(this)(this);
 }
 
 bool C_BaseEntity::IsPlantedC4()

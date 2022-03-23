@@ -13,11 +13,11 @@ class CCSWeaponInfo
 	OFFSET6432(float, flCycleTime, 0x158, 0xDC);
 	OFFSET6432(int, iDamage, 0x16C, 0xF0);
 	OFFSET6432(float, flArmorRatio, 0x170, 0xF4);
-	OFFSET6432(float, flPenetration, 0x178, 0xFC);
-	OFFSET6432(float, flRange, 0x184, 0x108);
-	OFFSET6432(float, flRangeModifier, 0x188, 0x10C);
-	OFFSET6432(float, flMaxPlayerSpeed, 0x1B0, 0x130);
-	OFFSET6432(int, iZoomLevels, 0x240, 0x1C0);
+	OFFSET6432(float, flPenetration, 0x178 + 4, 0xFC + 4);
+	OFFSET6432(float, flRange, 0x184 + 4, 0x108 + 4);
+	OFFSET6432(float, flRangeModifier, 0x188 + 4, 0x10C + 4);
+	OFFSET6432(float, flMaxPlayerSpeed, 0x1B0 + 4, 0x130 + 4);
+	OFFSET6432(int, iZoomLevels, 0x240 + 4, 0x1C0 + 4);
 };
 
 class C_BaseCombatWeapon : public C_BaseEntity
@@ -33,10 +33,10 @@ class C_BaseCombatWeapon : public C_BaseEntity
 	NETVAR(float_t, postponeFireReadyTime, "DT_WeaponCSBase", "m_flPostponeFireReadyTime");
 	NETVAR(ItemDefinitionIndex, itemDefinitionIndex, "DT_BaseAttributableItem", "m_iItemDefinitionIndex");
 
-	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 522 + 6, 456 + 6);
-	VFuncPosixWin(float, GetInaccuracy, 544 + 6, 478 + 6);
-	VFuncPosixWin(float, GetSpread, 514 + 6, 448 + 6);
-	VFuncPosixWin(void, UpdateAccuracyPenalty, 545 + 6, 479 + 6);
+	VFuncPosixWin(CCSWeaponInfo*, GetCSWeaponData, 522 + 7, 456 + 7);
+	VFuncPosixWin(float, GetInaccuracy, 544 + 7, 478 + 7);
+	VFuncPosixWin(float, GetSpread, 514 + 7, 448 + 7);
+	VFuncPosixWin(void, UpdateAccuracyPenalty, 545 + 7, 479 + 7);
 };
 
 #endif

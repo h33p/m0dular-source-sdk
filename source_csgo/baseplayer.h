@@ -15,7 +15,7 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(int, lastBoneFrameCount, "DT_BaseAnimating", "m_nMuzzleFlashParity", 0x4);
 	ONETVAR(int, prevBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(0x1c, 0xc));
 	ONETVAR(int, accumulatedBoneMask, "DT_BaseAnimating", "m_nForceBone", x64x32(0x20, 0x20));
-	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_bClientSideFrameReset", -x64x32(0x1c, 0x18));
+	ONETVAR(CUtlVector<matrix3x4_t>, boneMatrix, "DT_BaseAnimating", "m_bClientSideFrameReset", -x64x32(0x24, 0x18));
 	ONETVAR(int, lastBoneTime, "DT_BaseAnimating", "m_hLightingOrigin", -x64x32(0x38, 0x24));
 	NETVAR(int, survivalTeamNum, "DT_CSPlayer", "m_nSurvivalTeam");
 	ONETVAR(long, mostRecentBoneCounter, "DT_BaseAnimating", "m_nForceBone", 4);
@@ -24,7 +24,7 @@ class C_BasePlayer : public C_CSPlayer
 	ONETVAR(int, lastOcclusionCheck, "DT_BaseAnimating", "m_nBody", 16);
 	ONETVAR(uint8_t, takeDamage, "DT_BaseEntity", "m_nModelIndex", 0x28);
 
-	VFuncPosixWin(void, UpdateClientSideAnimation, 285, 223);
+	VFuncPosixWin(void, UpdateClientSideAnimation, 286, 224);
 
 	inline void InvalidateBoneCache()
 	{
